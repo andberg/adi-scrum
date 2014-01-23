@@ -1,6 +1,5 @@
 package se.adi.floggit.classes;
 
-public class MegaTestFinalDeluxeTest
-{
+public class MegaTestFinalDeluxeTest {
 
 }
