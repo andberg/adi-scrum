@@ -1,4 +1,4 @@
-package se.floggit.interfaces;
+package se.adi.floggit.interfaces;
 
 public interface CartRepository {
 
