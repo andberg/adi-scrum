@@ -1,8 +1,6 @@
 package se.adi.floggit.api;
 
 import java.util.List;
-
-import se.adi.floggit.classes.Product;
 import se.adi.floggit.interfaces.CategoryRepository;
 
 public final class CategoryRepositoryInDB implements CategoryRepository {
