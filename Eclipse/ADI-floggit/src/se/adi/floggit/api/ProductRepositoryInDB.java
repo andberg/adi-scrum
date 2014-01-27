@@ -17,6 +17,10 @@ public final class ProductRepositoryInDB implements ProductRepository {
 		return null;
 	}
 	
+	public Product readProduct(int id) {
+		return null;
+	}
+	
 	@Override
 	public List<Product> readProductsInCategory(String categoryName) {
 		return null;

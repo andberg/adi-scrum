@@ -5,9 +5,9 @@ import java.util.List;
 import se.adi.floggit.classes.User;
 
 public interface UserRepository {
-	User createUser(User user);
+	boolean createUser(User user);
 	List<User> readAllUsers();
-	User updateUser(String email, String newPassword);
-	User deleteUser(String email);
+	boolean updateUser(String email, User user);
+	boolean deleteUser(String email);
 	boolean login(String email, String password);
 }
