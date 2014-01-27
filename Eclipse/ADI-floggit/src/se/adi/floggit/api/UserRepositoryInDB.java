@@ -21,7 +21,7 @@ public final class UserRepositoryInDB implements UserRepository {
 		String query = null;
 		boolean created = false;
 		boolean hasPhonenumber = false;
-		
+
 		if (user.getPhonenumber() != null) {
 			hasPhonenumber = true;
 		}
@@ -33,13 +33,13 @@ public final class UserRepositoryInDB implements UserRepository {
 
 			query = "INSERT INTO users "
 					+ "(email,password,firstname,surname,street_address,postcode,town";
-			
-			if(hasPhonenumber) {
+
+			if (hasPhonenumber) {
 				query += ", phonenumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			} else {
 				query += ") VALUES (?, ?, ?, ?, ?, ?, ?)";
 			}
-			
+
 			pstmt = connection.prepareStatement(query);
 
 			pstmt.setString(1, user.getEmail());
@@ -49,6 +49,7 @@ public final class UserRepositoryInDB implements UserRepository {
 			pstmt.setString(5, user.getStreetAddress());
 			pstmt.setString(6, user.getPostcode());
 			pstmt.setString(7, user.getTown());
+			
 			if (hasPhonenumber) {
 				pstmt.setString(8, user.getPhonenumber());
 			}
@@ -103,36 +104,25 @@ public final class UserRepositoryInDB implements UserRepository {
 						rs.getString("phonenumber"));
 				usersList.add(user);
 			}
-
-			rs.close();
-			stmt.close();
-			connection.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
 		return usersList;
@@ -144,11 +134,11 @@ public final class UserRepositoryInDB implements UserRepository {
 		Connection connection = null;
 		String query = null;
 		boolean hasPhonenumber = false;
-		
+
 		if (user.getPhonenumber() != null) {
 			hasPhonenumber = true;
 		}
-		
+
 		try {
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
@@ -156,15 +146,15 @@ public final class UserRepositoryInDB implements UserRepository {
 
 			query = "UPDATE users SET email = ?, password = ?, firstname = ?, "
 					+ "surname = ?, street_address = ?, postcode = ?, town = ?, phonenumber = ";
-			
-			if(hasPhonenumber) {
+
+			if (hasPhonenumber) {
 				query += "?";
 			} else {
 				query += "NULL";
 			}
-			
+
 			query += " WHERE email = '" + email + "'";
-			
+
 			pstmt = connection.prepareStatement(query);
 
 			pstmt.setString(1, user.getEmail());
@@ -174,12 +164,13 @@ public final class UserRepositoryInDB implements UserRepository {
 			pstmt.setString(5, user.getStreetAddress());
 			pstmt.setString(6, user.getPostcode());
 			pstmt.setString(7, user.getTown());
+			
 			if (hasPhonenumber) {
 				pstmt.setString(8, user.getPhonenumber());
 			}
 
 			pstmt.execute();
-			
+
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
