@@ -5,15 +5,10 @@ import java.util.List;
 import se.adi.floggit.classes.Product;
 import se.adi.floggit.interfaces.CategoryRepository;
 
-public class CategoryRepositoryInDB implements CategoryRepository {
+public final class CategoryRepositoryInDB implements CategoryRepository {
 	
 	@Override
-	public String createCategory(String categoryName, String staffResponsible) {
-		return null;
-	}
-
-	@Override
-	public List<Product> readProductsInCategory() {
+	public String createCategory(String categoryName, String staffFirstname, String staffSurname) {
 		return null;
 	}
 

@@ -6,7 +6,6 @@ import se.adi.floggit.classes.User;
 
 public interface UserRepository {
 	User createUser(User user);
-	User readUser(String email);
 	List<User> readAllUsers();
 	User updateUser(String email, String newPassword);
 	User deleteUser(String email);

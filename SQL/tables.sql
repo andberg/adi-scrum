@@ -57,6 +57,7 @@ CREATE TABLE categories
 	name varchar(100) NOT NULL,
 	staff_responsible mediumint(8) unsigned NOT NULL,
 	CONSTRAINT FK_CATEGORIES_STAFF_RESPONSIBLE FOREIGN KEY(staff_responsible) REFERENCES staff(id),
+    UNIQUE(name),
 	PRIMARY KEY(id)
 ) AUTO_INCREMENT=1;
 

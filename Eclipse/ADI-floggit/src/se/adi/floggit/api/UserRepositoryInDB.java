@@ -5,15 +5,10 @@ import java.util.List;
 import se.adi.floggit.classes.User;
 import se.adi.floggit.interfaces.UserRepository;
 
-public class UserRepositoryInDB implements UserRepository {
+public final class UserRepositoryInDB implements UserRepository {
 
 	@Override
 	public User createUser(User user) {
-		return null;
-	}
-
-	@Override
-	public User readUser(String email) {
 		return null;
 	}
 	

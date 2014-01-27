@@ -5,7 +5,7 @@ import java.util.List;
 import se.adi.floggit.classes.Product;
 import se.adi.floggit.interfaces.ProductRepository;
 
-public class ProductRepositoryInDB implements ProductRepository {
+public final class ProductRepositoryInDB implements ProductRepository {
 
 	@Override
 	public Product createProduct(Product product) {
@@ -14,6 +14,11 @@ public class ProductRepositoryInDB implements ProductRepository {
 
 	@Override
 	public List<Product> readProduct(String productName) {
+		return null;
+	}
+	
+	@Override
+	public List<Product> readProductsInCategory(String categoryName) {
 		return null;
 	}
 	
