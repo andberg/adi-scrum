@@ -23,7 +23,7 @@ public final class Product
 		this.categories = null;
 
 	}
-	
+
 	public Product(int id, String name, String description, double cost, double rrp, List<String> categories)
 	{
 		this.id = id;
@@ -57,10 +57,8 @@ public final class Product
 		return "Product ID: " + getId() +
 				"\nName: " + getName() +
 				"\nDescription: " + getDescription() +
-				"\nRrp: " + getRrp() +
-				"\nCost: " + getCost() + 
-				"\nCategories: " + getCategories() +
 				"\nCost: " + getCost() +
+				"\nRrp: " + getRrp() +
 				"\nCategories: " + getCategories() + "\n";
 	}
 

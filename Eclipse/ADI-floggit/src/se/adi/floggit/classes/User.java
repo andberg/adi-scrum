@@ -36,36 +36,44 @@ public final class User
 		this.town = town;
 		phonenumber = null;
 	}
-	
-	public String getEmail() {
+
+	public String getEmail()
+	{
 		return email;
 	}
 
-	public String getPassword() {
+	public String getPassword()
+	{
 		return password;
 	}
 
-	public String getFirstname() {
+	public String getFirstname()
+	{
 		return firstname;
 	}
 
-	public String getSurname() {
+	public String getSurname()
+	{
 		return surname;
 	}
 
-	public String getStreetAddress() {
+	public String getStreetAddress()
+	{
 		return streetAddress;
 	}
 
-	public String getPostcode() {
+	public String getPostcode()
+	{
 		return postcode;
 	}
 
-	public String getTown() {
+	public String getTown()
+	{
 		return town;
 	}
 
-	public String getPhonenumber() {
+	public String getPhonenumber()
+	{
 		return phonenumber;
 	}
 

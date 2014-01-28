@@ -7,16 +7,17 @@ import se.adi.floggit.api.UserRepositoryInDB;
 import se.adi.floggit.classes.Product;
 import se.adi.floggit.webshop.Webshop;
 
-public class Main {
-	public static void main(String[] args) {
+public class Main
+{
+	public static void main(String[] args)
+	{
 
 		Webshop webshop = new Webshop(new UserRepositoryInDB(), new CartRepositoryInDB(),
 				new ProductRepositoryInDB(), new CategoryRepositoryInDB());
-		//User isak = new User("dannie@hotmail.com", "secret", "Dannie", "Håkansson", "Plommonvägen 4", "263 65", "Viken");
-		Product macBookNew = new Product("Computer", "Great new computer from Apple", 2000, 12000, "Computing", "Electronics"); 
-		
-		webshop.readAllProducts(); 
-			
-	
+		// User isak = new User("dannie@hotmail.com", "secret", "Dannie",
+		// "Håkansson", "Plommonvägen 4", "263 65", "Viken");
+		Product macBookNew = new Product("Computer", "Great new computer from Apple", 2000, 12000, "Computing", "Electronics");
+
+		webshop.readAllProducts();
 	}
 }

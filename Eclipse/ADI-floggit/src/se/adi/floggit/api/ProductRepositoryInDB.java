@@ -13,10 +13,12 @@ import se.adi.floggit.classes.Product;
 import se.adi.floggit.classes.User;
 import se.adi.floggit.interfaces.ProductRepository;
 
-public final class ProductRepositoryInDB implements ProductRepository {
+public final class ProductRepositoryInDB implements ProductRepository
+{
 
 	@Override
-	public boolean createProduct(Product product) {
+	public boolean createProduct(Product product)
+	{
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
@@ -72,24 +74,15 @@ public final class ProductRepositoryInDB implements ProductRepository {
 		}
 		return created;
 	}
-	
+
 	@Override
-	public List<Product> readProductsInCategory(String categoryName) {
+	public List<String> readProductsInCategory(String categoryName)
+	{
 		ResultSet rs = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
-		List<Product> productList = new ArrayList<Product>();
-		return productList;
-	}
-	
-	@Override
-	public List<Product> readAllProducts() {
-		ResultSet rs = null;
-		Statement stmt = null;
-		Connection connection = null;
-		String query = null;
-		List<Product> productList = new ArrayList<Product>();
+		List<String> productList = new ArrayList<String>();
 
 		try
 		{
@@ -97,41 +90,21 @@ public final class ProductRepositoryInDB implements ProductRepository {
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
 
-			stmt = connection.createStatement();
+			query = "SELECT products.name FROM products INNER JOIN products_in_categories "
+					+ " ON products.id = products_in_categories.product_id"
+					+ " INNER JOIN categories ON products_in_categories.category_id = categories.id"
+					+ " WHERE categories.name = ?";
 
-			query = "SELECT * FROM products";
+			pstmt = connection.prepareStatement(query);
 
-			rs = stmt.executeQuery(query);
-			
-			int id; 
-			String name; 
-			String description; 
-			double cost; 
-			double rrp; 
-			List<String> categoryList = new ArrayList<String>();
+			pstmt.setString(1, categoryName);
+			rs = pstmt.executeQuery();
 
 			while (rs.next())
 			{
-				id = rs.getInt("id");  
-				name = rs.getString("name"); 
-				description = rs.getString("description"); 
-				cost = rs.getDouble("cost"); 
-				rrp = rs.getDouble("rrp"); 
-				
-				query = "SELECT products.name, categories.name "
-						+ "FROM products INNER JOIN products_in_categories "
-						+ "ON products.id = products_in_categories.product_id"
-						+ "INNER JOIN categories ON products_in_categories.category_id = categories.id"
-						+ "WHERE products.id = " + id + ";"; 
-				
-				rs = stmt.executeQuery(query); 
-						while (rs.next()){
-							categoryList.add(rs.getString("name"));
-						}
-						
-				Product product = new Product(id, name, description, cost, rrp, categoryList); 
-				productList.add(product);
+				productList.add(rs.getString("name"));
 			}
+
 		}
 		catch (SQLException e)
 		{
@@ -146,6 +119,98 @@ public final class ProductRepositoryInDB implements ProductRepository {
 			try
 			{
 				rs.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+			try
+			{
+				pstmt.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+			try
+			{
+				connection.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return productList;
+	}
+
+	public List<Product> readAllProducts()
+	{
+		ResultSet rsP = null;
+		ResultSet rsC = null;
+		Statement stmt = null;
+		Connection connection = null;
+		String queryP = null;
+		String queryC = null;
+		List<Product> productList = new ArrayList<Product>();
+
+		try
+		{
+			Class.forName(DBInfo.DRIVER_CLASS);
+			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
+					DBInfo.PASSWORD);
+
+			queryP = "SELECT * FROM products";
+			stmt = connection.createStatement();
+			rsP = stmt.executeQuery(queryP);
+
+			int id;
+			String name;
+			String description;
+			double cost;
+			double rrp;
+			List<String> categories;
+
+			while (rsP.next())
+			{
+				id = rsP.getInt("id");
+				name = rsP.getString("name");
+				description = rsP.getString("description");
+				cost = rsP.getDouble("cost");
+				rrp = rsP.getDouble("rrp");
+				categories = new ArrayList<String>();
+
+				queryC = "SELECT categories.name" +
+						" FROM products INNER JOIN products_in_categories" +
+						" ON products.id = products_in_categories.product_id" +
+						" INNER JOIN categories ON products_in_categories.category_id = categories.id"
+						+ " WHERE products.id = " + id + ";";
+
+				rsC = stmt.executeQuery(queryC);
+				while (rsC.next())
+				{
+					categories.add(rsC.getString("name"));
+				}
+
+				Product product = new Product(id, name, description, cost, rrp, categories);
+				productList.add(product);
+
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				rsP.close();
+				rsC.close();
 			}
 			catch (SQLException e)
 			{
@@ -172,12 +237,59 @@ public final class ProductRepositoryInDB implements ProductRepository {
 	}
 
 	@Override
-	public boolean updateProduct(String productName) {
+	public boolean updateProduct(String productName)
+	{
 		return false;
 	}
 
 	@Override
-	public boolean deleteProduct(int id) {
-		return false;
+	public boolean deleteProduct(int id)
+	{
+		PreparedStatement pstmt = null;
+		Connection connection = null;
+		String query = null;
+		boolean deleted = false;
+
+		try
+		{
+			Class.forName(DBInfo.DRIVER_CLASS);
+			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
+					DBInfo.PASSWORD);
+			query = "DELETE FROM products WHERE id = ?";
+			pstmt = connection.prepareStatement(query);
+			pstmt.setInt(1, id);
+
+			pstmt.execute();
+			deleted = true;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+
+			try
+			{
+				pstmt.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+			try
+			{
+				connection.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return deleted;
 	}
 }
