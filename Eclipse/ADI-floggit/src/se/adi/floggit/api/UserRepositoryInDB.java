@@ -20,11 +20,6 @@ public final class UserRepositoryInDB implements UserRepository {
 		Connection connection = null;
 		String query = null;
 		boolean created = false;
-		boolean hasPhonenumber = false;
-
-		if (user.getPhonenumber() != null) {
-			hasPhonenumber = true;
-		}
 
 		try {
 			Class.forName(DBInfo.DRIVER_CLASS);
@@ -32,13 +27,8 @@ public final class UserRepositoryInDB implements UserRepository {
 					DBInfo.PASSWORD);
 
 			query = "INSERT INTO users "
-					+ "(email,password,firstname,surname,street_address,postcode,town";
-
-			if (hasPhonenumber) {
-				query += ", phonenumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-			} else {
-				query += ") VALUES (?, ?, ?, ?, ?, ?, ?)";
-			}
+					+ "(email,password,firstname,surname,street_address,postcode,town,phonenumber) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 			pstmt = connection.prepareStatement(query);
 
@@ -49,10 +39,7 @@ public final class UserRepositoryInDB implements UserRepository {
 			pstmt.setString(5, user.getStreetAddress());
 			pstmt.setString(6, user.getPostcode());
 			pstmt.setString(7, user.getTown());
-			
-			if (hasPhonenumber) {
-				pstmt.setString(8, user.getPhonenumber());
-			}
+			pstmt.setString(8, user.getPhonenumber());
 
 			pstmt.execute();
 			created = true;
@@ -133,11 +120,6 @@ public final class UserRepositoryInDB implements UserRepository {
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
-		boolean hasPhonenumber = false;
-
-		if (user.getPhonenumber() != null) {
-			hasPhonenumber = true;
-		}
 
 		try {
 			Class.forName(DBInfo.DRIVER_CLASS);
@@ -145,13 +127,7 @@ public final class UserRepositoryInDB implements UserRepository {
 					DBInfo.PASSWORD);
 
 			query = "UPDATE users SET email = ?, password = ?, firstname = ?, "
-					+ "surname = ?, street_address = ?, postcode = ?, town = ?, phonenumber = ";
-
-			if (hasPhonenumber) {
-				query += "?";
-			} else {
-				query += "NULL";
-			}
+					+ "surname = ?, street_address = ?, postcode = ?, town = ?, phonenumber = ?";
 
 			query += " WHERE email = '" + email + "'";
 
@@ -164,10 +140,7 @@ public final class UserRepositoryInDB implements UserRepository {
 			pstmt.setString(5, user.getStreetAddress());
 			pstmt.setString(6, user.getPostcode());
 			pstmt.setString(7, user.getTown());
-			
-			if (hasPhonenumber) {
-				pstmt.setString(8, user.getPhonenumber());
-			}
+			pstmt.setString(8, user.getPhonenumber());
 
 			pstmt.execute();
 
