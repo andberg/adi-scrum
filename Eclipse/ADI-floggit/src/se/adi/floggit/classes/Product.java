@@ -48,7 +48,9 @@ public final class Product
 				"\nDescription: " + description +
 				"\nRrp: " + rrp +
 				"\nCost: " + cost + 
-				"\nCategories: " + categories;
+				"\nCategories: " + categories +
+				"\nCost: " + cost +
+				"\nCategories: " + categories + "\n";
 	}
 
 }

@@ -16,7 +16,7 @@ public final class CategoryRepositoryInDB implements CategoryRepository {
 	}
 
 	@Override
-	public String updateCategory(String categoryName, String newStaffResponsible) {
+	public String updateCategory(String categoryName, String staffFirstname, String staffSurname) {
 		return null;
 	}
 

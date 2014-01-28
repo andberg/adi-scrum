@@ -36,14 +36,46 @@ public final class User
 		this.town = town;
 		phonenumber = null;
 	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public String getTown() {
+		return town;
+	}
+
+	public String getPhonenumber() {
+		return phonenumber;
+	}
 
 	public String toString()
 	{
 		String string;
-		string = "Email / Username: " + email + "\nPassword: " + password +
-				"\nName: " + firstname + " " + surname +
-				"\nAddress: " + streetAddress + " " + postcode + " " + town +
-				"\nPhonenumber: " + phonenumber + "\n";
+		string = "Email / Username: " + getEmail() + "\nPassword: " + getPassword() +
+				"\nName: " + getFirstname() + " " + getSurname() +
+				"\nAddress: " + getStreetAddress() + " " + getPostcode() + " " + getTown() +
+				"\nPhonenumber: " + getPhonenumber() + "\n";
 		return string;
 	}
 }
