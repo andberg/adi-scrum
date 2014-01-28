@@ -15,9 +15,8 @@ public class Main {
 		//User isak = new User("dannie@hotmail.com", "secret", "Dannie", "Håkansson", "Plommonvägen 4", "263 65", "Viken");
 		Product macBookNew = new Product("Computer", "Great new computer from Apple", 2000, 12000, "Computing", "Electronics"); 
 		
-		if(webshop.createProduct(macBookNew)){
-			System.out.println();
-		}
+		webshop.readAllProducts(); 
+			
 	
 	}
 }

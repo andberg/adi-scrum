@@ -13,6 +13,17 @@ public final class Product
 	private final double rrp;
 	private final List<String> categories;
 
+	public Product(int id, String name)
+	{
+		this.id = id;
+		this.name = name;
+		this.description = null;
+		this.cost = 0;
+		this.rrp = 0;
+		this.categories = null;
+
+	}
+	
 	public Product(int id, String name, String description, double cost, double rrp, List<String> categories)
 	{
 		this.id = id;
