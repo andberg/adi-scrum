@@ -43,11 +43,12 @@ public final class Product
 	@Override
 	public String toString()
 	{
-
 		return "Product ID: " + id +
 				"\nName: " + name +
 				"\nDescription: " + description +
 				"\nRrp: " + rrp +
+				"\nCost: " + cost + 
+				"\nCategories: " + categories +
 				"\nCost: " + cost +
 				"\nCategories: " + categories + "\n";
 	}
