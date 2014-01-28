@@ -7,5 +7,5 @@ import se.adi.floggit.classes.Product;
 public interface CartRepository {
 	List<Product> readCart(String email);
 	boolean updateCart(String email, String productName, int quantity);
-	String deleteFromCart(String email, String productName);
+	boolean deleteFromCart(String email, String productName);
 }

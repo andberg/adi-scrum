@@ -8,17 +8,8 @@ import se.adi.floggit.interfaces.ProductRepository;
 public final class ProductRepositoryInDB implements ProductRepository {
 
 	@Override
-	public Product createProduct(Product product) {
-		return null;
-	}
-
-	@Override
-	public List<Product> readProduct(String productName) {
-		return null;
-	}
-	
-	public Product readProduct(int id) {
-		return null;
+	public boolean createProduct(Product product) {
+		return false;
 	}
 	
 	@Override
@@ -32,12 +23,12 @@ public final class ProductRepositoryInDB implements ProductRepository {
 	}
 
 	@Override
-	public Product updateProduct(String productName) {
-		return null;
+	public boolean updateProduct(String productName) {
+		return false;
 	}
 
 	@Override
-	public Product deleteProduct(int id) {
-		return null;
+	public boolean deleteProduct(int id) {
+		return false;
 	}
 }

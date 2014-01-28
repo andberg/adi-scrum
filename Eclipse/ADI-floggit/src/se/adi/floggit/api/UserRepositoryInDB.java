@@ -12,16 +12,19 @@ import java.util.List;
 import se.adi.floggit.classes.User;
 import se.adi.floggit.interfaces.UserRepository;
 
-public final class UserRepositoryInDB implements UserRepository {
+public final class UserRepositoryInDB implements UserRepository
+{
 
 	@Override
-	public boolean createUser(User user) {
+	public boolean createUser(User user)
+	{
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
 		boolean created = false;
 
-		try {
+		try
+		{
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
@@ -44,19 +47,31 @@ public final class UserRepositoryInDB implements UserRepository {
 			pstmt.execute();
 			created = true;
 
-		} catch (SQLException e) {
+		}
+		catch (SQLException e)
+		{
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e)
+		{
 			e.printStackTrace();
-		} finally {
-			try {
+		}
+		finally
+		{
+			try
+			{
 				pstmt.close();
-			} catch (SQLException e) {
+			}
+			catch (SQLException e)
+			{
 				e.printStackTrace();
 			}
-			try {
+			try
+			{
 				connection.close();
-			} catch (SQLException e) {
+			}
+			catch (SQLException e)
+			{
 				e.printStackTrace();
 			}
 		}
@@ -64,14 +79,16 @@ public final class UserRepositoryInDB implements UserRepository {
 	}
 
 	@Override
-	public List<User> readAllUsers() {
+	public List<User> readAllUsers()
+	{
 		ResultSet rs = null;
 		Statement stmt = null;
 		Connection connection = null;
 		String query = null;
 		List<User> usersList = new ArrayList<User>();
 
-		try {
+		try
+		{
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
@@ -82,7 +99,8 @@ public final class UserRepositoryInDB implements UserRepository {
 
 			rs = stmt.executeQuery(query);
 
-			while (rs.next()) {
+			while (rs.next())
+			{
 				User user = new User(rs.getString("email"),
 						rs.getString("password"), rs.getString("firstname"),
 						rs.getString("surname"),
@@ -91,24 +109,39 @@ public final class UserRepositoryInDB implements UserRepository {
 						rs.getString("phonenumber"));
 				usersList.add(user);
 			}
-		} catch (SQLException e) {
+		}
+		catch (SQLException e)
+		{
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e)
+		{
 			e.printStackTrace();
-		} finally {
-			try {
+		}
+		finally
+		{
+			try
+			{
 				rs.close();
-			} catch (SQLException e) {
+			}
+			catch (SQLException e)
+			{
 				e.printStackTrace();
 			}
-			try {
+			try
+			{
 				stmt.close();
-			} catch (SQLException e) {
+			}
+			catch (SQLException e)
+			{
 				e.printStackTrace();
 			}
-			try {
+			try
+			{
 				connection.close();
-			} catch (SQLException e) {
+			}
+			catch (SQLException e)
+			{
 				e.printStackTrace();
 			}
 		}
@@ -116,12 +149,14 @@ public final class UserRepositoryInDB implements UserRepository {
 	}
 
 	@Override
-	public boolean updateUser(String email, User user) {
+	public boolean updateUser(String email, User user)
+	{
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
 
-		try {
+		try
+		{
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
@@ -145,19 +180,31 @@ public final class UserRepositoryInDB implements UserRepository {
 			pstmt.execute();
 
 			return true;
-		} catch (SQLException e) {
+		}
+		catch (SQLException e)
+		{
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e)
+		{
 			e.printStackTrace();
-		} finally {
-			try {
+		}
+		finally
+		{
+			try
+			{
 				pstmt.close();
-			} catch (SQLException e) {
+			}
+			catch (SQLException e)
+			{
 				e.printStackTrace();
 			}
-			try {
+			try
+			{
 				connection.close();
-			} catch (SQLException e) {
+			}
+			catch (SQLException e)
+			{
 				e.printStackTrace();
 			}
 		}
@@ -165,12 +212,115 @@ public final class UserRepositoryInDB implements UserRepository {
 	}
 
 	@Override
-	public boolean deleteUser(String email) {
-		return false;
+	public boolean deleteUser(String email)
+	{
+
+		PreparedStatement pstmt = null;
+		Connection connection = null;
+		String query = null;
+		boolean deleted = false;
+
+		try
+		{
+			Class.forName(DBInfo.DRIVER_CLASS);
+			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
+					DBInfo.PASSWORD);
+
+			query = "DELETE FROM users WHERE email = ?";
+
+			pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, email);
+
+			pstmt.execute();
+			deleted = true;
+
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				pstmt.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+			try
+			{
+				connection.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return deleted;
 	}
 
 	@Override
-	public boolean login(String email, String password) {
-		return false;
+	public boolean login(String email, String password)
+	{
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		Connection connection = null;
+		String query = null;
+		boolean login = false;
+
+		try
+		{
+			Class.forName(DBInfo.DRIVER_CLASS);
+			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
+					DBInfo.PASSWORD);
+
+			query = "SELECT password FROM users WHERE email = ?";
+
+			pstmt = connection.prepareStatement(query);
+
+			pstmt.setString(1, email);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next())
+			{
+				login = rs.getString("password").equals(password);
+			}
+
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				pstmt.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+			try
+			{
+				connection.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return login;
 	}
 }

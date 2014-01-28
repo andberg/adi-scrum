@@ -6,8 +6,8 @@ import se.adi.floggit.interfaces.CategoryRepository;
 public final class CategoryRepositoryInDB implements CategoryRepository {
 	
 	@Override
-	public String createCategory(String categoryName, String staffFirstname, String staffSurname) {
-		return null;
+	public boolean createCategory(String categoryName, String staffFirstname, String staffSurname) {
+		return false;
 	}
 
 	@Override
@@ -16,12 +16,12 @@ public final class CategoryRepositoryInDB implements CategoryRepository {
 	}
 
 	@Override
-	public String updateCategory(String categoryName, String staffFirstname, String staffSurname) {
-		return null;
+	public boolean updateCategory(String categoryName, String staffFirstname, String staffSurname) {
+		return false;
 	}
 
 	@Override
-	public String deleteCategory(String categoryName) {
-		return null;
+	public boolean deleteCategory(String categoryName) {
+		return false;
 	}
 }

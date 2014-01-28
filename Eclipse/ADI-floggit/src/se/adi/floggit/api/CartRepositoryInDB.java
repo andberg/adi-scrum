@@ -18,7 +18,7 @@ public final class CartRepositoryInDB implements CartRepository {
 	}
 
 	@Override
-	public String deleteFromCart(String email, String productName) {
-		return null;
+	public boolean deleteFromCart(String email, String productName) {
+		return false;
 	}
 }
