@@ -7,12 +7,12 @@ import se.adi.floggit.webshop.Webshop;
 public class Main {
 	public static void main(String[] args) {
 		Webshop webshop = new Webshop(new UserRepositoryInDB());
-		User isak = new User("dannie@hotmail.com", "secret", "Dannie", "Håkansson", "Plommonvägen 4", "263 65", "Viken");
+		//User isak = new User("dannie@hotmail.com", "secret", "Dannie", "Håkansson", "Plommonvägen 4", "263 65", "Viken");
 		
-		if (webshop.deleteUser("dannie@hotmail.com")) {
-			System.out.println(isak.toString() + "was updated");
+		if (webshop.login("Nullam.lobortis@ipsumnuncid.com", "nascetur")) {
+			System.out.println("loged in");
 		} else {
-			System.out.println("email was not found in the system!");
+			System.out.println("invalid email or password");
 		}
 		
 //		for (User u : webshop.readAllUsers()) {

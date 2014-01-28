@@ -27,4 +27,8 @@ public final class Webshop {
 	public boolean deleteUser(String email){
 		return userRepository.deleteUser(email);
 	}
+	
+	public boolean login(String email, String password){
+		return userRepository.login(email, password); 
+	}
 }
