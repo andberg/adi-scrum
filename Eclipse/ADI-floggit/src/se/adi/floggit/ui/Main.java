@@ -9,7 +9,7 @@ public class Main {
 		Webshop webshop = new Webshop(new UserRepositoryInDB());
 		User isak = new User("dannie@hotmail.com", "secret", "Dannie", "Håkansson", "Plommonvägen 4", "263 65", "Viken");
 		
-		if (webshop.updateUser("dannie@hotmail.com", isak)) {
+		if (webshop.deleteUser("dannie@hotmail.com")) {
 			System.out.println(isak.toString() + "was updated");
 		} else {
 			System.out.println("email was not found in the system!");

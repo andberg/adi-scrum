@@ -166,7 +166,42 @@ public final class UserRepositoryInDB implements UserRepository {
 
 	@Override
 	public boolean deleteUser(String email) {
-		return false;
+		
+		PreparedStatement pstmt = null;
+		Connection connection = null;
+		String query = null;
+		boolean deleted = false;
+
+		try {
+			Class.forName(DBInfo.DRIVER_CLASS);
+			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
+					DBInfo.PASSWORD);
+
+			query = "DELETE FROM users WHERE email = ?";
+					
+			pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, email);
+
+			pstmt.execute();
+			deleted = true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return deleted;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public final class Webshop {
 		this.userRepository = userRepository;
 	}
 
-	public boolean createUser(User user) {
+	public boolean createUser(String string, User user) {
 		return userRepository.createUser(user);
 	}
 	
@@ -22,5 +22,9 @@ public final class Webshop {
 	
 	public boolean updateUser(String email, User user) {
 		return userRepository.updateUser(email, user);
+	}
+	
+	public boolean deleteUser(String email){
+		return userRepository.deleteUser(email);
 	}
 }
