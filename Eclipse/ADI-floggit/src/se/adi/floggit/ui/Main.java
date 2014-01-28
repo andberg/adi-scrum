@@ -18,6 +18,9 @@ public class Main
 		// "Håkansson", "Plommonvägen 4", "263 65", "Viken");
 		Product macBookNew = new Product("Computer", "Great new computer from Apple", 2000, 12000, "Computing", "Electronics");
 
-		webshop.readAllProducts();
+		for(Product product : webshop.readAllProducts()){
+			System.out.println(product);
+		}
+		
 	}
 }

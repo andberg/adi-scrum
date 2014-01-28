@@ -12,7 +12,7 @@ public interface ProductRepository
 
 	List<Product> readAllProducts();
 
-	boolean updateProduct(String productName);
+	boolean updateProduct(int id);
 
 	boolean deleteProduct(int id);
 }

@@ -149,9 +149,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 		ResultSet rsP = null;
 		ResultSet rsC = null;
 		Statement stmt = null;
+		Statement stmtC = null;
 		Connection connection = null;
-		String queryP = null;
-		String queryC = null;
+		String query = null;
 		List<Product> productList = new ArrayList<Product>();
 
 		try
@@ -160,9 +160,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
 
-			queryP = "SELECT * FROM products";
+			query = "SELECT * FROM products";
 			stmt = connection.createStatement();
-			rsP = stmt.executeQuery(queryP);
+			rsP = stmt.executeQuery(query);
 
 			int id;
 			String name;
@@ -179,14 +179,15 @@ public final class ProductRepositoryInDB implements ProductRepository
 				cost = rsP.getDouble("cost");
 				rrp = rsP.getDouble("rrp");
 				categories = new ArrayList<String>();
+				stmtC = connection.createStatement();
 
-				queryC = "SELECT categories.name" +
+				query = "SELECT categories.name" +
 						" FROM products INNER JOIN products_in_categories" +
 						" ON products.id = products_in_categories.product_id" +
 						" INNER JOIN categories ON products_in_categories.category_id = categories.id"
 						+ " WHERE products.id = " + id + ";";
 
-				rsC = stmt.executeQuery(queryC);
+				rsC = stmtC.executeQuery(query);
 				while (rsC.next())
 				{
 					categories.add(rsC.getString("name"));
@@ -219,6 +220,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 			try
 			{
 				stmt.close();
+				stmtC.close();
 			}
 			catch (SQLException e)
 			{
@@ -237,7 +239,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 	}
 
 	@Override
-	public boolean updateProduct(String productName)
+	public boolean updateProduct(int id)
 	{
 		return false;
 	}
