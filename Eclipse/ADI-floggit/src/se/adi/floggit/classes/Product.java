@@ -43,19 +43,12 @@ public final class Product
 	@Override
 	public String toString()
 	{
-
-		String categoriesTemp = "";
-		for (String category : this.categories)
-		{
-			categoriesTemp = categoriesTemp + category + " ";
-		}
-
 		return "Product ID: " + id +
 				"\nName: " + name +
 				"\nDescription: " + description +
 				"\nRrp: " + rrp +
-				"\nCost: " + cost +
-				"\nCategories: " + categoriesTemp;
+				"\nCost: " + cost + 
+				"\nCategories: " + categories;
 	}
 
 }
