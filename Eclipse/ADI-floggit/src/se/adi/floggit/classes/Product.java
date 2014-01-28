@@ -9,33 +9,33 @@ public final class Product
 	private final int id;
 	private final String name;
 	private final String description;
-	private final double rrp;
 	private final double cost;
+	private final double rrp;
 	private final List<String> categories;
 
-	public Product(int id, String name, String description, double rrp, double cost, List<String> categories)
+	public Product(int id, String name, String description, double cost, double rrp, List<String> categories)
 	{
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.rrp = rrp;
 		this.cost = cost;
+		this.rrp = rrp;
 		this.categories = categories;
 
 	}
 
-	public Product(String name, String description, double rrp, double cost, String... categories)
+	public Product(String name, String description, double cost, double rrp, String... categories)
 	{
 
 		this.id = 0;
 		this.name = name;
 		this.description = description;
-		this.rrp = rrp;
 		this.cost = cost;
+		this.rrp = rrp;
 		this.categories = new ArrayList<String>();
 		for (String category : categories)
 		{
-			this.categories.add(category);
+			this.getCategories().add(category);
 		}
 
 	}
@@ -43,14 +43,44 @@ public final class Product
 	@Override
 	public String toString()
 	{
-		return "Product ID: " + id +
-				"\nName: " + name +
-				"\nDescription: " + description +
-				"\nRrp: " + rrp +
-				"\nCost: " + cost + 
-				"\nCategories: " + categories +
-				"\nCost: " + cost +
-				"\nCategories: " + categories + "\n";
+		return "Product ID: " + getId() +
+				"\nName: " + getName() +
+				"\nDescription: " + getDescription() +
+				"\nRrp: " + getRrp() +
+				"\nCost: " + getCost() + 
+				"\nCategories: " + getCategories() +
+				"\nCost: " + getCost() +
+				"\nCategories: " + getCategories() + "\n";
+	}
+
+	public int getId()
+	{
+		return id;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public String getDescription()
+	{
+		return description;
+	}
+
+	public double getRrp()
+	{
+		return rrp;
+	}
+
+	public double getCost()
+	{
+		return cost;
+	}
+
+	public List<String> getCategories()
+	{
+		return categories;
 	}
 
 }
