@@ -162,9 +162,8 @@ public final class UserRepositoryInDB implements UserRepository
 					DBInfo.PASSWORD);
 
 			query = "UPDATE users SET email = ?, password = ?, firstname = ?, "
-					+ "surname = ?, street_address = ?, postcode = ?, town = ?, phonenumber = ?";
-
-			query += " WHERE email = '" + email + "'";
+					+ "surname = ?, street_address = ?, postcode = ?, town = ?, phonenumber = ?"
+					+ " WHERE email = '" + email + "'";
 
 			pstmt = connection.prepareStatement(query);
 

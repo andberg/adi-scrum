@@ -79,9 +79,9 @@ public final class Webshop
 		return productRepository.readAllProducts();
 	}
 
-	public boolean updateProduct(int id)
+	public boolean updateProduct(int id, Product product)
 	{
-		return productRepository.updateProduct(id);
+		return productRepository.updateProduct(id, product);
 	}
 
 	public boolean deleteProduct(int id)

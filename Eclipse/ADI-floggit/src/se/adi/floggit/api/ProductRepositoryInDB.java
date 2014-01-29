@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.adi.floggit.classes.Product;
-import se.adi.floggit.classes.User;
 import se.adi.floggit.interfaces.ProductRepository;
 
 public final class ProductRepositoryInDB implements ProductRepository
@@ -20,30 +19,77 @@ public final class ProductRepositoryInDB implements ProductRepository
 	public boolean createProduct(Product product)
 	{
 		PreparedStatement pstmt = null;
+		Statement stmt = null;
 		Connection connection = null;
+		ResultSet rs = null;
 		String query = null;
 		boolean created = false;
+		List<String> categories = product.getCategories();
+		List<String> categoriesIds = new ArrayList<String>();
+		int generatedId = 0;
 
 		try
 		{
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
-
+			
+			query = "SELECT id FROM categories WHERE categories.name IN (";
+			
+			for (int i = 0; i < categories.size(); i++) {
+				if (i < categories.size() - 1) {
+					query += "?, ";
+				} else {
+					query += "?";
+				}
+			}
+			query += ")";
+			
+			pstmt = connection.prepareStatement(query);
+			
+			for (int i = 0; i < categories.size(); i++) {
+				pstmt.setString(i + 1, categories.get(i));
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()){
+				 categoriesIds.add(rs.getString("id"));
+			}
+			
+			if (product.getCategories().size() == categoriesIds.size()){
+				System.out.println("The number of categories in DB is the same as the categories listed in product to be created");
+			} else {
+				System.out.println("One or more specified categories were not found in the database.");
+				System.out.println(product.getCategories().size() + " " + categoriesIds.size());
+				return false;
+			}
+			
+			rs.close();
+			pstmt.close();
+			
 			query = "INSERT INTO products "
 					+ "(name,description,cost,rrp) "
 					+ "VALUES (?, ?, ?, ?)";
-
-			pstmt = connection.prepareStatement(query);
-
+			pstmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, product.getName());
 			pstmt.setString(2, product.getDescription());
 			pstmt.setDouble(3, product.getCost());
 			pstmt.setDouble(4, product.getRrp());
-
-			pstmt.execute();
+			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+				generatedId = rs.getInt(1);
+			}
+			
+			for (int i = 0; i < categoriesIds.size(); i++) {
+				query = "INSERT INTO products_in_categories (product_id, category_id) VALUES (" + generatedId + ", " + categoriesIds.get(i) + ")";
+				stmt = connection.createStatement();
+				stmt.executeUpdate(query);
+			}
+			
 			created = true;
-
 		}
 		catch (SQLException e)
 		{
@@ -57,7 +103,14 @@ public final class ProductRepositoryInDB implements ProductRepository
 		{
 			try
 			{
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try
+			{
 				pstmt.close();
+				stmt.close();
 			}
 			catch (SQLException e)
 			{
@@ -239,8 +292,58 @@ public final class ProductRepositoryInDB implements ProductRepository
 	}
 
 	@Override
-	public boolean updateProduct(int id)
+	public boolean updateProduct(int id, Product product)
 	{
+		PreparedStatement pstmt = null;
+		Connection connection = null;
+		String query = null;
+
+		try
+		{
+			Class.forName(DBInfo.DRIVER_CLASS);
+			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
+					DBInfo.PASSWORD);
+
+			query = "UPDATE products SET name = ?, description = ?, cost = ?, "
+					+ "rrp = ? WHERE id = '" + id + "'";
+
+			pstmt = connection.prepareStatement(query);
+
+			pstmt.setString(1, product.getName());
+			pstmt.setString(2, product.getDescription());
+			pstmt.setDouble(3, product.getCost());
+			pstmt.setDouble(4, product.getRrp());
+
+			pstmt.execute();
+			return true;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				pstmt.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+			try
+			{
+				connection.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
