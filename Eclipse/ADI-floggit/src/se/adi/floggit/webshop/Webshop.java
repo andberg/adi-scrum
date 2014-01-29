@@ -1,6 +1,7 @@
 package se.adi.floggit.webshop;
 
 import java.util.List;
+import java.util.Map;
 
 import se.adi.floggit.classes.Product;
 import se.adi.floggit.classes.User;
@@ -49,19 +50,19 @@ public final class Webshop
 		return userRepository.login(email, password);
 	}
 
-	public List<Product> readCart(String email)
+	public Map<Product, Integer> readCart(String email)
 	{
 		return cartRepository.readCart(email);
 	}
 
-	public boolean updateCart(String email, String productName, int quantity)
+	public boolean updateCart(String email, int productId, int quantity)
 	{
-		return cartRepository.updateCart(email, productName, quantity);
+		return cartRepository.updateCart(email, productId, quantity);
 	}
 
-	public boolean deleteFromCart(String email, String productName)
+	public boolean deleteFromCart(String email, int productId)
 	{
-		return cartRepository.deleteFromCart(email, productName);
+		return cartRepository.deleteFromCart(email, productId);
 	}
 
 	public boolean createProduct(Product product)

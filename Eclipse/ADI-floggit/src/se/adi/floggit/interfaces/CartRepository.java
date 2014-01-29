@@ -1,14 +1,11 @@
 package se.adi.floggit.interfaces;
 
-import java.util.List;
+import java.util.Map;
 
 import se.adi.floggit.classes.Product;
 
-public interface CartRepository
-{
-	List<Product> readCart(String email);
-
-	boolean updateCart(String email, String productName, int quantity);
-
-	boolean deleteFromCart(String email, String productName);
+public interface CartRepository {
+	Map<Product, Integer> readCart(String email);
+	boolean updateCart(String email, int productId, int quantity);
+	boolean deleteFromCart(String email, int productId);
 }
