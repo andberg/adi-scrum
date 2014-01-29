@@ -16,13 +16,13 @@ public class Main
 				new ProductRepositoryInDB(), new CategoryRepositoryInDB());
 		// User isak = new User("dannie@hotmail.com", "secret", "Dannie",
 		// "Håkansson", "Plommonvägen 4", "263 65", "Viken");
-		Product macBookNew = new Product("Computer New", "Great new computer from Apple", 2000, 12000, "Computing", "Electronics");
+		Product gamingDesktopComputer = new Product("Monster Gaming Desktop Computer", "Great new computer from Apple", 2000, 12000, "ToysSss");
 		Product macBookOther = new Product("Computer hej", "Great old computer from Apple", 1000, 9000, "Computing", "Electronics");
 		
 		
-		//webshop.updateProduct(16, macBookOld); 
-		//webshop.createProduct(macBookOther); 
-		webshop.deleteProduct(17);
+		webshop.updateProduct(23, gamingDesktopComputer); 
+//		webshop.createProduct(macBookNew); 
+//		webshop.deleteProduct(17);
 	
 		for(Product product : webshop.readAllProducts()){
 			System.out.println(product);

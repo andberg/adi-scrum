@@ -25,7 +25,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 		String query = null;
 		boolean created = false;
 		List<String> categories = product.getCategories();
-		List<String> categoriesIds = new ArrayList<String>();
+		List<Integer> categoryIds = null;
 		int generatedId = 0;
 
 		try
@@ -33,40 +33,13 @@ public final class ProductRepositoryInDB implements ProductRepository
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
+			connection.setAutoCommit(false);
 			
-			query = "SELECT id FROM categories WHERE categories.name IN (";
+			categoryIds = getProductCategoryIds(categories, connection);
 			
-			for (int i = 0; i < categories.size(); i++) {
-				if (i < categories.size() - 1) {
-					query += "?, ";
-				} else {
-					query += "?";
-				}
-			}
-			query += ")";
-			
-			pstmt = connection.prepareStatement(query);
-			
-			for (int i = 0; i < categories.size(); i++) {
-				pstmt.setString(i + 1, categories.get(i));
-			}
-			
-			rs = pstmt.executeQuery();
-			
-			while (rs.next()){
-				 categoriesIds.add(rs.getString("id"));
-			}
-			
-			if (product.getCategories().size() == categoriesIds.size()){
-				System.out.println("The number of categories in DB is the same as the categories listed in product to be created");
-			} else {
-				System.out.println("One or more specified categories were not found in the database.");
-				System.out.println(product.getCategories().size() + " " + categoriesIds.size());
+			if (categories.size() != categoryIds.size()){
 				return false;
 			}
-			
-			rs.close();
-			pstmt.close();
 			
 			query = "INSERT INTO products "
 					+ "(name,description,cost,rrp) "
@@ -83,17 +56,22 @@ public final class ProductRepositoryInDB implements ProductRepository
 				generatedId = rs.getInt(1);
 			}
 			
-			for (int i = 0; i < categoriesIds.size(); i++) {
-				query = "INSERT INTO products_in_categories (product_id, category_id) VALUES (" + generatedId + ", " + categoriesIds.get(i) + ")";
+			for (int i = 0; i < categoryIds.size(); i++) {
+				query = "INSERT INTO products_in_categories (product_id, category_id) VALUES (" + generatedId + ", " + categoryIds.get(i) + ")";
 				stmt = connection.createStatement();
 				stmt.executeUpdate(query);
 			}
-			
+			connection.commit();
 			created = true;
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -126,6 +104,35 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 		}
 		return created;
+	}
+	
+	private List<Integer> getProductCategoryIds(List<String> categories, Connection connection) throws SQLException {
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		List<Integer> categoryIds = new ArrayList<Integer>();
+		String query = "SELECT id FROM categories WHERE categories.name IN (";
+		
+		for (int i = 0; i < categories.size(); i++) {
+			if (i < categories.size() - 1) {
+				query += "?, ";
+			} else {
+				query += "?";
+			}
+		}
+		query += ")";
+		
+		pstmt = connection.prepareStatement(query);
+		
+		for (int i = 0; i < categories.size(); i++) {
+			pstmt.setString(i + 1, categories.get(i));
+		}
+		
+		rs = pstmt.executeQuery();
+		
+		while (rs.next()){
+			 categoryIds.add(rs.getInt("id"));
+		}
+		return categoryIds;
 	}
 
 	@Override
@@ -295,17 +302,31 @@ public final class ProductRepositoryInDB implements ProductRepository
 	public boolean updateProduct(int id, Product product)
 	{
 		PreparedStatement pstmt = null;
+		Statement stmt = null;
 		Connection connection = null;
 		String query = null;
+		List<Integer> categoryIds = null;
+		int categoriesDeleted = 0;
 
 		try
 		{
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
-
+			connection.setAutoCommit(false);
+			
+			query = "DELETE FROM products_in_categories WHERE product_id = ?";
+			pstmt = connection.prepareStatement(query);
+			pstmt.setInt(1, id);
+			categoriesDeleted = pstmt.executeUpdate();
+			if (categoriesDeleted == 0) {
+				return false;
+			}
+			
+			pstmt.close();
+			
 			query = "UPDATE products SET name = ?, description = ?, cost = ?, "
-					+ "rrp = ? WHERE id = '" + id + "'";
+					+ "rrp = ? WHERE id = ?";
 
 			pstmt = connection.prepareStatement(query);
 
@@ -313,13 +334,34 @@ public final class ProductRepositoryInDB implements ProductRepository
 			pstmt.setString(2, product.getDescription());
 			pstmt.setDouble(3, product.getCost());
 			pstmt.setDouble(4, product.getRrp());
+			pstmt.setInt(5, id);
 
-			pstmt.execute();
+			pstmt.executeUpdate();
+			
+			categoryIds = getProductCategoryIds(product.getCategories(), connection);
+			
+			if (categoryIds.size() == 0) {
+				return false;
+			}
+			
+			for (int i = 0; i < categoryIds.size(); i++) {
+				query = "INSERT INTO products_in_categories (product_id, category_id) VALUES (" + id + ", " + categoryIds.get(i) + ")";
+				stmt = connection.createStatement();
+				stmt.executeUpdate(query);
+				stmt.close();
+			}
+			
+			connection.commit();
 			return true;
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
 		}
 		catch (ClassNotFoundException e)
 		{
