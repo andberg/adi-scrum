@@ -78,6 +78,10 @@ public final class Webshop
 	{
 		return productRepository.readProductsInCategory(categoryName);
 	}
+	
+	public List<Product> readProduct(String productName) {
+		return productRepository.readProduct(productName);
+	}
 
 	public List<Product> readAllProducts()
 	{
