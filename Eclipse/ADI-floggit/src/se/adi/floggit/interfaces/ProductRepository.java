@@ -9,6 +9,8 @@ public interface ProductRepository
 	boolean createProduct(Product product);
 
 	List<String> readProductsInCategory(String categoryName);
+	
+	List<Product> readProduct(String productName);
 
 	List<Product> readAllProducts();
 
