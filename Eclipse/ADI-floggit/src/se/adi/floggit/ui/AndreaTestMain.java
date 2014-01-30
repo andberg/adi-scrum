@@ -12,11 +12,18 @@ public class AndreaTestMain
 		Webshop webshop = new Webshop();
 
 		Product computer = new Product("New Apple Computer", "Great computer for webdevelopers, where blablla", 2000, 12000, "Computing", "Electronics");
-		Product shoe = new Product("Gummistovel", "Great gummistovel from Dolce Gabbana", 100, 600, "Clothes", "Womens");
+		Product gummistovel = new Product("Gummistovel", "Great gummistovel from Dolce Gabbana", 100, 600, "Clothes", "Womens");
+		Product klackesko = new Product("Klackesko", "Great klackesko from Åhlens", 100, 600, "Clothes", "Womens");
 		User andrea = new User("andreaberglund@hotmail.com", "password", "Andrea", "Berglund", "Sveavägen 49", "14656", "Stockholm");
-
 		
-
+		if(webshop.deleteProduct(28)){
+			System.out.println("Fest i byn");
+		}else{
+			System.out.println("inte fest :((((");
+		}
+//		System.out.println(webshop.readAllProducts());
+		
+//		System.out.println(webshop.readProductsInCategory("electronics"));
 	}
 
 }

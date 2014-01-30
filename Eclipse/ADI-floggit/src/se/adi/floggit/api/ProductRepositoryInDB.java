@@ -396,6 +396,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 		Connection connection = null;
 		String query = null;
 		boolean deleted = false;
+		int effectedRows = 0; 
 
 		try
 		{
@@ -406,8 +407,8 @@ public final class ProductRepositoryInDB implements ProductRepository
 			pstmt = connection.prepareStatement(query);
 			pstmt.setInt(1, id);
 
-			pstmt.execute();
-			deleted = true;
+			effectedRows = pstmt.executeUpdate();
+			deleted = effectedRows > 0;
 		}
 		catch (SQLException e)
 		{
