@@ -17,15 +17,15 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 	@Override
 	public boolean createCategory(String categoryName, String staffFirstname, String staffSurname)
 	{
-		return updateAndCreate(categoryName, staffFirstname, staffSurname, "INSERT INTO categories (name,staff_responsible) VALUES (?, ?)");
+		return updateAndCreate(categoryName, staffFirstname, staffSurname, "INSERT INTO categories (staff_responsible, name) VALUES (?, ?)");
 	}
 
 	@Override
 	public boolean updateCategory(String categoryName, String staffFirstname, String staffSurname)
 	{
-		return updateAndCreate(categoryName, staffFirstname, staffSurname, ("UPDATE categories SET name = ?, staff_responsible = ? WHERE name = '" + categoryName + "'"));
+		return updateAndCreate(categoryName, staffFirstname, staffSurname, ("UPDATE categories SET staff_responsible = ? WHERE name = ?"));
 	}
-	
+
 	@Override
 	public List<String> readAllCategories()
 	{
@@ -84,7 +84,6 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 
 	}
 
-
 	@Override
 	public boolean deleteCategory(String categoryName)
 	{
@@ -99,13 +98,12 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
-			
+
 			query = "DELETE FROM categories WHERE name = ?";
 
 			pstmt = connection.prepareStatement(query);
 			pstmt.setString(1, categoryName);
-		
-			
+
 			rowsAffected = pstmt.executeUpdate();
 			deleted = (rowsAffected > 0);
 
@@ -149,6 +147,7 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 		String query = null;
 		boolean returnValue = false;
 		int staffId = 0;
+		int affectedRows = 0;
 
 		try
 		{
@@ -174,12 +173,12 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 
 			pstmt = connection.prepareStatement(queryIn);
 
-			pstmt.setString(1, categoryName);
-			pstmt.setInt(2, staffId);
+			pstmt.setInt(1, staffId);
+			pstmt.setString(2, categoryName);
 
-			pstmt.execute();
-			returnValue = true;
-
+			affectedRows = pstmt.executeUpdate();
+			returnValue = (affectedRows > 0);
+			return returnValue;
 		}
 		catch (SQLException e)
 		{

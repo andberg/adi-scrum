@@ -3,6 +3,10 @@ package se.adi.floggit.webshop;
 import java.util.List;
 import java.util.Map;
 
+import se.adi.floggit.api.CartRepositoryInDB;
+import se.adi.floggit.api.CategoryRepositoryInDB;
+import se.adi.floggit.api.ProductRepositoryInDB;
+import se.adi.floggit.api.UserRepositoryInDB;
 import se.adi.floggit.classes.Product;
 import se.adi.floggit.classes.User;
 import se.adi.floggit.interfaces.CartRepository;
@@ -17,15 +21,15 @@ public final class Webshop
 	private final ProductRepository productRepository;
 	private final CategoryRepository categoryRepository;
 
-	public Webshop(UserRepository userRepository, CartRepository cartRepository, ProductRepository productRepository, CategoryRepository categoryRepository)
+	public Webshop()
 	{
-		this.userRepository = userRepository;
-		this.cartRepository = cartRepository;
-		this.productRepository = productRepository;
-		this.categoryRepository = categoryRepository;
+		this.userRepository = new UserRepositoryInDB();
+		this.cartRepository = new CartRepositoryInDB();
+		this.productRepository = new ProductRepositoryInDB();
+		this.categoryRepository = new CategoryRepositoryInDB();
 	}
 
-	public boolean createUser(String string, User user)
+	public boolean createUser(User user)
 	{
 		return userRepository.createUser(user);
 	}
@@ -92,7 +96,7 @@ public final class Webshop
 
 	public boolean createCategory(String categoryName, String staffFirstname, String staffSurname)
 	{
-		return false;
+		return categoryRepository.createCategory(categoryName, staffFirstname, staffSurname);
 	}
 
 	public List<String> readAllCategories()

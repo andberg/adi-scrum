@@ -30,7 +30,7 @@ public final class CartRepositoryInDB implements CartRepository
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
 
-			query = "SELECT products.id, products.name, quantity "
+			query = "SELECT products.id, products.name, products.cost,quantity "
 					+ "FROM users INNER JOIN carts ON users.id = carts.user_id "
 					+ "INNER JOIN products ON carts.product_id = products.id "
 					+ "WHERE email = ?";
@@ -41,7 +41,7 @@ public final class CartRepositoryInDB implements CartRepository
 
 			while (rs.next())
 			{
-				product = new Product(rs.getInt("id"), rs.getString("name"));
+				product = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("cost"));
 				cart.put(product, rs.getInt("quantity"));
 			}
 		}
@@ -153,6 +153,8 @@ public final class CartRepositoryInDB implements CartRepository
 			pstmt.setInt(2, userId);
 			pstmt.setInt(3, productId);
 			pstmt.executeUpdate();
+			
+			return true; 
 
 		}
 		catch (SQLException e)

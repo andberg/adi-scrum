@@ -154,6 +154,8 @@ public final class UserRepositoryInDB implements UserRepository
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
+		int rowsAffected = 0;
+		boolean updated = false;
 
 		try
 		{
@@ -176,9 +178,10 @@ public final class UserRepositoryInDB implements UserRepository
 			pstmt.setString(7, user.getTown());
 			pstmt.setString(8, user.getPhonenumber());
 
-			pstmt.execute();
+			rowsAffected = pstmt.executeUpdate();
+			updated = (rowsAffected > 0);
+			return updated;
 
-			return true;
 		}
 		catch (SQLException e)
 		{
@@ -207,7 +210,7 @@ public final class UserRepositoryInDB implements UserRepository
 				e.printStackTrace();
 			}
 		}
-		return false;
+		return updated;
 	}
 
 	@Override
@@ -217,6 +220,7 @@ public final class UserRepositoryInDB implements UserRepository
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
+		int rowsAffected = 0;
 		boolean deleted = false;
 
 		try
@@ -230,8 +234,9 @@ public final class UserRepositoryInDB implements UserRepository
 			pstmt = connection.prepareStatement(query);
 			pstmt.setString(1, email);
 
-			pstmt.execute();
-			deleted = true;
+			rowsAffected = pstmt.executeUpdate();
+			deleted = (rowsAffected > 0);
+			return deleted;
 
 		}
 		catch (SQLException e)
