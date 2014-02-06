@@ -12,10 +12,10 @@ public class Main
 
 	public static void main(String[] args)
 	{
-		showProductAPI();
-		showUserAPI();
-		showCartAPI();
-		showCategoryAPI();
+//		showProductAPI();
+//		showUserAPI();
+//		showCartAPI();
+//		showCategoryAPI();		
 	}
 
 	private static void showCategoryAPI()
