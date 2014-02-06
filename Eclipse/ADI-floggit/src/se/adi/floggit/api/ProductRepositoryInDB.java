@@ -226,9 +226,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 		PreparedStatement pstmt = null;
 		Statement stmt = null;
 		Connection connection = null;
-		String query = null; 
+		String query = null;
 		List<Product> productList = new ArrayList<Product>();
-		
+
 		try
 		{
 			Class.forName(DBInfo.DRIVER_CLASS);
@@ -242,7 +242,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 
 			pstmt.setString(1, productName);
 			rs = pstmt.executeQuery();
-			
+
 			int id;
 			String name;
 			String description;
@@ -259,16 +259,17 @@ public final class ProductRepositoryInDB implements ProductRepository
 				rrp = rs.getDouble("rrp");
 				categories = new ArrayList<String>();
 				stmt = connection.createStatement();
-				
+
 				query = "SELECT categories.name" +
 						" FROM products INNER JOIN products_in_categories" +
 						" ON products.id = products_in_categories.product_id" +
 						" INNER JOIN categories ON products_in_categories.category_id = categories.id"
 						+ " WHERE products.id = " + id;
-				
+
 				rsC = stmt.executeQuery(query);
-				
-				while (rsC.next()) {
+
+				while (rsC.next())
+				{
 					categories.add(rsC.getString("name"));
 				}
 				Product product = new Product(id, name, description, cost, rrp, categories);
@@ -288,7 +289,8 @@ public final class ProductRepositoryInDB implements ProductRepository
 			try
 			{
 				rs.close();
-				if (rsC != null) {
+				if (rsC != null)
+				{
 					rsC.close();
 				}
 			}
@@ -299,7 +301,8 @@ public final class ProductRepositoryInDB implements ProductRepository
 			try
 			{
 				pstmt.close();
-				if (stmt != null) {
+				if (stmt != null)
+				{
 					stmt.close();
 				}
 			}

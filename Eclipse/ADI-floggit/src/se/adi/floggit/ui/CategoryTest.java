@@ -17,9 +17,12 @@ public class CategoryTest
 
 	private static void runDeleteTests()
 	{
-		if (webshop.updateCategory("FilmSSS", "Eve", "White")) {
+		if (webshop.updateCategory("FilmSSS", "Eve", "White"))
+		{
 			System.out.println("Category films was updated!");
-		} else {
+		}
+		else
+		{
 			System.out.println("Category filmSSS was not updated, because it was not found in the database!");
 		}
 	}

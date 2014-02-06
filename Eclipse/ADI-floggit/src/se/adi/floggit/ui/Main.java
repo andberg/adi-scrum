@@ -15,21 +15,24 @@ public class Main
 		showProductAPI();
 		showUserAPI();
 		showCartAPI();
-		showCategoryAPI();		
+		showCategoryAPI();
 	}
 
 	private static void showCategoryAPI()
 	{
-		System.out.println(webshop.readAllCategories()); 
+		System.out.println(webshop.readAllCategories());
 		System.out.println();
-		
-		if(webshop.createCategory("Fotboll", "Sybill", "Le")){
+
+		if (webshop.createCategory("Fotboll", "Sybill", "Le"))
+		{
 			System.out.println("Category created!");
-		} else {
+		}
+		else
+		{
 			System.out.println("Category NOT created");
 		}
 		System.out.println();
-		System.out.println(webshop.readAllCategories()); 
+		System.out.println(webshop.readAllCategories());
 	}
 
 	private static void showCartAPI()
@@ -37,7 +40,8 @@ public class Main
 		String email = "lorem.vehicula.et@rutrumjusto.edu";
 		Map<Product, Integer> cart = webshop.readCart(email);
 		System.out.println("Reading cart for " + email + ":");
-		for (Product product : cart.keySet()) {
+		for (Product product : cart.keySet())
+		{
 			System.out.println(product.getId() + " - " + product.getName() + " - " + product.getCost() + "kr - " + cart.get(product));
 		}
 	}
@@ -53,7 +57,7 @@ public class Main
 		{
 			System.out.println("create Fail!");
 		}
-		
+
 		if (webshop.updateUser("pelle@hot.com", new User("pelle@hot.com", "Pss", "Putte", "Pell", "Pelgata", "12312", "Sthlm", "08-0000000")))
 		{
 			System.out.println("was updated");
