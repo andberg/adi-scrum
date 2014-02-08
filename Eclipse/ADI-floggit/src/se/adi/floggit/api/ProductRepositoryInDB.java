@@ -87,7 +87,10 @@ public final class ProductRepositoryInDB implements ProductRepository
 		{
 			try
 			{
-				rs.close();
+				if (rs != null)
+				{
+					rs.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -95,8 +98,13 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 			try
 			{
-				pstmt.close();
-				stmt.close();
+				if (pstmt != null)
+				{
+					pstmt.close();
+				}
+				if (stmt != null) {
+					stmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
