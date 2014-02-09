@@ -133,7 +133,7 @@ public final class CommandLineTool
 		{
 			System.out.println("Description:");
 			String description = scanner.nextLine();
-			do
+			while(true)
 			{
 				try
 				{
@@ -143,12 +143,11 @@ public final class CommandLineTool
 				}
 				catch (NumberFormatException e)
 				{
-					System.out.println("You have to input a number\n\n");
+					System.out.println("You have to input a number\n");
 					continue;
 				}
 			}
-			while (true);
-			do
+			while(true)
 			{
 				try
 				{
@@ -158,12 +157,11 @@ public final class CommandLineTool
 				}
 				catch (NumberFormatException e)
 				{
-					System.out.println("You have to input a number\n\n");
+					System.out.println("You have to input a number\n");
 					continue;
 				}
 			}
-			while (true);
-			do
+			while(true)
 			{
 				try
 				{
@@ -178,11 +176,10 @@ public final class CommandLineTool
 				}
 				catch (NumberFormatException e)
 				{
-					System.out.println("You have to input a number\n\n");
+					System.out.println("You have to input a number\n");
 					continue;
 				}
 			}
-			while (true);
 			String[] categories = new String[numOfCategories];
 			for (int i = 0; i < numOfCategories; i++)
 			{
@@ -225,20 +222,26 @@ public final class CommandLineTool
 			String town = scanner.nextLine();
 			System.out.println("Phonenumber(can be left empty):");
 			String phonenumber = scanner.nextLine();
-			
+
 			User user = null;
-			if (phonenumber.equals("")) {
+			if (phonenumber.equals(""))
+			{
 				user = new User(username, password, firstname, surname, streetAddress, postcode, town);
-			} else {
+			}
+			else
+			{
 				user = new User(username, password, firstname, surname, streetAddress, postcode, town, phonenumber);
 			}
-			
-			if (webshop.createUser(user)) {
+
+			if (webshop.createUser(user))
+			{
 				System.out.println("User was created successfully");
-			} else {
+			}
+			else
+			{
 				System.out.println("User was not created because of already registered username");
 			}
-			
+
 			System.out.println("\nUsername:");
 			username = scanner.nextLine();
 		}
@@ -279,7 +282,7 @@ public final class CommandLineTool
 		int id = 0;
 		double cost = 0;
 		double rrp = 0;
-		
+
 		System.out.println("Updating of product prompted\n\nNew product name:");
 		String name = scanner.nextLine();
 
@@ -287,7 +290,7 @@ public final class CommandLineTool
 		{
 			System.out.println("New description:");
 			String description = scanner.nextLine();
-			do
+			while (true)
 			{
 				try
 				{
@@ -297,12 +300,11 @@ public final class CommandLineTool
 				}
 				catch (NumberFormatException e)
 				{
-					System.out.println("You have to input a number\n\n");
+					System.out.println("You have to input a number\n");
 					continue;
 				}
 			}
-			while (true);
-			do
+			while (true)
 			{
 				try
 				{
@@ -312,12 +314,11 @@ public final class CommandLineTool
 				}
 				catch (NumberFormatException e)
 				{
-					System.out.println("You have to input a number\n\n");
+					System.out.println("You have to input a number\n");
 					continue;
 				}
 			}
-			while (true);
-			do
+			while(true)
 			{
 				try
 				{
@@ -335,14 +336,14 @@ public final class CommandLineTool
 					System.out.println("You have to input a number\n\n");
 					continue;
 				}
-			} while(true);
+			}
 			String[] categories = new String[numOfCategories];
 			for (int i = 0; i < numOfCategories; i++)
 			{
 				System.out.println("Category " + (i + 1) + ":");
 				categories[i] = scanner.nextLine();
 			}
-			do
+			while(true)
 			{
 				try
 				{
@@ -356,7 +357,6 @@ public final class CommandLineTool
 					continue;
 				}
 			}
-			while (true);
 			Product product = new Product(name, description, cost, rrp, categories);
 			if (webshop.updateProduct(id, product))
 			{
@@ -393,24 +393,30 @@ public final class CommandLineTool
 			String town = scanner.nextLine();
 			System.out.println("New phonenumber(can be left empty):");
 			String phonenumber = scanner.nextLine();
-			
+
 			User user = null;
-			if (phonenumber.equals("")) {
+			if (phonenumber.equals(""))
+			{
 				user = new User(username, password, firstname, surname, streetAddress, postcode, town);
-			} else {
+			}
+			else
+			{
 				user = new User(username, password, firstname, surname, streetAddress, postcode, town, phonenumber);
 			}
-			
+
 			System.out.println("Username of person to update");
 			String userToBeChangedUsername = scanner.nextLine();
-			
-			if (webshop.updateUser(userToBeChangedUsername, user)) {
+
+			if (webshop.updateUser(userToBeChangedUsername, user))
+			{
 				System.out.println("User was updated successfully");
-			} else {
+			}
+			else
+			{
 				System.out.println("User was not updated because of already registered username, "
 						+ "or because of username to the user to be changed not being found in the register");
 			}
-			
+
 			System.out.println("\nNew username:");
 			username = scanner.nextLine();
 		}
@@ -501,7 +507,8 @@ public final class CommandLineTool
 
 	private static void readAllProducts()
 	{
-		for (Product product : webshop.readAllProducts()) {
+		for (Product product : webshop.readAllProducts())
+		{
 			System.out.println(product);
 		}
 		initiateMenu();
@@ -509,7 +516,8 @@ public final class CommandLineTool
 
 	private static void readAllUsers()
 	{
-		for (User user : webshop.readAllUsers()) {
+		for (User user : webshop.readAllUsers())
+		{
 			System.out.println(user);
 		}
 		initiateMenu();
