@@ -133,32 +133,32 @@ public final class CommandLineTool
 		{
 			System.out.println("Description:");
 			String description = scanner.nextLine();
-			System.out.println("Cost:");
 			do
 			{
 				try
 				{
+					System.out.println("Cost:");
 					cost = Double.parseDouble(scanner.nextLine());
 					break;
 				}
 				catch (NumberFormatException e)
 				{
-					System.out.println("You have to input a number\n\nCost:");
+					System.out.println("You have to input a number\n\n");
 					continue;
 				}
 			}
 			while (true);
-			System.out.println("RRP:");
 			do
 			{
 				try
 				{
+					System.out.println("RRP:");
 					rrp = Double.parseDouble(scanner.nextLine());
 					break;
 				}
 				catch (NumberFormatException e)
 				{
-					System.out.println("You have to input a number\n\nRRP:");
+					System.out.println("You have to input a number\n\n");
 					continue;
 				}
 			}
@@ -287,17 +287,17 @@ public final class CommandLineTool
 		{
 			System.out.println("New description:");
 			String description = scanner.nextLine();
-			System.out.println("New cost:");
 			do
 			{
 				try
 				{
+					System.out.println("New cost:");
 					cost = Double.parseDouble(scanner.nextLine());
 					break;
 				}
 				catch (NumberFormatException e)
 				{
-					System.out.println("You have to input a number\n\nCost:");
+					System.out.println("You have to input a number\n\n");
 					continue;
 				}
 			}
