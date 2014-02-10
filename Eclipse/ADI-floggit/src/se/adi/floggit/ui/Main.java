@@ -12,7 +12,7 @@ public class Main
 
 	public static void main(String[] args)
 	{
-//		showProductAPI();
+		showProductAPI();
 //		showUserAPI();
 //		showCartAPI();
 //		showCategoryAPI();		

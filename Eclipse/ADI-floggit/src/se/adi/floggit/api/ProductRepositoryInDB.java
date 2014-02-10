@@ -22,7 +22,6 @@ public final class ProductRepositoryInDB implements ProductRepository
 		Statement stmt = null;
 		Connection connection = null;
 		ResultSet rs = null;
-		String query = null;
 		boolean created = false;
 		List<String> categories = product.getCategories();
 		List<Integer> categoryIds = null;
@@ -42,7 +41,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 				return false;
 			}
 
-			query = "INSERT INTO products "
+			String query = "INSERT INTO products "
 					+ "(name,description,cost,rrp) "
 					+ "VALUES (?, ?, ?, ?)";
 			pstmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
