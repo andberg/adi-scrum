@@ -15,8 +15,8 @@ public final class CommandLineTool
 	public static void main(String[] args)
 	{
 		// createCategory();
-		createProduct();
-
+		// createProduct();
+		updateCategory();
 	}
 
 	private static void createCategory()
@@ -84,21 +84,23 @@ public final class CommandLineTool
 
 		while (true)
 		{
-		
+
 			String input = sc.nextLine();
-			if(input.equals("")){
-				if(!categories.isEmpty()){
-					break; 
+			if (input.equals(""))
+			{
+				if (!categories.isEmpty())
+				{
+					break;
 				}
 				System.out.println("You need at least one category");
 			}
 			else
 			{
-				categories.add(input); 
+				categories.add(input);
 			}
-		} 
+		}
 		System.out.println("Terminated");
-		
+
 		Product product = new Product(productName, productDescription, cost, rrp, categories);
 		if (webshop.createProduct(product))
 		{
@@ -109,8 +111,25 @@ public final class CommandLineTool
 			System.out.println("Error! One or more categories does not exist in DB");
 		}
 	}
-	
-	private static void createUser(){
-		
+
+	public static void updateCategory()
+	{
+		System.out.println("Category name:");
+		String categoryName = sc.nextLine();
+
+		System.out.println("New responsible staff fistname:");
+		String staffFirstname = sc.nextLine();
+
+		System.out.println("New responsible staff surname:");
+		String staffSurname = sc.nextLine();
+
+		if (webshop.updateCategory(categoryName, staffFirstname, staffSurname))
+		{
+			System.out.println("Category updated in DB with " + staffFirstname + " " + staffSurname + " assigned as responsible staff");
+		}
+		else
+		{
+			System.out.println("Error! Category " + categoryName + " was not found in DB, or staff member " + staffFirstname + " " + staffSurname + " to be assigned responsible was not found in DB");
+		}
 	}
 }
