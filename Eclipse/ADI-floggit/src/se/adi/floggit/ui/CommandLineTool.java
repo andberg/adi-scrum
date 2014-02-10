@@ -16,7 +16,10 @@ public final class CommandLineTool
 	{
 		// createCategory();
 		// createProduct();
-		updateCategory();
+		// updateCategory();
+		// validateUser();
+//		searchProductByName();
+		listProductsByCategory();
 	}
 
 	private static void createCategory()
@@ -129,7 +132,66 @@ public final class CommandLineTool
 		}
 		else
 		{
-			System.out.println("Error! Category " + categoryName + " was not found in DB, or staff member " + staffFirstname + " " + staffSurname + " to be assigned responsible was not found in DB");
+			System.out.println("Error! Category " + categoryName + " was not found in DB, or staff member " + staffFirstname + " " + staffSurname
+					+ " to be assigned responsible was not found in DB");
+		}
+	}
+
+	private static void validateUser()
+	{
+		System.out.println("Username:");
+		String username = sc.nextLine();
+
+		System.out.println("Password:");
+		String password = sc.nextLine();
+
+		if (webshop.login(username, password))
+		{
+			System.out.println(username + " was successfully logged in");
+		}
+		else
+		{
+			System.out.println("Login failed because of username not registered in DB, and/or password incorrect");
+		}
+	}
+
+	private static void searchProductByName()
+	{
+		System.out.println("Product name:");
+		String productName = sc.nextLine();
+
+		List<Product> products = webshop.readProduct(productName);
+
+		if (products.size() == 0)
+		{
+			System.out.println("No products with name " + productName + " was found in DB");
+		}
+		else
+		{
+			for (Product product : products)
+			{
+				System.out.println(product);
+			}
+		}
+	}
+
+	private static void listProductsByCategory()
+	{
+		System.out.println("Category name:");
+		String categoryName = sc.nextLine();
+
+		List<String> products = webshop.readProductsInCategory(categoryName);
+
+		if (products.size() == 0)
+		{
+			System.out.println("No products in category " + categoryName + " was found in DB, or the category was not found in DB");
+		}
+		else
+		{
+			for (String string : products)
+			{
+				System.out.println(string);
+			}
 		}
 	}
 }
