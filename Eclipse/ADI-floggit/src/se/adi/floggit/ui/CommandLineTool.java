@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import se.adi.floggit.classes.Product;
+import se.adi.floggit.classes.User;
 import se.adi.floggit.webshop.Webshop;
 
 public final class CommandLineTool
@@ -84,21 +85,23 @@ public final class CommandLineTool
 
 		while (true)
 		{
-		
+
 			String input = sc.nextLine();
-			if(input.equals("")){
-				if(!categories.isEmpty()){
-					break; 
+			if (input.equals(""))
+			{
+				if (!categories.isEmpty())
+				{
+					break;
 				}
 				System.out.println("You need at least one category");
 			}
 			else
 			{
-				categories.add(input); 
+				categories.add(input);
 			}
-		} 
+		}
 		System.out.println("Terminated");
-		
+
 		Product product = new Product(productName, productDescription, cost, rrp, categories);
 		if (webshop.createProduct(product))
 		{
@@ -109,8 +112,41 @@ public final class CommandLineTool
 			System.out.println("Error! One or more categories does not exist in DB");
 		}
 	}
-	
-	private static void createUser(){
+
+	private static void createUser()
+	{
+		System.out.println("Enter Username/E-mail");
+		String email = sc.nextLine(); 
+		
+		System.out.println("Enter password");
+		String password = sc.nextLine(); 
+		
+		System.out.println("Enter firstname:");
+		String firstname = sc.nextLine(); 
+		
+		System.out.println("Enter surname");
+		String surname = sc.nextLine(); 
+		
+		System.out.println("Enter street address:");
+		String streetAddress = sc.nextLine(); 
+		
+		System.out.println("Enter postcode:");
+		String postcode = sc.nextLine();
+		
+		System.out.println("Enter town:");
+		String town = sc.nextLine(); 
+		
+		System.out.println("Enter phonenumber");
+		String phonenumber = sc.nextLine(); 
+		
+		
+		User user = new User(email, password, firstname, surname, streetAddress, postcode, phonenumber); 
+		
+		if (webshop.createUser(user)){
+			System.out.println("User was created in DB!");
+		} else {
+			System.out.println("Error! Username/Email already in DB.");
+		}
 		
 	}
 }
