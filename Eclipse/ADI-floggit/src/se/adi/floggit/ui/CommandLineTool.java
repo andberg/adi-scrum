@@ -80,21 +80,25 @@ public final class CommandLineTool
 
 		System.out.println("Product categories, please write one at a time and press enter. When done write exit and enter");
 
-		String input = sc.nextLine();
 		List<String> categories = new ArrayList<>();
 
-		while (input.equals("exit"))
+		while (true)
 		{
-			System.out.println("You cannot begin with writing exit");
-			input = sc.nextLine();
-		}
-
-		while (!input.equals("exit"))
-		{
-			categories.add(input);
-			input = sc.nextLine();
-		}
-
+		
+			String input = sc.nextLine();
+			if(input.equals("")){
+				if(!categories.isEmpty()){
+					break; 
+				}
+				System.out.println("You need at least one category");
+			}
+			else
+			{
+				categories.add(input); 
+			}
+		} 
+		System.out.println("Terminated");
+		
 		Product product = new Product(productName, productDescription, cost, rrp, categories);
 		if (webshop.createProduct(product))
 		{
