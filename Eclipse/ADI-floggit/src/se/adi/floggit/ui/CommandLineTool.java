@@ -19,10 +19,10 @@ public final class CommandLineTool
 		// createProduct();
 		// updateCategory();
 		// validateUser();
-//		searchProductByName();
-//		listProductsByCategory();
+		// searchProductByName();
+		// listProductsByCategory();
 		// createUser();
-//		 updateUser();
+		// updateUser();
 	}
 
 	private static void createCategory()
@@ -186,6 +186,56 @@ public final class CommandLineTool
 		}
 	}
 
+	private static void updateUser()
+	{
+		System.out.println("Which user would you like to update? Enter valid email.");
+		String emailID = sc.nextLine();
+	
+		System.out.println("Enter new Username/E-mail:");
+		String email = sc.nextLine();
+	
+		System.out.println("Enter password:");
+		String password = sc.nextLine();
+	
+		System.out.println("Enter firstname:");
+		String firstname = sc.nextLine();
+	
+		System.out.println("Enter surname:");
+		String surname = sc.nextLine();
+	
+		System.out.println("Enter street address:");
+		String streetAddress = sc.nextLine();
+	
+		System.out.println("Enter postcode:");
+		String postcode = sc.nextLine();
+	
+		System.out.println("Enter town:");
+		String town = sc.nextLine();
+	
+		System.out.println("Enter phonenumber:");
+		String phonenumber = sc.nextLine();
+	
+		User user = null;
+		if (phonenumber.equals(""))
+		{
+			user = new User(email, password, firstname, surname, streetAddress, postcode, town);
+		}
+		else
+		{
+			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
+		}
+	
+		if (webshop.updateUser(emailID, user))
+		{
+			System.out.println("User was updated in DB!");
+		}
+		else
+		{
+			System.out.println("Error! Update failure, check if given email is valid " + emailID);
+		}
+	
+	}
+
 	private static void validateUser()
 	{
 		System.out.println("Username:");
@@ -242,55 +292,5 @@ public final class CommandLineTool
 				System.out.println(string);
 			}
 		}
-	}
-
-	private static void updateUser()
-	{
-		System.out.println("Which user would you like to update? Enter valid email.");
-		String emailID = sc.nextLine();
-
-		System.out.println("Enter new Username/E-mail:");
-		String email = sc.nextLine();
-
-		System.out.println("Enter password:");
-		String password = sc.nextLine();
-
-		System.out.println("Enter firstname:");
-		String firstname = sc.nextLine();
-
-		System.out.println("Enter surname:");
-		String surname = sc.nextLine();
-
-		System.out.println("Enter street address:");
-		String streetAddress = sc.nextLine();
-
-		System.out.println("Enter postcode:");
-		String postcode = sc.nextLine();
-
-		System.out.println("Enter town:");
-		String town = sc.nextLine();
-
-		System.out.println("Enter phonenumber:");
-		String phonenumber = sc.nextLine();
-
-		User user = null;
-		if (phonenumber.equals(""))
-		{
-			user = new User(email, password, firstname, surname, streetAddress, postcode, town);
-		}
-		else
-		{
-			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
-		}
-
-		if (webshop.updateUser(emailID, user))
-		{
-			System.out.println("User was updated in DB!");
-		}
-		else
-		{
-			System.out.println("Error! Update failure, check if given email is valid " + emailID);
-		}
-
 	}
 }
