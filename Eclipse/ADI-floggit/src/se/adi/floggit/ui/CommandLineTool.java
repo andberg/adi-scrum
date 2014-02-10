@@ -16,8 +16,9 @@ public final class CommandLineTool
 	public static void main(String[] args)
 	{
 		// createCategory();
-		createProduct();
-
+		// createProduct();
+		// updateCategory();
+		createUser();
 	}
 
 	private static void createCategory()
@@ -116,37 +117,68 @@ public final class CommandLineTool
 	private static void createUser()
 	{
 		System.out.println("Enter Username/E-mail");
-		String email = sc.nextLine(); 
-		
+		String email = sc.nextLine();
+
 		System.out.println("Enter password");
-		String password = sc.nextLine(); 
-		
+		String password = sc.nextLine();
+
 		System.out.println("Enter firstname:");
-		String firstname = sc.nextLine(); 
-		
+		String firstname = sc.nextLine();
+
 		System.out.println("Enter surname");
-		String surname = sc.nextLine(); 
-		
+		String surname = sc.nextLine();
+
 		System.out.println("Enter street address:");
-		String streetAddress = sc.nextLine(); 
-		
+		String streetAddress = sc.nextLine();
+
 		System.out.println("Enter postcode:");
 		String postcode = sc.nextLine();
-		
+
 		System.out.println("Enter town:");
-		String town = sc.nextLine(); 
-		
+		String town = sc.nextLine();
+
 		System.out.println("Enter phonenumber");
-		String phonenumber = sc.nextLine(); 
-		
-		
-		User user = new User(email, password, firstname, surname, streetAddress, postcode, phonenumber); 
-		
-		if (webshop.createUser(user)){
+		String phonenumber = sc.nextLine();
+
+		User user = null;
+		if (phonenumber.equals(""))
+		{
+			user = new User(email, password, firstname, surname, streetAddress, postcode, town);
+		}
+		else
+		{
+			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
+		}
+
+		if (webshop.createUser(user))
+		{
 			System.out.println("User was created in DB!");
-		} else {
+		}
+		else
+		{
 			System.out.println("Error! Username/Email already in DB.");
 		}
-		
+	}
+
+	public static void updateCategory()
+	{
+		System.out.println("Category name:");
+		String categoryName = sc.nextLine();
+
+		System.out.println("New responsible staff fistname:");
+		String staffFirstname = sc.nextLine();
+
+		System.out.println("New responsible staff surname:");
+		String staffSurname = sc.nextLine();
+
+		if (webshop.updateCategory(categoryName, staffFirstname, staffSurname))
+		{
+			System.out.println("Category updated in DB with " + staffFirstname + " " + staffSurname + " assigned as responsible staff");
+		}
+		else
+		{
+			System.out.println("Error! Category " + categoryName + " was not found in DB, or staff member " + staffFirstname + " " + staffSurname
+					+ " to be assigned responsible was not found in DB");
+		}
 	}
 }
