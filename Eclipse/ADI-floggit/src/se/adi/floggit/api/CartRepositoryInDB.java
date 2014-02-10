@@ -153,8 +153,8 @@ public final class CartRepositoryInDB implements CartRepository
 			pstmt.setInt(2, userId);
 			pstmt.setInt(3, productId);
 			pstmt.executeUpdate();
-			
-			return true; 
+
+			return true;
 
 		}
 		catch (SQLException e)
