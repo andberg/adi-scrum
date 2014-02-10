@@ -458,7 +458,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 
 			categoryIds = getProductCategoryIds(product.getCategories(), connection);
 
-			if (categoryIds.size() == 0)
+			if (categoryIds.size() != product.getCategories().size())
 			{
 				return false;
 			}

@@ -18,7 +18,8 @@ public final class CommandLineTool
 		// createCategory();
 		// createProduct();
 		// updateCategory();
-		createUser();
+		// createUser();
+		 updateUser();
 	}
 
 	private static void createCategory()
@@ -62,9 +63,10 @@ public final class CommandLineTool
 			}
 			catch (NumberFormatException e)
 			{
-				System.out.println("You have to input a number");
+				System.out.println("You have to input a number.");
 			}
 		}
+
 		double rrp;
 		while (true)
 		{
@@ -76,11 +78,11 @@ public final class CommandLineTool
 			}
 			catch (NumberFormatException e)
 			{
-				System.out.println("You have to input a number");
+				System.out.println("You have to input a number.");
 			}
 		}
 
-		System.out.println("Product categories, please write one at a time and press enter. When done write exit and enter");
+		System.out.println("Product categories, please write one at a time and press enter. When done press enter twice.");
 
 		List<String> categories = new ArrayList<>();
 
@@ -94,38 +96,37 @@ public final class CommandLineTool
 				{
 					break;
 				}
-				System.out.println("You need at least one category");
+				System.out.println("You need at least one category!");
 			}
 			else
 			{
 				categories.add(input);
 			}
 		}
-		System.out.println("Terminated");
 
 		Product product = new Product(productName, productDescription, cost, rrp, categories);
 		if (webshop.createProduct(product))
 		{
-			System.out.println("Product created");
+			System.out.println("Product created.");
 		}
 		else
 		{
-			System.out.println("Error! One or more categories does not exist in DB");
+			System.out.println("Error! One or more categories does not exist in DB.");
 		}
 	}
 
 	private static void createUser()
 	{
-		System.out.println("Enter Username/E-mail");
+		System.out.println("Enter Username/E-mail:");
 		String email = sc.nextLine();
 
-		System.out.println("Enter password");
+		System.out.println("Enter password:");
 		String password = sc.nextLine();
 
 		System.out.println("Enter firstname:");
 		String firstname = sc.nextLine();
 
-		System.out.println("Enter surname");
+		System.out.println("Enter surname:");
 		String surname = sc.nextLine();
 
 		System.out.println("Enter street address:");
@@ -137,7 +138,7 @@ public final class CommandLineTool
 		System.out.println("Enter town:");
 		String town = sc.nextLine();
 
-		System.out.println("Enter phonenumber");
+		System.out.println("Enter phonenumber:");
 		String phonenumber = sc.nextLine();
 
 		User user = null;
@@ -160,7 +161,7 @@ public final class CommandLineTool
 		}
 	}
 
-	public static void updateCategory()
+	private static void updateCategory()
 	{
 		System.out.println("Category name:");
 		String categoryName = sc.nextLine();
@@ -180,5 +181,55 @@ public final class CommandLineTool
 			System.out.println("Error! Category " + categoryName + " was not found in DB, or staff member " + staffFirstname + " " + staffSurname
 					+ " to be assigned responsible was not found in DB");
 		}
+	}
+
+	private static void updateUser()
+	{
+		System.out.println("Which user would you like to update? Enter valid email.");
+		String emailID = sc.nextLine();
+
+		System.out.println("Enter new Username/E-mail:");
+		String email = sc.nextLine();
+
+		System.out.println("Enter password:");
+		String password = sc.nextLine();
+
+		System.out.println("Enter firstname:");
+		String firstname = sc.nextLine();
+
+		System.out.println("Enter surname:");
+		String surname = sc.nextLine();
+
+		System.out.println("Enter street address:");
+		String streetAddress = sc.nextLine();
+
+		System.out.println("Enter postcode:");
+		String postcode = sc.nextLine();
+
+		System.out.println("Enter town:");
+		String town = sc.nextLine();
+
+		System.out.println("Enter phonenumber:");
+		String phonenumber = sc.nextLine();
+
+		User user = null;
+		if (phonenumber.equals(""))
+		{
+			user = new User(email, password, firstname, surname, streetAddress, postcode, town);
+		}
+		else
+		{
+			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
+		}
+
+		if (webshop.updateUser(emailID, user))
+		{
+			System.out.println("User was updated in DB!");
+		}
+		else
+		{
+			System.out.println("Error! Update failure, check if given email is valid " + emailID);
+		}
+
 	}
 }
