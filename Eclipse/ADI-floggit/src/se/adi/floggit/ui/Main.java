@@ -12,10 +12,10 @@ public class Main
 
 	public static void main(String[] args)
 	{
-		showProductAPI();
-		showUserAPI();
-		showCartAPI();
-		showCategoryAPI();		
+//		showProductAPI();
+//		showUserAPI();
+//		showCartAPI();
+//		showCategoryAPI();		
 	}
 
 	private static void showCategoryAPI()
@@ -82,27 +82,27 @@ public class Main
 		}
 	}
 
-	private static void showProductAPI()
-	{
-		Product car = new Product("Volvo", "Zlatans nya volvo", 50000, 56999393, "Sports & Outdoors", "Mens");
-		if (webshop.createProduct(car))
-		{
-			System.out.println(car.toString() + "\nWere created!");
-		}
-		else
-		{
-			System.out.println("Failed to create " + car);
-		}
-
-		System.out.println();
-
-		if (webshop.deleteProduct(webshop.readProduct("Volvo").get(0).getId()))
-		{
-			System.out.println("Volvo has been Deleted. ");
-		}
-		else
-		{
-			System.out.println("Unable to delete Volvo");
-		}
-	}
+//	private static void showProductAPI()
+//	{
+//		Product car = new Product("Volvo", "Zlatans nya volvo", 50000, 56999393, "Sports & Outdoors", "Mens");
+//		if (webshop.createProduct(car))
+//		{
+//			System.out.println(car.toString() + "\nWere created!");
+//		}
+//		else
+//		{
+//			System.out.println("Failed to create " + car);
+//		}
+//
+//		System.out.println();
+//
+//		if (webshop.deleteProduct(webshop.readProduct("Volvo").get(0).getId()))
+//		{
+//			System.out.println("Volvo has been Deleted. ");
+//		}
+//		else
+//		{
+//			System.out.println("Unable to delete Volvo");
+//		}
+//	}
 }

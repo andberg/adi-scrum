@@ -35,7 +35,7 @@ public final class Product
 
 	}
 
-	public Product(String name, String description, double cost, double rrp, String... categories)
+	public Product(String name, String description, double cost, double rrp, List<String> categories)
 	{
 
 		this.id = 0;
@@ -43,12 +43,7 @@ public final class Product
 		this.description = description;
 		this.cost = cost;
 		this.rrp = rrp;
-		this.categories = new ArrayList<String>();
-		for (String category : categories)
-		{
-			this.getCategories().add(category);
-		}
-
+		this.categories = categories; 
 	}
 
 	@Override
