@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import se.adi.floggit.api.ResponseType;
 import se.adi.floggit.classes.Product;
 import se.adi.floggit.classes.User;
 import se.adi.floggit.webshop.Webshop;
@@ -81,9 +82,7 @@ public final class CommandLineTool
 		case 9:
 			searchProductByName();
 			break;
-
 		}
-
 	}
 
 	private static void createCategory()
@@ -215,13 +214,19 @@ public final class CommandLineTool
 			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
 		}
 
-		if (webshop.createUser(user))
+		ResponseType response = webshop.createUser(user);
+
+		if (response == ResponseType.USER_CREATED)
 		{
 			System.out.println("User was created in DB!");
 		}
+		else if (response == ResponseType.USER_NOT_CREATED)
+		{
+			System.out.println("Error! Username/Email was already registered in DB.");
+		}
 		else
 		{
-			System.out.println("Error! Username/Email already in DB.");
+			System.out.println("Creation of user failed because of server and DB communication problems");
 		}
 	}
 
@@ -372,13 +377,16 @@ public final class CommandLineTool
 			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
 		}
 
-		if (webshop.updateUser(emailID, user))
+		ResponseType response = webshop.updateUser(emailID, user);
+		if (response == ResponseType.USER_UPDATED)
 		{
 			System.out.println("User was updated in DB!");
 		}
-		else
+		else if (response == ResponseType.USER_NOT_UPDATED)
 		{
 			System.out.println("Error! Update failure, check if given email is valid " + emailID);
+		} else {
+			System.out.println("Error! Updating of user failed because of server and DB communication failure");
 		}
 
 	}
@@ -391,13 +399,19 @@ public final class CommandLineTool
 		System.out.println("Password:");
 		String password = sc.nextLine();
 
-		if (webshop.login(username, password))
+		ResponseType response = webshop.login(username, password);
+
+		if (response == ResponseType.LOGIN_SUCCESSFUL)
 		{
 			System.out.println(username + " was successfully logged in");
 		}
-		else
+		else if (response == ResponseType.LOGIN_FAILED)
 		{
 			System.out.println("Login failed because of username not registered in DB, and/or password incorrect");
+		}
+		else
+		{
+			System.out.println("Login failed because of connection problems between server and DB");
 		}
 	}
 

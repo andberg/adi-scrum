@@ -2,17 +2,19 @@ package se.adi.floggit.interfaces;
 
 import java.util.List;
 
+import se.adi.floggit.api.Response;
+import se.adi.floggit.api.ResponseType;
 import se.adi.floggit.classes.User;
 
 public interface UserRepository
 {
-	boolean createUser(User user);
+	ResponseType createUser(User user);
 
-	List<User> readAllUsers();
+	Response readAllUsers();
 
-	boolean updateUser(String email, User user);
+	ResponseType updateUser(String email, User user);
 
-	boolean deleteUser(String email);
+	ResponseType deleteUser(String email);
 
-	boolean login(String email, String password);
+	ResponseType login(String email, String password);
 }
