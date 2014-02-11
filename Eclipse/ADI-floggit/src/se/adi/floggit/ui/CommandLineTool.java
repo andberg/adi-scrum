@@ -10,39 +10,45 @@ import se.adi.floggit.webshop.Webshop;
 
 public final class CommandLineTool
 {
-	private static final String MENU_TEXT = 
+	private static final String MENU_TEXT =
 			"\nOPTIONS MENU\n1. Create category\n"
-			+ "2. Create product\n"
-			+ "3. Create user\n"
-			+ "4. Update category\n"
-			+ "5. Update product\n"
-			+ "6. Update user\n"
-			+ "7. Validate user\n"
-			+ "8. List products by category\n"
-			+ "9. Search product by name";
-	
+					+ "2. Create product\n"
+					+ "3. Create user\n"
+					+ "4. Update category\n"
+					+ "5. Update product\n"
+					+ "6. Update user\n"
+					+ "7. Validate user\n"
+					+ "8. List products by category\n"
+					+ "9. Search product by name";
+
 	private static final Webshop webshop = new Webshop();
 	private static final Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args)
 	{
 
-		initiateMenu();
+		while (true)
+		{
+			initiateMenu();
+		}
 	}
-	
+
 	private static void initiateMenu()
 	{
-		while (true){
 		int input = -1;
-		while (input < 0 || input > 9) {
-			try {
+		while (input < 0 || input > 9)
+		{
+			try
+			{
 				System.out.println(MENU_TEXT);
 				input = Integer.parseInt(sc.nextLine());
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e)
+			{
 				System.out.println("You have to input number");
 			}
 		}
-		
+
 		switch (input)
 		{
 		case 0:
@@ -75,9 +81,9 @@ public final class CommandLineTool
 		case 9:
 			searchProductByName();
 			break;
-			
+
 		}
-		}
+
 	}
 
 	private static void createCategory()
@@ -257,13 +263,13 @@ public final class CommandLineTool
 				System.out.println("You have to input a number");
 			}
 		}
-		
+
 		System.out.println("New product name:");
 		String productName = sc.nextLine();
-	
+
 		System.out.println("New product description: ");
 		String productDescription = sc.nextLine();
-	
+
 		double cost;
 		while (true)
 		{
@@ -292,32 +298,34 @@ public final class CommandLineTool
 				System.out.println("You have to input a number");
 			}
 		}
-	
+
 		System.out.println("Product categories, please write one at a time and press enter. When done write press enter again");
-	
+
 		List<String> categories = new ArrayList<>();
-	
+
 		while (true)
 		{
-		
+
 			String input = sc.nextLine();
-			if(input.equals("")){
-				if(!categories.isEmpty()){
-					break; 
+			if (input.equals(""))
+			{
+				if (!categories.isEmpty())
+				{
+					break;
 				}
 				System.out.println("You need at least one category");
 			}
 			else
 			{
-				categories.add(input); 
+				categories.add(input);
 			}
-		} 
+		}
 		System.out.println("Categories " + categories + " added");
-		
+
 		Product product = new Product(productName, productDescription, cost, rrp, categories);
 		if (webshop.updateProduct(productId, product))
 		{
-			System.out.println("Product with id: " + productId +" updated");
+			System.out.println("Product with id: " + productId + " updated");
 		}
 		else
 		{
@@ -329,31 +337,31 @@ public final class CommandLineTool
 	{
 		System.out.println("Which user would you like to update? Enter valid email.");
 		String emailID = sc.nextLine();
-	
+
 		System.out.println("Enter new Username/E-mail:");
 		String email = sc.nextLine();
-	
+
 		System.out.println("Enter password:");
 		String password = sc.nextLine();
-	
+
 		System.out.println("Enter firstname:");
 		String firstname = sc.nextLine();
-	
+
 		System.out.println("Enter surname:");
 		String surname = sc.nextLine();
-	
+
 		System.out.println("Enter street address:");
 		String streetAddress = sc.nextLine();
-	
+
 		System.out.println("Enter postcode:");
 		String postcode = sc.nextLine();
-	
+
 		System.out.println("Enter town:");
 		String town = sc.nextLine();
-	
+
 		System.out.println("Enter phonenumber:");
 		String phonenumber = sc.nextLine();
-	
+
 		User user = null;
 		if (phonenumber.equals(""))
 		{
@@ -363,7 +371,7 @@ public final class CommandLineTool
 		{
 			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
 		}
-	
+
 		if (webshop.updateUser(emailID, user))
 		{
 			System.out.println("User was updated in DB!");
@@ -372,7 +380,7 @@ public final class CommandLineTool
 		{
 			System.out.println("Error! Update failure, check if given email is valid " + emailID);
 		}
-	
+
 	}
 
 	private static void validateUser()
@@ -397,9 +405,9 @@ public final class CommandLineTool
 	{
 		System.out.println("Category name:");
 		String categoryName = sc.nextLine();
-	
+
 		List<String> products = webshop.readProductsInCategory(categoryName);
-	
+
 		if (products.size() == 0)
 		{
 			System.out.println("No products in category " + categoryName + " was found in DB, or the category was not found in DB");
