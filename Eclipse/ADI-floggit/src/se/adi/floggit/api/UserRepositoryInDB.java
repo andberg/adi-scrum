@@ -60,7 +60,10 @@ public final class UserRepositoryInDB implements UserRepository
 		{
 			try
 			{
-				pstmt.close();
+				if (pstmt != null)
+				{
+					pstmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -68,7 +71,10 @@ public final class UserRepositoryInDB implements UserRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null)
+				{
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -122,7 +128,10 @@ public final class UserRepositoryInDB implements UserRepository
 		{
 			try
 			{
-				rs.close();
+				if (rs != null)
+				{
+					rs.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -130,7 +139,10 @@ public final class UserRepositoryInDB implements UserRepository
 			}
 			try
 			{
-				stmt.close();
+				if (stmt != null)
+				{
+					stmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -138,7 +150,10 @@ public final class UserRepositoryInDB implements UserRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null)
+				{
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -195,7 +210,10 @@ public final class UserRepositoryInDB implements UserRepository
 		{
 			try
 			{
-				pstmt.close();
+				if (pstmt != null)
+				{
+					pstmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -203,7 +221,10 @@ public final class UserRepositoryInDB implements UserRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null)
+				{
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -251,7 +272,10 @@ public final class UserRepositoryInDB implements UserRepository
 		{
 			try
 			{
-				pstmt.close();
+				if (pstmt != null)
+				{
+					pstmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -259,7 +283,10 @@ public final class UserRepositoryInDB implements UserRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null)
+				{
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -310,7 +337,10 @@ public final class UserRepositoryInDB implements UserRepository
 		{
 			try
 			{
-				pstmt.close();
+				if (pstmt != null)
+				{
+					pstmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -318,7 +348,10 @@ public final class UserRepositoryInDB implements UserRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null)
+				{
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
