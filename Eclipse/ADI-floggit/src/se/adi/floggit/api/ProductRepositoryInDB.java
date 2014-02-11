@@ -71,7 +71,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 			e.printStackTrace();
 			try
 			{
-				connection.rollback();
+				if (connection != null) {
+					connection.rollback();
+				}
 			}
 			catch (SQLException e2)
 			{
@@ -86,7 +88,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 		{
 			try
 			{
-				rs.close();
+				if (rs != null) {
+					rs.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -94,8 +98,12 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 			try
 			{
-				pstmt.close();
-				stmt.close();
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (stmt != null) {
+					stmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -103,7 +111,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null) {
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -192,7 +202,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 		{
 			try
 			{
-				rs.close();
+				if (rs != null) {
+					rs.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -200,7 +212,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 			try
 			{
-				pstmt.close();
+				if (pstmt != null) {
+					pstmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -208,7 +222,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null) {
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -287,7 +303,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 		{
 			try
 			{
-				rs.close();
+				if (rs != null) {
+					rs.close();
+				}
 				if (rsC != null)
 				{
 					rsC.close();
@@ -299,7 +317,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 			try
 			{
-				pstmt.close();
+				if (pstmt != null) {
+					pstmt.close();
+				}
 				if (stmt != null)
 				{
 					stmt.close();
@@ -311,7 +331,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null) {
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -387,8 +409,12 @@ public final class ProductRepositoryInDB implements ProductRepository
 		{
 			try
 			{
-				rsP.close();
-				rsC.close();
+				if (rsP != null) {
+					rsP.close();
+				}
+				if (rsC != null) {
+					rsC.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -396,8 +422,12 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 			try
 			{
-				stmt.close();
-				stmtC.close();
+				if (stmt != null) {
+					stmt.close();
+				}
+				if (stmtC != null) {
+					stmtC.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -405,7 +435,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null) {
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -479,7 +511,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 			e.printStackTrace();
 			try
 			{
-				connection.rollback();
+				if (connection != null) {
+					connection.rollback();
+				}
 			}
 			catch (SQLException e2)
 			{
@@ -494,7 +528,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 		{
 			try
 			{
-				pstmt.close();
+				if (pstmt != null) {
+					pstmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -502,7 +538,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null) {
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -543,10 +581,11 @@ public final class ProductRepositoryInDB implements ProductRepository
 		}
 		finally
 		{
-
 			try
 			{
-				pstmt.close();
+				if (pstmt != null) {
+					pstmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -554,7 +593,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null) {
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
