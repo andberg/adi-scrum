@@ -15,15 +15,8 @@ public final class CommandLineTool
 
 	public static void main(String[] args)
 	{
-		// createCategory();
-
-		// createProduct();
-		// updateCategory();
-		// validateUser();
-//		searchProductByName();
-//		listProductsByCategory();
-		// createUser();
-//		 updateUser();
+		validateUser();
+	 
 	}
 
 	private static void createCategory()
