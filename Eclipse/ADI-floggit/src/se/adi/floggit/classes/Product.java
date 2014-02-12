@@ -12,13 +12,13 @@ public final class Product
 	private final double rrp;
 	private final List<String> categories;
 
-	public Product(int id, String name, double cost)
+	public Product(int id, String name, double rrp)
 	{
 		this.id = id;
 		this.name = name;
 		this.description = null;
-		this.cost = cost;
-		this.rrp = 0;
+		this.cost = 0;
+		this.rrp = rrp;
 		this.categories = null;
 
 	}
