@@ -22,8 +22,6 @@ public final class ProductRepositoryInDB implements ProductRepository
 		Statement stmt = null;
 		Connection connection = null;
 		ResultSet rs = null;
-		boolean created = false;
-		List<String> categories = product.getCategories();
 		List<Integer> categoryIds = null;
 		int generatedId = 0;
 
@@ -34,11 +32,11 @@ public final class ProductRepositoryInDB implements ProductRepository
 					DBInfo.PASSWORD);
 			connection.setAutoCommit(false);
 
-			categoryIds = getProductCategoryIds(categories, connection);
+			categoryIds = getProductCategoryIds(product.getCategories(), connection);
 
-			if (categories.size() != categoryIds.size())
+			if (product.getCategories().size() != categoryIds.size())
 			{
-				return false;
+				return ResponseType.CATEGORY_NOT_FOUND;
 			}
 
 			String query = "INSERT INTO products "
@@ -64,7 +62,8 @@ public final class ProductRepositoryInDB implements ProductRepository
 				stmt.executeUpdate(query);
 			}
 			connection.commit();
-			created = true;
+
+			return ResponseType.PRODUCT_CREATED;
 		}
 		catch (SQLException e)
 		{
@@ -125,7 +124,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 				e.printStackTrace();
 			}
 		}
-		return created;
+		return ResponseType.SERVER_CONNECTION_FAILED;
 	}
 
 	@Override
@@ -157,6 +156,8 @@ public final class ProductRepositoryInDB implements ProductRepository
 			{
 				productList.add(rs.getString("name"));
 			}
+
+			return new Response<List<String>>(ResponseType.SERVER_CONNECTION_SUCCESSFUL, productList);
 
 		}
 		catch (SQLException e)
@@ -203,7 +204,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 				e.printStackTrace();
 			}
 		}
-		return productList;
+		return new Response<List<String>>(ResponseType.SERVER_CONNECTION_FAILED, productList);
 	}
 
 	public Response<List<Product>> readProduct(String productName)
@@ -262,6 +263,9 @@ public final class ProductRepositoryInDB implements ProductRepository
 				Product product = new Product(id, name, description, cost, rrp, categories);
 				productList.add(product);
 			}
+
+			return new Response<List<Product>>(ResponseType.SERVER_CONNECTION_SUCCESSFUL, productList);
+
 		}
 		catch (SQLException e)
 		{
@@ -315,7 +319,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 				e.printStackTrace();
 			}
 		}
-		return productList;
+		return new Response<List<Product>>(ResponseType.SERVER_CONNECTION_FAILED, productList);
 	}
 
 	public Response<List<Product>> readAllProducts()
@@ -371,6 +375,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 				productList.add(product);
 
 			}
+			return new Response<List<Product>>(ResponseType.SERVER_CONNECTION_SUCCESSFUL, productList);
 		}
 		catch (SQLException e)
 		{
@@ -424,7 +429,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 				e.printStackTrace();
 			}
 		}
-		return productList;
+		return new Response<List<Product>>(ResponseType.SERVER_CONNECTION_FAILED, productList);
 	}
 
 	@Override
@@ -450,7 +455,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 			categoriesDeleted = pstmt.executeUpdate();
 			if (categoriesDeleted == 0)
 			{
-				return false;
+				return ResponseType.PRODUCT_NOT_FOUND;
 			}
 
 			pstmt.close();
@@ -472,7 +477,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 
 			if (categoryIds.size() != product.getCategories().size())
 			{
-				return false;
+				return ResponseType.CATEGORY_NOT_FOUND;
 			}
 
 			for (int i = 0; i < categoryIds.size(); i++)
@@ -484,7 +489,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 
 			connection.commit();
-			return true;
+			return ResponseType.PRODUCT_UPDATED;
 		}
 		catch (SQLException e)
 		{
@@ -530,7 +535,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 				e.printStackTrace();
 			}
 		}
-		return false;
+		return ResponseType.SERVER_CONNECTION_FAILED;
 	}
 
 	@Override
@@ -553,6 +558,13 @@ public final class ProductRepositoryInDB implements ProductRepository
 
 			effectedRows = pstmt.executeUpdate();
 			deleted = effectedRows > 0;
+
+			if (deleted)
+			{
+				return ResponseType.PRODUCT_DELETED;
+			}
+			return ResponseType.PRODUCT_NOT_FOUND;
+
 		}
 		catch (SQLException e)
 		{
@@ -587,7 +599,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 				e.printStackTrace();
 			}
 		}
-		return deleted;
+		return ResponseType.SERVER_CONNECTION_FAILED;
 	}
 
 	private List<Integer> getProductCategoryIds(List<String> categories, Connection connection) throws SQLException
@@ -596,7 +608,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 		PreparedStatement pstmt = null;
 		List<Integer> categoryIds = new ArrayList<Integer>();
 		String query = "SELECT id FROM categories WHERE categories.name IN (";
-	
+
 		for (int i = 0; i < categories.size(); i++)
 		{
 			if (i < categories.size() - 1)
@@ -609,16 +621,16 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 		}
 		query += ")";
-	
+
 		pstmt = connection.prepareStatement(query);
-	
+
 		for (int i = 0; i < categories.size(); i++)
 		{
 			pstmt.setString(i + 1, categories.get(i));
 		}
-	
+
 		rs = pstmt.executeQuery();
-	
+
 		while (rs.next())
 		{
 			categoryIds.add(rs.getInt("id"));
