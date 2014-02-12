@@ -295,7 +295,7 @@ public final class UserRepositoryInDB implements UserRepository
 		}
 		return deleted;
 	}
-
+	
 	@Override
 	public boolean login(String email, String password)
 	{
@@ -304,6 +304,7 @@ public final class UserRepositoryInDB implements UserRepository
 		Connection connection = null;
 		String query = null;
 		boolean login = false;
+		
 
 		try
 		{
@@ -327,6 +328,7 @@ public final class UserRepositoryInDB implements UserRepository
 		}
 		catch (SQLException e)
 		{
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
 		catch (ClassNotFoundException e)
