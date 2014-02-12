@@ -29,8 +29,12 @@ public final class CartRepositoryInDB implements CartRepository
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
+			
+			if (!userInDatabase(email, connection)) {
+				return new Response<Map<Product, Integer>>(ResponseType.USER_EMAIL_NOT_FOUND, cart);
+			}
 
-			query = "SELECT products.id, products.name, products.cost,quantity "
+			query = "SELECT products.id, products.name, products.rrp, quantity "
 					+ "FROM users INNER JOIN carts ON users.id = carts.user_id "
 					+ "INNER JOIN products ON carts.product_id = products.id "
 					+ "WHERE email = ?";
@@ -38,12 +42,17 @@ public final class CartRepositoryInDB implements CartRepository
 			pstmt = connection.prepareStatement(query);
 			pstmt.setString(1, email);
 			rs = pstmt.executeQuery();
+			
+			if (!rs.isBeforeFirst()) {
+				return new Response<Map<Product, Integer>>(ResponseType.USER_CART_EMPTY, cart);
+			}
 
 			while (rs.next())
 			{
-				product = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("cost"));
+				product = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("rrp"));
 				cart.put(product, rs.getInt("quantity"));
 			}
+			return new Response<Map<Product, Integer>>(ResponseType.SERVER_CONNECTION_SUCCESSFUL, cart);
 		}
 		catch (SQLException e)
 		{
@@ -86,7 +95,7 @@ public final class CartRepositoryInDB implements CartRepository
 				e.printStackTrace();
 			}
 		}
-		return cart;
+		return new Response<Map<Product, Integer>>(ResponseType.SERVER_CONNECTION_FAILED, cart);
 	}
 
 	@Override
@@ -115,7 +124,7 @@ public final class CartRepositoryInDB implements CartRepository
 			}
 			else
 			{
-				return false;
+				return ResponseType.USER_EMAIL_NOT_FOUND;
 			}
 
 			rs.close();
@@ -128,7 +137,7 @@ public final class CartRepositoryInDB implements CartRepository
 
 			if (!rs.isBeforeFirst())
 			{
-				return false;
+				return ResponseType.PRODUCT_NOT_FOUND;
 			}
 
 			rs.close();
@@ -160,7 +169,7 @@ public final class CartRepositoryInDB implements CartRepository
 			pstmt.setInt(3, productId);
 			pstmt.executeUpdate();
 
-			return true;
+			return ResponseType.USER_CART_UPDATED;
 
 		}
 		catch (SQLException e)
@@ -204,7 +213,7 @@ public final class CartRepositoryInDB implements CartRepository
 				e.printStackTrace();
 			}
 		}
-		return false;
+		return ResponseType.SERVER_CONNECTION_FAILED;
 	}
 
 	@Override
@@ -220,16 +229,23 @@ public final class CartRepositoryInDB implements CartRepository
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
+			
+			if (!userInDatabase(email, connection)) {
+				return ResponseType.USER_EMAIL_NOT_FOUND;
+			}
 
 			query = "DELETE FROM carts WHERE product_id = ? "
 					+ "AND user_id = (SELECT id FROM users WHERE email = ?)";
+			
 			pstmt = connection.prepareStatement(query);
 			pstmt.setInt(1, productId);
 			pstmt.setString(2, email);
 			affectedRows = pstmt.executeUpdate();
-
-			return affectedRows > 0;
-
+			
+			if (affectedRows > 0) {
+				return ResponseType.USER_CART_UPDATED;
+			}
+			return ResponseType.USER_CART_NOT_UPDATED;
 		}
 		catch (SQLException e)
 		{
@@ -262,6 +278,25 @@ public final class CartRepositoryInDB implements CartRepository
 				e.printStackTrace();
 			}
 		}
+		return ResponseType.SERVER_CONNECTION_FAILED;
+	}
+	
+	private boolean userInDatabase(String email, Connection connection) throws SQLException
+	{
+		String query = "SELECT id FROM users WHERE email = ?";
+
+		PreparedStatement pstmt = connection.prepareStatement(query);
+		pstmt.setString(1, email);
+		ResultSet rs = pstmt.executeQuery();
+
+		if (rs.isBeforeFirst())
+		{
+			rs.close();
+			pstmt.close();
+			return true;
+		}
+		rs.close();
+		pstmt.close();
 		return false;
 	}
 }

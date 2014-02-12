@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import se.adi.floggit.api.Response;
 import se.adi.floggit.api.ResponseType;
 import se.adi.floggit.classes.Product;
 import se.adi.floggit.classes.User;
@@ -167,13 +168,17 @@ public final class CommandLineTool
 		}
 
 		Product product = new Product(productName, productDescription, cost, rrp, categories);
-		if (webshop.createProduct(product))
+		if (webshop.createProduct(product) == ResponseType.PRODUCT_CREATED)
 		{
 			System.out.println("Product created.");
 		}
-		else
+		else if (webshop.createProduct(product) == ResponseType.CATEGORY_NOT_FOUND)
 		{
 			System.out.println("Error! One or more categories does not exist in DB.");
+		}
+		else
+		{
+			System.out.println("Create product failed because of connection problems between server and DB");
 		}
 	}
 
@@ -327,13 +332,21 @@ public final class CommandLineTool
 		System.out.println("Categories " + categories + " added");
 
 		Product product = new Product(productName, productDescription, cost, rrp, categories);
-		if (webshop.updateProduct(productId, product))
+		if (webshop.updateProduct(productId, product) == ResponseType.PRODUCT_UPDATED)
 		{
 			System.out.println("Product with id: " + productId + " updated");
 		}
+		else if (webshop.updateProduct(productId, product) == ResponseType.PRODUCT_NOT_FOUND)
+		{
+			System.out.println("Error! Product ID doesn't exist in DB!");
+		}
+		else if (webshop.updateProduct(productId, product) == ResponseType.CATEGORY_NOT_FOUND)
+		{
+			System.out.println("Error! One or more categories does not exist in DB.");
+		}
 		else
 		{
-			System.out.println("Error! ID or categories doesn't exist!");
+			System.out.println("Update product failed because of connection problems between server and DB");
 		}
 	}
 
@@ -422,21 +435,28 @@ public final class CommandLineTool
 
 	private static void listProductsByCategory()
 	{
+
 		System.out.println("Category name:");
 		String categoryName = sc.nextLine();
 
-		List<String> products = webshop.readProductsInCategory(categoryName);
+		Response<List<String>> response = webshop.readProductsInCategory(categoryName);
 
-		if (products.size() == 0)
+		List<String> products = response.getObject();
+
+		if (products.size() == 0 && response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL)
 		{
 			System.out.println("No products in category " + categoryName + " was found in DB, or the category was not found in DB");
 		}
-		else
+		else if (products.size() > 0 && response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL)
 		{
 			for (String string : products)
 			{
 				System.out.println(string);
 			}
+		}
+		else
+		{
+			System.out.println("Serach failed because of connection problems between server and DB");
 		}
 	}
 
@@ -445,18 +465,25 @@ public final class CommandLineTool
 		System.out.println("Product name:");
 		String productName = sc.nextLine();
 
-		List<Product> products = webshop.readProduct(productName);
+		Response<List<Product>> response = webshop.readProduct(productName);
 
-		if (products.size() == 0)
+		List<Product> products = response.getObject();
+
+		if (products.size() == 0 && response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL)
 		{
 			System.out.println("No products with name " + productName + " was found in DB");
 		}
-		else
+		else if (products.size() > 0 && response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL)
 		{
 			for (Product product : products)
 			{
 				System.out.println(product);
 			}
+		}
+		else
+		{
+			System.out.println("Serach failed because of connection problems between server and DB");
+
 		}
 	}
 }
