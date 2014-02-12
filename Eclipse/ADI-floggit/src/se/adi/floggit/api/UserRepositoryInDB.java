@@ -18,7 +18,6 @@ public final class UserRepositoryInDB implements UserRepository
 	@Override
 	public ResponseType createUser(User user)
 	{
-		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
@@ -28,18 +27,11 @@ public final class UserRepositoryInDB implements UserRepository
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
-			
-			query = "SELECT id FROM users WHERE email = ?";
-			
-			pstmt = connection.prepareStatement(query);
-			pstmt.setString(1, user.getEmail());
-			rs = pstmt.executeQuery();
-			
-			if (rs.isBeforeFirst()) {
+
+			if (userInDatabase(user.getEmail(), connection))
+			{
 				return ResponseType.USER_NOT_CREATED;
 			}
-			
-			pstmt.close();
 
 			query = "INSERT INTO users "
 					+ "(email,password,firstname,surname,street_address,postcode,town,phonenumber) "
@@ -96,7 +88,7 @@ public final class UserRepositoryInDB implements UserRepository
 	}
 
 	@Override
-	public Response readAllUsers()
+	public Response<List<User>> readAllUsers()
 	{
 		ResultSet rs = null;
 		Statement stmt = null;
@@ -126,7 +118,7 @@ public final class UserRepositoryInDB implements UserRepository
 						rs.getString("phonenumber"));
 				usersList.add(user);
 			}
-			return new Response(ResponseType.SERVER_CONNECTION_SUCCESSFUL, usersList);
+			return new Response<List<User>>(ResponseType.SERVER_CONNECTION_SUCCESSFUL, usersList);
 		}
 		catch (SQLException e)
 		{
@@ -172,7 +164,7 @@ public final class UserRepositoryInDB implements UserRepository
 				e.printStackTrace();
 			}
 		}
-		return new Response(ResponseType.SERVER_CONNECTION_FAILED, usersList);
+		return new Response<List<User>>(ResponseType.SERVER_CONNECTION_FAILED, usersList);
 	}
 
 	@Override
@@ -181,8 +173,6 @@ public final class UserRepositoryInDB implements UserRepository
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
-		int rowsAffected = 0;
-		boolean updated = false;
 
 		try
 		{
@@ -190,9 +180,24 @@ public final class UserRepositoryInDB implements UserRepository
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
 
+			if (userInDatabase(email, connection))
+			{
+				if (!email.equals(user.getEmail()))
+				{
+					if (userInDatabase(user.getEmail(), connection))
+					{
+						return ResponseType.USER_EMAIL_DUPLICATE;
+					}
+				}
+			}
+			else
+			{
+				return ResponseType.USER_EMAIL_NOT_FOUND;
+			}
+
 			query = "UPDATE users SET email = ?, password = ?, firstname = ?, "
 					+ "surname = ?, street_address = ?, postcode = ?, town = ?, phonenumber = ?"
-					+ " WHERE email = '" + email + "'";
+					+ " WHERE email = ?";
 
 			pstmt = connection.prepareStatement(query);
 
@@ -204,14 +209,11 @@ public final class UserRepositoryInDB implements UserRepository
 			pstmt.setString(6, user.getPostcode());
 			pstmt.setString(7, user.getTown());
 			pstmt.setString(8, user.getPhonenumber());
+			pstmt.setString(9, email);
 
-			rowsAffected = pstmt.executeUpdate();
-			updated = (rowsAffected > 0);
-			
-			if (updated) {
-				return ResponseType.USER_UPDATED;
- 			}
-			return ResponseType.USER_NOT_UPDATED;
+			pstmt.executeUpdate();
+
+			return ResponseType.USER_UPDATED;
 		}
 		catch (SQLException e)
 		{
@@ -271,8 +273,9 @@ public final class UserRepositoryInDB implements UserRepository
 
 			rowsAffected = pstmt.executeUpdate();
 			deleted = (rowsAffected > 0);
-			
-			if (deleted) {
+
+			if (deleted)
+			{
 				return ResponseType.USER_DELETED;
 			}
 			return ResponseType.USER_NOT_DELETED;
@@ -341,14 +344,16 @@ public final class UserRepositoryInDB implements UserRepository
 			{
 				login = rs.getString("password").equals(password);
 			}
-			
-			if (login) {
+
+			if (login)
+			{
 				return ResponseType.LOGIN_SUCCESSFUL;
 			}
 			return ResponseType.LOGIN_FAILED;
 		}
 		catch (SQLException e)
 		{
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
 		catch (ClassNotFoundException e)
@@ -381,5 +386,24 @@ public final class UserRepositoryInDB implements UserRepository
 			}
 		}
 		return ResponseType.SERVER_CONNECTION_FAILED;
+	}
+
+	private boolean userInDatabase(String email, Connection connection) throws SQLException
+	{
+		String query = "SELECT id FROM users WHERE email = ?";
+
+		PreparedStatement pstmt = connection.prepareStatement(query);
+		pstmt.setString(1, email);
+		ResultSet rs = pstmt.executeQuery();
+
+		if (rs.isBeforeFirst())
+		{
+			rs.close();
+			pstmt.close();
+			return true;
+		}
+		rs.close();
+		pstmt.close();
+		return false;
 	}
 }

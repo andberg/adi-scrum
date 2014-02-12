@@ -382,13 +382,18 @@ public final class CommandLineTool
 		{
 			System.out.println("User was updated in DB!");
 		}
-		else if (response == ResponseType.USER_NOT_UPDATED)
+		else if (response == ResponseType.USER_EMAIL_NOT_FOUND)
 		{
-			System.out.println("Error! Update failure, check if given email is valid " + emailID);
-		} else {
+			System.out.println("User updating failed because of email not found in DB");
+		}
+		else if (response == ResponseType.USER_EMAIL_DUPLICATE)
+		{
+			System.out.println("User updating failed because of new email was already found in DB");
+		}
+		else
+		{
 			System.out.println("Error! Updating of user failed because of server and DB communication failure");
 		}
-
 	}
 
 	private static void validateUser()
