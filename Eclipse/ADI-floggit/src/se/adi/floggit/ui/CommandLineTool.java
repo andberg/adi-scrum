@@ -96,13 +96,23 @@ public final class CommandLineTool
 		System.out.println("Responsible staff surname:");
 		String staffSurname = sc.nextLine();
 
-		if (webshop.createCategory(categoryName, staffFirstname, staffSurname))
+		ResponseType response = webshop.createCategory(categoryName, staffFirstname, staffSurname);
+
+		if (response == ResponseType.CATEGROY_CREATED)
 		{
 			System.out.println("Category created in DB!");
 		}
+		else if (response == ResponseType.CATEGORY_ALREADY_IN_DB)
+		{
+			System.out.println("Error! Category already in DB");
+		}
+		else if (response == ResponseType.STAFF_NOT_FOUND)
+		{
+			System.out.println("Staff not found in DB");
+		}
 		else
 		{
-			System.out.println("Error! \nControl that the Category does not already exist in DB \nand/or that staff assigned was not registered in the DB. ");
+			System.out.println("Error, server connection failed. ");
 		}
 	}
 
@@ -245,14 +255,22 @@ public final class CommandLineTool
 		System.out.println("New responsible staff surname:");
 		String staffSurname = sc.nextLine();
 
-		if (webshop.updateCategory(categoryName, staffFirstname, staffSurname))
+		ResponseType response = webshop.updateCategory(categoryName, staffFirstname, staffSurname);
+		if (response == ResponseType.CATEGORY_UPDATED)
 		{
 			System.out.println("Category updated in DB with " + staffFirstname + " " + staffSurname + " assigned as responsible staff");
 		}
+		else if (response == ResponseType.CATEGORY_NOT_FOUND)
+		{
+			System.out.println("Error! Category " + categoryName + " was not found in DB");
+		}
+		else if (response == ResponseType.STAFF_NOT_FOUND)
+		{
+			System.out.println("Staff not found in DB");
+		}
 		else
 		{
-			System.out.println("Error! Category " + categoryName + " was not found in DB, or staff member " + staffFirstname + " " + staffSurname
-					+ " to be assigned responsible was not found in DB");
+			System.out.println("Server connection failed.");
 		}
 	}
 
@@ -389,7 +407,6 @@ public final class CommandLineTool
 			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
 		}
 
-		
 		ResponseType response = webshop.updateUser(emailID, user);
 		if (response == ResponseType.USER_UPDATED)
 		{
