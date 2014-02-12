@@ -16,7 +16,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 {
 
 	@Override
-	public boolean createProduct(Product product)
+	public ResponseType createProduct(Product product)
 	{
 		PreparedStatement pstmt = null;
 		Statement stmt = null;
@@ -128,44 +128,8 @@ public final class ProductRepositoryInDB implements ProductRepository
 		return created;
 	}
 
-	private List<Integer> getProductCategoryIds(List<String> categories, Connection connection) throws SQLException
-	{
-		ResultSet rs = null;
-		PreparedStatement pstmt = null;
-		List<Integer> categoryIds = new ArrayList<Integer>();
-		String query = "SELECT id FROM categories WHERE categories.name IN (";
-
-		for (int i = 0; i < categories.size(); i++)
-		{
-			if (i < categories.size() - 1)
-			{
-				query += "?, ";
-			}
-			else
-			{
-				query += "?";
-			}
-		}
-		query += ")";
-
-		pstmt = connection.prepareStatement(query);
-
-		for (int i = 0; i < categories.size(); i++)
-		{
-			pstmt.setString(i + 1, categories.get(i));
-		}
-
-		rs = pstmt.executeQuery();
-
-		while (rs.next())
-		{
-			categoryIds.add(rs.getInt("id"));
-		}
-		return categoryIds;
-	}
-
 	@Override
-	public List<String> readProductsInCategory(String categoryName)
+	public Response<List<String>> readProductsInCategory(String categoryName)
 	{
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -242,7 +206,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 		return productList;
 	}
 
-	public List<Product> readProduct(String productName)
+	public Response<List<Product>> readProduct(String productName)
 	{
 		ResultSet rs = null;
 		ResultSet rsC = null;
@@ -354,7 +318,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 		return productList;
 	}
 
-	public List<Product> readAllProducts()
+	public Response<List<Product>> readAllProducts()
 	{
 		ResultSet rsP = null;
 		ResultSet rsC = null;
@@ -464,7 +428,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 	}
 
 	@Override
-	public boolean updateProduct(int id, Product product)
+	public ResponseType updateProduct(int id, Product product)
 	{
 		PreparedStatement pstmt = null;
 		Statement stmt = null;
@@ -570,7 +534,7 @@ public final class ProductRepositoryInDB implements ProductRepository
 	}
 
 	@Override
-	public boolean deleteProduct(int id)
+	public ResponseType deleteProduct(int id)
 	{
 		PreparedStatement pstmt = null;
 		Connection connection = null;
@@ -624,5 +588,41 @@ public final class ProductRepositoryInDB implements ProductRepository
 			}
 		}
 		return deleted;
+	}
+
+	private List<Integer> getProductCategoryIds(List<String> categories, Connection connection) throws SQLException
+	{
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		List<Integer> categoryIds = new ArrayList<Integer>();
+		String query = "SELECT id FROM categories WHERE categories.name IN (";
+	
+		for (int i = 0; i < categories.size(); i++)
+		{
+			if (i < categories.size() - 1)
+			{
+				query += "?, ";
+			}
+			else
+			{
+				query += "?";
+			}
+		}
+		query += ")";
+	
+		pstmt = connection.prepareStatement(query);
+	
+		for (int i = 0; i < categories.size(); i++)
+		{
+			pstmt.setString(i + 1, categories.get(i));
+		}
+	
+		rs = pstmt.executeQuery();
+	
+		while (rs.next())
+		{
+			categoryIds.add(rs.getInt("id"));
+		}
+		return categoryIds;
 	}
 }

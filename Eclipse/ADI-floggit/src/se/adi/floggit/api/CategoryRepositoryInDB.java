@@ -14,19 +14,19 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 {
 
 	@Override
-	public boolean createCategory(String categoryName, String staffFirstname, String staffSurname)
+	public ResponseType createCategory(String categoryName, String staffFirstname, String staffSurname)
 	{
 		return updateAndCreate(categoryName, staffFirstname, staffSurname, "INSERT INTO categories (staff_responsible, name) VALUES (?, ?)");
 	}
 
 	@Override
-	public boolean updateCategory(String categoryName, String staffFirstname, String staffSurname)
+	public ResponseType updateCategory(String categoryName, String staffFirstname, String staffSurname)
 	{
 		return updateAndCreate(categoryName, staffFirstname, staffSurname, ("UPDATE categories SET staff_responsible = ? WHERE name = ?"));
 	}
 
 	@Override
-	public List<String> readAllCategories()
+	public Response<List<String>> readAllCategories()
 	{
 		ResultSet rs = null;
 		Statement stmt = null;
@@ -50,7 +50,6 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 			{
 				categoriesList.add(rs.getString("name"));
 			}
-
 		}
 		catch (SQLException e)
 		{
@@ -97,11 +96,10 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 			}
 		}
 		return categoriesList;
-
 	}
 
 	@Override
-	public boolean deleteCategory(String categoryName)
+	public ResponseType deleteCategory(String categoryName)
 	{
 		PreparedStatement pstmt = null;
 		Connection connection = null;
@@ -161,7 +159,7 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 
 	}
 
-	private boolean updateAndCreate(String categoryName, String staffFirstname, String staffSurname, String queryIn)
+	private ResponseType updateAndCreate(String categoryName, String staffFirstname, String staffSurname, String queryIn)
 	{
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -248,6 +246,5 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 			}
 		}
 		return returnValue;
-
 	}
 }

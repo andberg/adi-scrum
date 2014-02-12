@@ -2,19 +2,21 @@ package se.adi.floggit.interfaces;
 
 import java.util.List;
 
+import se.adi.floggit.api.Response;
+import se.adi.floggit.api.ResponseType;
 import se.adi.floggit.classes.Product;
 
 public interface ProductRepository
 {
-	boolean createProduct(Product product);
+	ResponseType createProduct(Product product);
 
-	List<String> readProductsInCategory(String categoryName);
+	Response<List<String>> readProductsInCategory(String categoryName);
 	
-	List<Product> readProduct(String productName);
+	Response<List<Product>> readProduct(String productName);
 
-	List<Product> readAllProducts();
+	Response<List<Product>> readAllProducts();
 
-	boolean updateProduct(int id, Product product);
+	ResponseType updateProduct(int id, Product product);
 
-	boolean deleteProduct(int id);
+	ResponseType deleteProduct(int id);
 }

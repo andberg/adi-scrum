@@ -15,7 +15,7 @@ public final class CartRepositoryInDB implements CartRepository
 {
 
 	@Override
-	public Map<Product, Integer> readCart(String email)
+	public Response<Map<Product, Integer>> readCart(String email)
 	{
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -90,7 +90,7 @@ public final class CartRepositoryInDB implements CartRepository
 	}
 
 	@Override
-	public boolean updateCart(String email, int productId, int quantity)
+	public ResponseType updateCart(String email, int productId, int quantity)
 	{
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -208,7 +208,7 @@ public final class CartRepositoryInDB implements CartRepository
 	}
 
 	@Override
-	public boolean deleteFromCart(String email, int productId)
+	public ResponseType deleteFromCart(String email, int productId)
 	{
 		PreparedStatement pstmt = null;
 		Connection connection = null;

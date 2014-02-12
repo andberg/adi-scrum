@@ -2,13 +2,15 @@ package se.adi.floggit.interfaces;
 
 import java.util.Map;
 
+import se.adi.floggit.api.Response;
+import se.adi.floggit.api.ResponseType;
 import se.adi.floggit.classes.Product;
 
 public interface CartRepository
 {
-	Map<Product, Integer> readCart(String email);
+	Response<Map<Product, Integer>> readCart(String email);
 
-	boolean updateCart(String email, int productId, int quantity);
+	ResponseType updateCart(String email, int productId, int quantity);
 
-	boolean deleteFromCart(String email, int productId);
+	ResponseType deleteFromCart(String email, int productId);
 }

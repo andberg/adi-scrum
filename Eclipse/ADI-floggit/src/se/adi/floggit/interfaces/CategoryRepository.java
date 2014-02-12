@@ -2,13 +2,16 @@ package se.adi.floggit.interfaces;
 
 import java.util.List;
 
+import se.adi.floggit.api.Response;
+import se.adi.floggit.api.ResponseType;
+
 public interface CategoryRepository
 {
-	boolean createCategory(String categoryName, String staffFirstname, String staffSurname);
+	ResponseType createCategory(String categoryName, String staffFirstname, String staffSurname);
 
-	List<String> readAllCategories();
+	Response<List<String>> readAllCategories();
 
-	boolean updateCategory(String categoryName, String staffFirstname, String staffSurname);
+	ResponseType updateCategory(String categoryName, String staffFirstname, String staffSurname);
 
-	boolean deleteCategory(String categoryName);
+	ResponseType deleteCategory(String categoryName);
 }
