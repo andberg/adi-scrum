@@ -10,24 +10,81 @@ import se.adi.floggit.webshop.Webshop;
 
 public final class CommandLineTool
 {
-	private static Webshop webshop = new Webshop();
-	private static Scanner sc = new Scanner(System.in);
+	private static final String MENU_TEXT =
+			"\nOPTIONS MENU\n1. Create category\n"
+					+ "2. Create product\n"
+					+ "3. Create user\n"
+					+ "4. Update category\n"
+					+ "5. Update product\n"
+					+ "6. Update user\n"
+					+ "7. Validate user\n"
+					+ "8. List products by category\n"
+					+ "9. Search product by name";
+
+	private static final Webshop webshop = new Webshop();
+	private static final Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args)
 	{
-		// createCategory();
-		// createProduct();
-		// updateCategory();
-		// validateUser();
-		// searchProductByName();
-		// listProductsByCategory();
-		// createUser();
-		// updateUser();
+		while (true)
+		{
+			initiateMenu();
+		}
+	}
+
+	private static void initiateMenu()
+	{
+		int input = -1;
+		while (input < 0 || input > 9)
+		{
+			try
+			{
+				System.out.println(MENU_TEXT);
+				input = Integer.parseInt(sc.nextLine());
+			}
+			catch (NumberFormatException e)
+			{
+				System.out.println("You have to input number");
+			}
+		}
+
+		switch (input)
+		{
+		case 0:
+			System.out.println("System shutting down");
+			System.exit(0);
+		case 1:
+			createCategory();
+			break;
+		case 2:
+			createProduct();
+			break;
+		case 3:
+			createUser();
+			break;
+		case 4:
+			updateCategory();
+			break;
+		case 5:
+			updateProduct();
+			break;
+		case 6:
+			updateUser();
+			break;
+		case 7:
+			validateUser();
+			break;
+		case 8:
+			listProductsByCategory();
+			break;
+		case 9:
+			searchProductByName();
+			break;
+		}
 	}
 
 	private static void createCategory()
 	{
-
 		System.out.println("Category name:");
 		String categoryName = sc.nextLine();
 
@@ -155,13 +212,19 @@ public final class CommandLineTool
 			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
 		}
 
-		if (webshop.createUser(user))
+		ResponseType response = webshop.createUser(user);
+
+		if (response == ResponseType.USER_CREATED)
 		{
 			System.out.println("User was created in DB!");
 		}
+		else if (response == ResponseType.USER_NOT_CREATED)
+		{
+			System.out.println("Error! Username/Email was already registered in DB.");
+		}
 		else
 		{
-			System.out.println("Error! Username/Email already in DB.");
+			System.out.println("Creation of user failed because of server and DB communication problems");
 		}
 	}
 
@@ -312,13 +375,20 @@ public final class CommandLineTool
 			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
 		}
 
+<<<<<<< HEAD
 		if (webshop.updateUser(emailID, user))
+=======
+		ResponseType response = webshop.updateUser(emailID, user);
+		if (response == ResponseType.USER_UPDATED)
+>>>>>>> 3334deca155254851ae349e93e4664fb1c39557a
 		{
 			System.out.println("User was updated in DB!");
 		}
-		else
+		else if (response == ResponseType.USER_NOT_UPDATED)
 		{
 			System.out.println("Error! Update failure, check if given email is valid " + emailID);
+		} else {
+			System.out.println("Error! Updating of user failed because of server and DB communication failure");
 		}
 
 	}
@@ -331,13 +401,19 @@ public final class CommandLineTool
 		System.out.println("Password:");
 		String password = sc.nextLine();
 
-		if (webshop.login(username, password))
+		ResponseType response = webshop.login(username, password);
+
+		if (response == ResponseType.LOGIN_SUCCESSFUL)
 		{
 			System.out.println(username + " was successfully logged in");
 		}
-		else
+		else if (response == ResponseType.LOGIN_FAILED)
 		{
 			System.out.println("Login failed because of username not registered in DB, and/or password incorrect");
+		}
+		else
+		{
+			System.out.println("Login failed because of connection problems between server and DB");
 		}
 	}
 

@@ -57,7 +57,9 @@ public final class CartRepositoryInDB implements CartRepository
 		{
 			try
 			{
-				rs.close();
+				if (rs != null) {
+					rs.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -65,7 +67,9 @@ public final class CartRepositoryInDB implements CartRepository
 			}
 			try
 			{
-				pstmt.close();
+				if (pstmt != null) {
+					pstmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -73,7 +77,9 @@ public final class CartRepositoryInDB implements CartRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null) {
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -169,7 +175,9 @@ public final class CartRepositoryInDB implements CartRepository
 		{
 			try
 			{
-				rs.close();
+				if (rs != null) {
+					rs.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -177,7 +185,9 @@ public final class CartRepositoryInDB implements CartRepository
 			}
 			try
 			{
-				pstmt.close();
+				if (pstmt != null) {
+					pstmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -185,7 +195,9 @@ public final class CartRepositoryInDB implements CartRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null) {
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -231,7 +243,9 @@ public final class CartRepositoryInDB implements CartRepository
 		{
 			try
 			{
-				pstmt.close();
+				if (pstmt != null) {
+					pstmt.close();
+				}
 			}
 			catch (SQLException e)
 			{
@@ -239,7 +253,9 @@ public final class CartRepositoryInDB implements CartRepository
 			}
 			try
 			{
-				connection.close();
+				if (connection != null) {
+					connection.close();
+				}
 			}
 			catch (SQLException e)
 			{

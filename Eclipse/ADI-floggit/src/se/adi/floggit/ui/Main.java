@@ -85,31 +85,4 @@ public class Main
 			System.out.println("delete Fail!");
 		}
 	}
-<<<<<<< HEAD
-=======
-
-//	private static void showProductAPI()
-//	{
-//		Product car = new Product("Volvo", "Zlatans nya volvo", 50000, 56999393, "Sports & Outdoors", "Mens");
-//		if (webshop.createProduct(car))
-//		{
-//			System.out.println(car.toString() + "\nWere created!");
-//		}
-//		else
-//		{
-//			System.out.println("Failed to create " + car);
-//		}
-//
-//		System.out.println();
-//
-//		if (webshop.deleteProduct(webshop.readProduct("Volvo").get(0).getId()))
-//		{
-//			System.out.println("Volvo has been Deleted. ");
-//		}
-//		else
-//		{
-//			System.out.println("Unable to delete Volvo");
-//		}
-//	}
->>>>>>> 77faaa1f6f627ee83da4e17debdea211368ce0a9
 }

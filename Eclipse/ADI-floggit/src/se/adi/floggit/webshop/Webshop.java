@@ -6,6 +6,8 @@ import java.util.Map;
 import se.adi.floggit.api.CartRepositoryInDB;
 import se.adi.floggit.api.CategoryRepositoryInDB;
 import se.adi.floggit.api.ProductRepositoryInDB;
+import se.adi.floggit.api.Response;
+import se.adi.floggit.api.ResponseType;
 import se.adi.floggit.api.UserRepositoryInDB;
 import se.adi.floggit.classes.Product;
 import se.adi.floggit.classes.User;
@@ -29,27 +31,27 @@ public final class Webshop
 		this.categoryRepository = new CategoryRepositoryInDB();
 	}
 
-	public boolean createUser(User user)
+	public ResponseType createUser(User user)
 	{
 		return userRepository.createUser(user);
 	}
 
-	public List<User> readAllUsers()
+	public Response readAllUsers()
 	{
 		return userRepository.readAllUsers();
 	}
 
-	public boolean updateUser(String email, User user)
+	public ResponseType updateUser(String email, User user)
 	{
 		return userRepository.updateUser(email, user);
 	}
 
-	public boolean deleteUser(String email)
+	public ResponseType deleteUser(String email)
 	{
 		return userRepository.deleteUser(email);
 	}
 
-	public boolean login(String email, String password)
+	public ResponseType login(String email, String password)
 	{
 		return userRepository.login(email, password);
 	}
