@@ -36,7 +36,7 @@ public final class Webshop
 		return userRepository.createUser(user);
 	}
 
-	public Response readAllUsers()
+	public Response<List<User>> readAllUsers()
 	{
 		return userRepository.readAllUsers();
 	}

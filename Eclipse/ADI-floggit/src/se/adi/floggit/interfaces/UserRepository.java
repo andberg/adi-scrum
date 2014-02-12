@@ -1,5 +1,4 @@
 package se.adi.floggit.interfaces;
-
 import java.util.List;
 
 import se.adi.floggit.api.Response;
@@ -10,7 +9,7 @@ public interface UserRepository
 {
 	ResponseType createUser(User user);
 
-	Response readAllUsers();
+	Response<List<User>> readAllUsers();
 
 	ResponseType updateUser(String email, User user);
 
