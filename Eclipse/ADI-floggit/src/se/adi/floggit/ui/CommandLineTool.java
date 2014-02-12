@@ -105,6 +105,7 @@ public final class CommandLineTool
 			{
 				categories.add(input);
 			}
+
 		}
 
 		Product product = new Product(productName, productDescription, cost, rrp, categories);
@@ -186,35 +187,121 @@ public final class CommandLineTool
 		}
 	}
 
+	private static void updateProduct()
+	{
+		int productId;
+		while (true)
+		{
+			try
+			{
+				System.out.println("Product ID:");
+				productId = Integer.parseInt(sc.nextLine());
+				break;
+			}
+			catch (NumberFormatException e)
+			{
+				System.out.println("You have to input a number");
+			}
+		}
+
+		System.out.println("New product name:");
+		String productName = sc.nextLine();
+
+		System.out.println("New product description: ");
+		String productDescription = sc.nextLine();
+
+		double cost;
+		while (true)
+		{
+			try
+			{
+				System.out.println("New product cost:");
+				cost = Double.parseDouble(sc.nextLine());
+				break;
+			}
+			catch (NumberFormatException e)
+			{
+				System.out.println("You have to input a number");
+			}
+		}
+		double rrp;
+		while (true)
+		{
+			try
+			{
+				System.out.println("New product rrp:");
+				rrp = Double.parseDouble(sc.nextLine());
+				break;
+			}
+			catch (NumberFormatException e)
+			{
+				System.out.println("You have to input a number");
+			}
+		}
+
+		System.out.println("Product categories, please write one at a time and press enter. When done write press enter again");
+
+		List<String> categories = new ArrayList<>();
+
+		while (true)
+		{
+
+			String input = sc.nextLine();
+			if (input.equals(""))
+			{
+				if (!categories.isEmpty())
+				{
+					break;
+				}
+				System.out.println("You need at least one category");
+			}
+			else
+			{
+				categories.add(input);
+			}
+		}
+		System.out.println("Categories " + categories + " added");
+
+		Product product = new Product(productName, productDescription, cost, rrp, categories);
+		if (webshop.updateProduct(productId, product))
+		{
+			System.out.println("Product with id: " + productId + " updated");
+		}
+		else
+		{
+			System.out.println("Error! ID or categories doesn't exist!");
+		}
+	}
+
 	private static void updateUser()
 	{
 		System.out.println("Which user would you like to update? Enter valid email.");
 		String emailID = sc.nextLine();
-	
+
 		System.out.println("Enter new Username/E-mail:");
 		String email = sc.nextLine();
-	
+
 		System.out.println("Enter password:");
 		String password = sc.nextLine();
-	
+
 		System.out.println("Enter firstname:");
 		String firstname = sc.nextLine();
-	
+
 		System.out.println("Enter surname:");
 		String surname = sc.nextLine();
-	
+
 		System.out.println("Enter street address:");
 		String streetAddress = sc.nextLine();
-	
+
 		System.out.println("Enter postcode:");
 		String postcode = sc.nextLine();
-	
+
 		System.out.println("Enter town:");
 		String town = sc.nextLine();
-	
+
 		System.out.println("Enter phonenumber:");
 		String phonenumber = sc.nextLine();
-	
+
 		User user = null;
 		if (phonenumber.equals(""))
 		{
@@ -224,7 +311,7 @@ public final class CommandLineTool
 		{
 			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
 		}
-	
+
 		if (webshop.updateUser(emailID, user))
 		{
 			System.out.println("User was updated in DB!");
@@ -233,7 +320,7 @@ public final class CommandLineTool
 		{
 			System.out.println("Error! Update failure, check if given email is valid " + emailID);
 		}
-	
+
 	}
 
 	private static void validateUser()
@@ -254,26 +341,6 @@ public final class CommandLineTool
 		}
 	}
 
-	private static void searchProductByName()
-	{
-		System.out.println("Product name:");
-		String productName = sc.nextLine();
-
-		List<Product> products = webshop.readProduct(productName);
-
-		if (products.size() == 0)
-		{
-			System.out.println("No products with name " + productName + " was found in DB");
-		}
-		else
-		{
-			for (Product product : products)
-			{
-				System.out.println(product);
-			}
-		}
-	}
-
 	private static void listProductsByCategory()
 	{
 		System.out.println("Category name:");
@@ -290,6 +357,26 @@ public final class CommandLineTool
 			for (String string : products)
 			{
 				System.out.println(string);
+			}
+		}
+	}
+
+	private static void searchProductByName()
+	{
+		System.out.println("Product name:");
+		String productName = sc.nextLine();
+
+		List<Product> products = webshop.readProduct(productName);
+
+		if (products.size() == 0)
+		{
+			System.out.println("No products with name " + productName + " was found in DB");
+		}
+		else
+		{
+			for (Product product : products)
+			{
+				System.out.println(product);
 			}
 		}
 	}
