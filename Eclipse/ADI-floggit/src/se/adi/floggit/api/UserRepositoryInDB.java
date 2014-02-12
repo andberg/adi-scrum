@@ -16,18 +16,30 @@ public final class UserRepositoryInDB implements UserRepository
 {
 
 	@Override
-	public boolean createUser(User user)
+	public ResponseType createUser(User user)
 	{
+		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
-		boolean created = false;
 
 		try
 		{
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
+			
+			query = "SELECT id FROM users WHERE email = ?";
+			
+			pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, user.getEmail());
+			rs = pstmt.executeQuery();
+			
+			if (rs.isBeforeFirst()) {
+				return ResponseType.USER_NOT_CREATED;
+			}
+			
+			pstmt.close();
 
 			query = "INSERT INTO users "
 					+ "(email,password,firstname,surname,street_address,postcode,town,phonenumber) "
@@ -44,9 +56,8 @@ public final class UserRepositoryInDB implements UserRepository
 			pstmt.setString(7, user.getTown());
 			pstmt.setString(8, user.getPhonenumber());
 
-			pstmt.execute();
-			created = true;
-
+			pstmt.executeUpdate();
+			return ResponseType.USER_CREATED;
 		}
 		catch (SQLException e)
 		{
@@ -81,11 +92,11 @@ public final class UserRepositoryInDB implements UserRepository
 				e.printStackTrace();
 			}
 		}
-		return created;
+		return ResponseType.SERVER_CONNECTION_FAILED;
 	}
 
 	@Override
-	public List<User> readAllUsers()
+	public Response readAllUsers()
 	{
 		ResultSet rs = null;
 		Statement stmt = null;
@@ -115,6 +126,7 @@ public final class UserRepositoryInDB implements UserRepository
 						rs.getString("phonenumber"));
 				usersList.add(user);
 			}
+			return new Response(ResponseType.SERVER_CONNECTION_SUCCESSFUL, usersList);
 		}
 		catch (SQLException e)
 		{
@@ -160,11 +172,11 @@ public final class UserRepositoryInDB implements UserRepository
 				e.printStackTrace();
 			}
 		}
-		return usersList;
+		return new Response(ResponseType.SERVER_CONNECTION_FAILED, usersList);
 	}
 
 	@Override
-	public boolean updateUser(String email, User user)
+	public ResponseType updateUser(String email, User user)
 	{
 		PreparedStatement pstmt = null;
 		Connection connection = null;
@@ -195,8 +207,11 @@ public final class UserRepositoryInDB implements UserRepository
 
 			rowsAffected = pstmt.executeUpdate();
 			updated = (rowsAffected > 0);
-			return updated;
-
+			
+			if (updated) {
+				return ResponseType.USER_UPDATED;
+ 			}
+			return ResponseType.USER_NOT_UPDATED;
 		}
 		catch (SQLException e)
 		{
@@ -231,13 +246,12 @@ public final class UserRepositoryInDB implements UserRepository
 				e.printStackTrace();
 			}
 		}
-		return updated;
+		return ResponseType.SERVER_CONNECTION_FAILED;
 	}
 
 	@Override
-	public boolean deleteUser(String email)
+	public ResponseType deleteUser(String email)
 	{
-
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
@@ -257,7 +271,11 @@ public final class UserRepositoryInDB implements UserRepository
 
 			rowsAffected = pstmt.executeUpdate();
 			deleted = (rowsAffected > 0);
-			return deleted;
+			
+			if (deleted) {
+				return ResponseType.USER_DELETED;
+			}
+			return ResponseType.USER_NOT_DELETED;
 
 		}
 		catch (SQLException e)
@@ -293,11 +311,11 @@ public final class UserRepositoryInDB implements UserRepository
 				e.printStackTrace();
 			}
 		}
-		return deleted;
+		return ResponseType.SERVER_CONNECTION_FAILED;
 	}
 	
 	@Override
-	public boolean login(String email, String password)
+	public ResponseType login(String email, String password)
 	{
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -312,7 +330,7 @@ public final class UserRepositoryInDB implements UserRepository
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
 
-			query = "SELECT password FROM users WHERE email = ?";
+			query = "SELET password FROM users WHERE email = ?";
 
 			pstmt = connection.prepareStatement(query);
 
@@ -324,7 +342,11 @@ public final class UserRepositoryInDB implements UserRepository
 			{
 				login = rs.getString("password").equals(password);
 			}
-
+			
+			if (login) {
+				return ResponseType.LOGIN_SUCCESSFUL;
+			}
+			return ResponseType.LOGIN_FAILED;
 		}
 		catch (SQLException e)
 		{
@@ -360,6 +382,6 @@ public final class UserRepositoryInDB implements UserRepository
 				e.printStackTrace();
 			}
 		}
-		return login;
+		return ResponseType.SERVER_CONNECTION_FAILED;
 	}
 }
