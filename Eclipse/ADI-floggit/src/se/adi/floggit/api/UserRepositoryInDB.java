@@ -30,7 +30,7 @@ public final class UserRepositoryInDB implements UserRepository
 
 			if (userInDatabase(user.getEmail(), connection))
 			{
-				return ResponseType.USER_NOT_CREATED;
+				return ResponseType.USER_EMAIL_DUPLICATE;
 			}
 
 			query = "INSERT INTO users "
@@ -192,7 +192,7 @@ public final class UserRepositoryInDB implements UserRepository
 			}
 			else
 			{
-				return ResponseType.USER_EMAIL_NOT_FOUND;
+				return ResponseType.USER_NOT_FOUND;
 			}
 
 			query = "UPDATE users SET email = ?, password = ?, firstname = ?, "
@@ -278,8 +278,7 @@ public final class UserRepositoryInDB implements UserRepository
 			{
 				return ResponseType.USER_DELETED;
 			}
-			return ResponseType.USER_NOT_DELETED;
-
+			return ResponseType.USER_NOT_FOUND;
 		}
 		catch (SQLException e)
 		{

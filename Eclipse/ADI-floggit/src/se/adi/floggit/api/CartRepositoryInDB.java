@@ -31,7 +31,7 @@ public final class CartRepositoryInDB implements CartRepository
 					DBInfo.PASSWORD);
 			
 			if (!userInDatabase(email, connection)) {
-				return new Response<Map<Product, Integer>>(ResponseType.USER_EMAIL_NOT_FOUND, cart);
+				return new Response<Map<Product, Integer>>(ResponseType.USER_NOT_FOUND, cart);
 			}
 
 			query = "SELECT products.id, products.name, products.rrp, quantity "
@@ -124,7 +124,7 @@ public final class CartRepositoryInDB implements CartRepository
 			}
 			else
 			{
-				return ResponseType.USER_EMAIL_NOT_FOUND;
+				return ResponseType.USER_NOT_FOUND;
 			}
 
 			rs.close();
@@ -170,7 +170,6 @@ public final class CartRepositoryInDB implements CartRepository
 			pstmt.executeUpdate();
 
 			return ResponseType.USER_CART_UPDATED;
-
 		}
 		catch (SQLException e)
 		{
@@ -231,7 +230,7 @@ public final class CartRepositoryInDB implements CartRepository
 					DBInfo.PASSWORD);
 			
 			if (!userInDatabase(email, connection)) {
-				return ResponseType.USER_EMAIL_NOT_FOUND;
+				return ResponseType.USER_NOT_FOUND;
 			}
 
 			query = "DELETE FROM carts WHERE product_id = ? "
@@ -245,7 +244,7 @@ public final class CartRepositoryInDB implements CartRepository
 			if (affectedRows > 0) {
 				return ResponseType.USER_CART_UPDATED;
 			}
-			return ResponseType.USER_CART_NOT_UPDATED;
+			return ResponseType.PRODUCT_NOT_FOUND;
 		}
 		catch (SQLException e)
 		{

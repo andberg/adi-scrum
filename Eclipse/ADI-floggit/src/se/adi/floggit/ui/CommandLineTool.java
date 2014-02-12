@@ -98,7 +98,7 @@ public final class CommandLineTool
 
 		ResponseType response = webshop.createCategory(categoryName, staffFirstname, staffSurname);
 
-		if (response == ResponseType.CATEGROY_CREATED)
+		if (response == ResponseType.CATEGORY_CREATED)
 		{
 			System.out.println("Category created in DB!");
 		}
@@ -234,7 +234,7 @@ public final class CommandLineTool
 		{
 			System.out.println("User was created in DB!");
 		}
-		else if (response == ResponseType.USER_NOT_CREATED)
+		else if (response == ResponseType.USER_EMAIL_DUPLICATE)
 		{
 			System.out.println("Error! Username/Email was already registered in DB.");
 		}
@@ -412,7 +412,7 @@ public final class CommandLineTool
 		{
 			System.out.println("User was updated in DB!");
 		}
-		else if (response == ResponseType.USER_EMAIL_NOT_FOUND)
+		else if (response == ResponseType.USER_NOT_FOUND)
 		{
 			System.out.println("User updating failed because of email not found in DB");
 		}

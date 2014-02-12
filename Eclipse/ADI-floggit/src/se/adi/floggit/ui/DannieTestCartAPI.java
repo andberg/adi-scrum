@@ -38,7 +38,7 @@ public class DannieTestCartAPI
 		{
 			System.out.println("No cart for user " + email + " was found");
 		}
-		else if (response.getResponse() == ResponseType.USER_EMAIL_NOT_FOUND)
+		else if (response.getResponse() == ResponseType.USER_NOT_FOUND)
 		{
 			System.out.println("Email was not bound to a user in DB");
 		}
@@ -54,7 +54,7 @@ public class DannieTestCartAPI
 		
 		if (response == ResponseType.USER_CART_UPDATED) {
 			System.out.println("User cart was updated successfully");
-		} else if (response == ResponseType.USER_EMAIL_NOT_FOUND) {
+		} else if (response == ResponseType.USER_NOT_FOUND) {
 			System.out.println("User email was not found in DB");
 		} else if (response == ResponseType.PRODUCT_NOT_FOUND) {
 			System.out.println("Product to be added to user cart was not found in DB");
@@ -69,9 +69,9 @@ public class DannieTestCartAPI
 		
 		if (response == ResponseType.USER_CART_UPDATED) {
 			System.out.println("User cart record was successfully deleted");
-		} else if (response == ResponseType.USER_EMAIL_NOT_FOUND) {
+		} else if (response == ResponseType.USER_NOT_FOUND) {
 			System.out.println("Email was not found");
-		} else if (response == ResponseType.USER_CART_NOT_UPDATED) {
+		} else if (response == ResponseType.PRODUCT_NOT_FOUND) {
 			System.out.println("User cart record was not deleted because of product not found in cart");
 		} else {
 			System.out.println("Could not delete from cart because of server connection issues");

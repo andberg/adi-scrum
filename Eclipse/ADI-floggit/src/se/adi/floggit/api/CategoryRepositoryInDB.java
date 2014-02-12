@@ -26,20 +26,9 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 
 		if (response == ResponseType.SERVER_CONNECTION_SUCCESSFUL)
 		{
-			return ResponseType.CATEGROY_CREATED;
+			return ResponseType.CATEGORY_CREATED;
 		}
-		if (response == ResponseType.STAFF_NOT_FOUND)
-		{
-			return ResponseType.STAFF_NOT_FOUND;
-		}
-		if (response == ResponseType.CATEGORY_NOT_FOUND)
-		{
-			return ResponseType.CATEGORY_NOT_FOUND;
-		}
-		else
-		{
-			return ResponseType.SERVER_CONNECTION_FAILED;
-		}
+		return response;
 	}
 
 	@Override
@@ -51,18 +40,7 @@ public final class CategoryRepositoryInDB implements CategoryRepository
 		{
 			return ResponseType.CATEGORY_UPDATED;
 		}
-		if (response == ResponseType.STAFF_NOT_FOUND)
-		{
-			return ResponseType.STAFF_NOT_FOUND;
-		}
-		if (response == ResponseType.CATEGORY_NOT_FOUND)
-		{
-			return ResponseType.CATEGORY_NOT_FOUND;
-		}
-		else
-		{
-			return ResponseType.SERVER_CONNECTION_FAILED;
-		}
+		return response;
 	}
 
 	@Override
