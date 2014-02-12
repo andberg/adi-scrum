@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import se.adi.floggit.api.ResponseType;
 import se.adi.floggit.classes.Product;
 import se.adi.floggit.classes.User;
 import se.adi.floggit.webshop.Webshop;
@@ -375,12 +376,9 @@ public final class CommandLineTool
 			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
 		}
 
-<<<<<<< HEAD
-		if (webshop.updateUser(emailID, user))
-=======
+		
 		ResponseType response = webshop.updateUser(emailID, user);
 		if (response == ResponseType.USER_UPDATED)
->>>>>>> 3334deca155254851ae349e93e4664fb1c39557a
 		{
 			System.out.println("User was updated in DB!");
 		}

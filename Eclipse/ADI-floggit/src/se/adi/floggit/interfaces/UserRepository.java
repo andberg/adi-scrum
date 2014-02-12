@@ -1,7 +1,5 @@
 package se.adi.floggit.interfaces;
 
-import java.util.List;
-
 import se.adi.floggit.api.Response;
 import se.adi.floggit.api.ResponseType;
 import se.adi.floggit.classes.User;

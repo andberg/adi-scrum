@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import se.adi.floggit.interfaces.CategoryRepository;
 
 public final class CategoryRepositoryInDB implements CategoryRepository
