@@ -56,67 +56,67 @@ public final class Webshop
 		return userRepository.login(email, password);
 	}
 
-	public Map<Product, Integer> readCart(String email)
+	public Response<Map<Product, Integer>> readCart(String email)
 	{
 		return cartRepository.readCart(email);
 	}
 
-	public boolean updateCart(String email, int productId, int quantity)
+	public ResponseType updateCart(String email, int productId, int quantity)
 	{
 		return cartRepository.updateCart(email, productId, quantity);
 	}
 
-	public boolean deleteFromCart(String email, int productId)
+	public ResponseType deleteFromCart(String email, int productId)
 	{
 		return cartRepository.deleteFromCart(email, productId);
 	}
 
-	public boolean createProduct(Product product)
+	public ResponseType createProduct(Product product)
 	{
 		return productRepository.createProduct(product);
 	}
 
-	public List<String> readProductsInCategory(String categoryName)
+	public Response<List<String>> readProductsInCategory(String categoryName)
 	{
 		return productRepository.readProductsInCategory(categoryName);
 	}
 
-	public List<Product> readProduct(String productName)
+	public Response<List<Product>> readProduct(String productName)
 	{
 		return productRepository.readProduct(productName);
 	}
 
-	public List<Product> readAllProducts()
+	public Response<List<Product>> readAllProducts()
 	{
 		return productRepository.readAllProducts();
 	}
 
-	public boolean updateProduct(int id, Product product)
+	public ResponseType updateProduct(int id, Product product)
 	{
 		return productRepository.updateProduct(id, product);
 	}
 
-	public boolean deleteProduct(int id)
+	public ResponseType deleteProduct(int id)
 	{
 		return productRepository.deleteProduct(id);
 	}
 
-	public boolean createCategory(String categoryName, String staffFirstname, String staffSurname)
+	public ResponseType createCategory(String categoryName, String staffFirstname, String staffSurname)
 	{
 		return categoryRepository.createCategory(categoryName, staffFirstname, staffSurname);
 	}
 
-	public List<String> readAllCategories()
+	public Response<List<String>> readAllCategories()
 	{
 		return categoryRepository.readAllCategories();
 	}
 
-	public boolean updateCategory(String categoryName, String staffFirstname, String staffSurname)
+	public ResponseType updateCategory(String categoryName, String staffFirstname, String staffSurname)
 	{
 		return categoryRepository.updateCategory(categoryName, staffFirstname, staffSurname);
 	}
 
-	public boolean deleteCategory(String categoryName)
+	public ResponseType deleteCategory(String categoryName)
 	{
 		return categoryRepository.deleteCategory(categoryName);
 	}
