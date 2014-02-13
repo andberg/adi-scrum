@@ -10,48 +10,37 @@ import se.adi.floggit.classes.Product;
 import se.adi.floggit.classes.User;
 import se.adi.floggit.webshop.Webshop;
 
-public final class CommandLineTool
-{
-	private static final String MENU_TEXT =
-			"\nOPTIONS MENU\n1. Create category\n"
-					+ "2. Create product\n"
-					+ "3. Create user\n"
-					+ "4. Update category\n"
-					+ "5. Update product\n"
-					+ "6. Update user\n"
-					+ "7. Validate user\n"
-					+ "8. List products by category\n"
-					+ "9. Search product by name";
+public final class CommandLineTool {
+	private static final String MENU_TEXT = "\nOPTIONS MENU\n1. Create category\n"
+			+ "2. Create product\n"
+			+ "3. Create user\n"
+			+ "4. Update category\n"
+			+ "5. Update product\n"
+			+ "6. Update user\n"
+			+ "7. Validate user\n"
+			+ "8. List products by category\n" + "9. Search product by name";
 
 	private static final Webshop webshop = new Webshop();
 	private static final Scanner sc = new Scanner(System.in);
 
-	public static void main(String[] args)
-	{
-		while (true)
-		{
+	public static void main(String[] args) {
+		while (true) {
 			initiateMenu();
 		}
 	}
 
-	private static void initiateMenu()
-	{
+	private static void initiateMenu() {
 		int input = -1;
-		while (input < 0 || input > 9)
-		{
-			try
-			{
+		while (input < 0 || input > 9) {
+			try {
 				System.out.println(MENU_TEXT);
 				input = Integer.parseInt(sc.nextLine());
-			}
-			catch (NumberFormatException e)
-			{
+			} catch (NumberFormatException e) {
 				System.out.println("You have to input number");
 			}
 		}
 
-		switch (input)
-		{
+		switch (input) {
 		case 0:
 			System.out.println("System shutting down");
 			System.exit(0);
@@ -85,8 +74,7 @@ public final class CommandLineTool
 		}
 	}
 
-	private static void createCategory()
-	{
+	private static void createCategory() {
 		System.out.println("Category name:");
 		String categoryName = sc.nextLine();
 
@@ -96,28 +84,21 @@ public final class CommandLineTool
 		System.out.println("Responsible staff surname:");
 		String staffSurname = sc.nextLine();
 
-		ResponseType response = webshop.createCategory(categoryName, staffFirstname, staffSurname);
+		ResponseType response = webshop.createCategory(categoryName,
+				staffFirstname, staffSurname);
 
-		if (response == ResponseType.CATEGORY_CREATED)
-		{
+		if (response == ResponseType.CATEGORY_CREATED) {
 			System.out.println("Category created in DB!");
-		}
-		else if (response == ResponseType.CATEGORY_ALREADY_IN_DB)
-		{
+		} else if (response == ResponseType.CATEGORY_ALREADY_IN_DB) {
 			System.out.println("Error! Category already in DB");
-		}
-		else if (response == ResponseType.STAFF_NOT_FOUND)
-		{
+		} else if (response == ResponseType.STAFF_NOT_FOUND) {
 			System.out.println("Staff not found in DB");
-		}
-		else
-		{
+		} else {
 			System.out.println("Error, server connection failed. ");
 		}
 	}
 
-	private static void createProduct()
-	{
+	private static void createProduct() {
 		System.out.println("Product name:");
 		String productName = sc.nextLine();
 
@@ -125,75 +106,60 @@ public final class CommandLineTool
 		String productDescription = sc.nextLine();
 
 		double cost;
-		while (true)
-		{
-			try
-			{
+		while (true) {
+			try {
 				System.out.println("Product cost:");
 				cost = Double.parseDouble(sc.nextLine());
 				break;
-			}
-			catch (NumberFormatException e)
-			{
+			} catch (NumberFormatException e) {
 				System.out.println("You have to input a number.");
 			}
 		}
 
 		double rrp;
-		while (true)
-		{
-			try
-			{
+		while (true) {
+			try {
 				System.out.println("Product rrp:");
 				rrp = Double.parseDouble(sc.nextLine());
 				break;
-			}
-			catch (NumberFormatException e)
-			{
+			} catch (NumberFormatException e) {
 				System.out.println("You have to input a number.");
 			}
 		}
 
-		System.out.println("Product categories, please write one at a time and press enter. When done press enter twice.");
+		System.out
+				.println("Product categories, please write one at a time and press enter. When done press enter twice.");
 
 		List<String> categories = new ArrayList<>();
 
-		while (true)
-		{
+		while (true) {
 
 			String input = sc.nextLine();
-			if (input.equals(""))
-			{
-				if (!categories.isEmpty())
-				{
+			if (input.equals("")) {
+				if (!categories.isEmpty()) {
 					break;
 				}
 				System.out.println("You need at least one category!");
-			}
-			else
-			{
+			} else {
 				categories.add(input);
 			}
 
 		}
 
-		Product product = new Product(productName, productDescription, cost, rrp, categories);
-		if (webshop.createProduct(product) == ResponseType.PRODUCT_CREATED)
-		{
+		Product product = new Product(productName, productDescription, cost,
+				rrp, categories);
+		if (webshop.createProduct(product) == ResponseType.PRODUCT_CREATED) {
 			System.out.println("Product created.");
-		}
-		else if (webshop.createProduct(product) == ResponseType.CATEGORY_NOT_FOUND)
-		{
-			System.out.println("Error! One or more categories does not exist in DB.");
-		}
-		else
-		{
-			System.out.println("Create product failed because of connection problems between server and DB");
+		} else if (webshop.createProduct(product) == ResponseType.CATEGORY_NOT_FOUND) {
+			System.out
+					.println("Error! One or more categories does not exist in DB.");
+		} else {
+			System.out
+					.println("Create product failed because of connection problems between server and DB");
 		}
 	}
 
-	private static void createUser()
-	{
+	private static void createUser() {
 		System.out.println("Enter Username/E-mail:");
 		String email = sc.nextLine();
 
@@ -219,33 +185,28 @@ public final class CommandLineTool
 		String phonenumber = sc.nextLine();
 
 		User user = null;
-		if (phonenumber.equals(""))
-		{
-			user = new User(email, password, firstname, surname, streetAddress, postcode, town);
-		}
-		else
-		{
-			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
+		if (phonenumber.equals("")) {
+			user = new User(email, password, firstname, surname, streetAddress,
+					postcode, town);
+		} else {
+			user = new User(email, password, firstname, surname, streetAddress,
+					postcode, town, phonenumber);
 		}
 
 		ResponseType response = webshop.createUser(user);
 
-		if (response == ResponseType.USER_CREATED)
-		{
+		if (response == ResponseType.USER_CREATED) {
 			System.out.println("User was created in DB!");
-		}
-		else if (response == ResponseType.USER_EMAIL_DUPLICATE)
-		{
-			System.out.println("Error! Username/Email was already registered in DB.");
-		}
-		else
-		{
-			System.out.println("Creation of user failed because of server and DB communication problems");
+		} else if (response == ResponseType.USER_EMAIL_DUPLICATE) {
+			System.out
+					.println("Error! Username/Email was already registered in DB.");
+		} else {
+			System.out
+					.println("Creation of user failed because of server and DB communication problems");
 		}
 	}
 
-	private static void updateCategory()
-	{
+	private static void updateCategory() {
 		System.out.println("Category name:");
 		String categoryName = sc.nextLine();
 
@@ -255,38 +216,29 @@ public final class CommandLineTool
 		System.out.println("New responsible staff surname:");
 		String staffSurname = sc.nextLine();
 
-		ResponseType response = webshop.updateCategory(categoryName, staffFirstname, staffSurname);
-		if (response == ResponseType.CATEGORY_UPDATED)
-		{
-			System.out.println("Category updated in DB with " + staffFirstname + " " + staffSurname + " assigned as responsible staff");
-		}
-		else if (response == ResponseType.CATEGORY_NOT_FOUND)
-		{
-			System.out.println("Error! Category " + categoryName + " was not found in DB");
-		}
-		else if (response == ResponseType.STAFF_NOT_FOUND)
-		{
+		ResponseType response = webshop.updateCategory(categoryName,
+				staffFirstname, staffSurname);
+		if (response == ResponseType.CATEGORY_UPDATED) {
+			System.out.println("Category updated in DB with " + staffFirstname
+					+ " " + staffSurname + " assigned as responsible staff");
+		} else if (response == ResponseType.CATEGORY_NOT_FOUND) {
+			System.out.println("Error! Category " + categoryName
+					+ " was not found in DB");
+		} else if (response == ResponseType.STAFF_NOT_FOUND) {
 			System.out.println("Staff not found in DB");
-		}
-		else
-		{
+		} else {
 			System.out.println("Server connection failed.");
 		}
 	}
 
-	private static void updateProduct()
-	{
+	private static void updateProduct() {
 		int productId;
-		while (true)
-		{
-			try
-			{
+		while (true) {
+			try {
 				System.out.println("Product ID:");
 				productId = Integer.parseInt(sc.nextLine());
 				break;
-			}
-			catch (NumberFormatException e)
-			{
+			} catch (NumberFormatException e) {
 				System.out.println("You have to input a number");
 			}
 		}
@@ -298,79 +250,63 @@ public final class CommandLineTool
 		String productDescription = sc.nextLine();
 
 		double cost;
-		while (true)
-		{
-			try
-			{
+		while (true) {
+			try {
 				System.out.println("New product cost:");
 				cost = Double.parseDouble(sc.nextLine());
 				break;
-			}
-			catch (NumberFormatException e)
-			{
+			} catch (NumberFormatException e) {
 				System.out.println("You have to input a number");
 			}
 		}
 		double rrp;
-		while (true)
-		{
-			try
-			{
+		while (true) {
+			try {
 				System.out.println("New product rrp:");
 				rrp = Double.parseDouble(sc.nextLine());
 				break;
-			}
-			catch (NumberFormatException e)
-			{
+			} catch (NumberFormatException e) {
 				System.out.println("You have to input a number");
 			}
 		}
 
-		System.out.println("Product categories, please write one at a time and press enter. When done write press enter again");
+		System.out
+				.println("Product categories, please write one at a time and press enter. When done write press enter again");
 
 		List<String> categories = new ArrayList<>();
 
-		while (true)
-		{
+		while (true) {
 
 			String input = sc.nextLine();
-			if (input.equals(""))
-			{
-				if (!categories.isEmpty())
-				{
+			if (input.equals("")) {
+				if (!categories.isEmpty()) {
 					break;
 				}
 				System.out.println("You need at least one category");
-			}
-			else
-			{
+			} else {
 				categories.add(input);
 			}
 		}
 		System.out.println("Categories " + categories + " added");
 
-		Product product = new Product(productName, productDescription, cost, rrp, categories);
-		if (webshop.updateProduct(productId, product) == ResponseType.PRODUCT_UPDATED)
-		{
+		Product product = new Product(productName, productDescription, cost,
+				rrp, categories);
+		if (webshop.updateProduct(productId, product) == ResponseType.PRODUCT_UPDATED) {
 			System.out.println("Product with id: " + productId + " updated");
-		}
-		else if (webshop.updateProduct(productId, product) == ResponseType.PRODUCT_NOT_FOUND)
-		{
+		} else if (webshop.updateProduct(productId, product) == ResponseType.PRODUCT_NOT_FOUND) {
 			System.out.println("Error! Product ID doesn't exist in DB!");
-		}
-		else if (webshop.updateProduct(productId, product) == ResponseType.CATEGORY_NOT_FOUND)
-		{
-			System.out.println("Error! One or more categories does not exist in DB.");
-		}
-		else
-		{
-			System.out.println("Update product failed because of connection problems between server and DB");
+		} else if (webshop.updateProduct(productId, product) == ResponseType.CATEGORY_NOT_FOUND) {
+			System.out
+					.println("Error! One or more categories does not exist in DB.");
+		} else {
+			System.out
+					.println("Update product failed because of connection problems between server and DB");
 		}
 	}
 
-	private static void updateUser()
-	{
-		System.out.println("Which user would you like to update? Enter valid email.");
+	private static void updateUser() {
+		System.out
+				.println("Which user would you like to update? Enter valid email.");
 		String emailID = sc.nextLine();
 
 		System.out.println("Enter new Username/E-mail:");
@@ -398,36 +334,30 @@ public final class CommandLineTool
 		String phonenumber = sc.nextLine();
 
 		User user = null;
-		if (phonenumber.equals(""))
-		{
-			user = new User(email, password, firstname, surname, streetAddress, postcode, town);
-		}
-		else
-		{
-			user = new User(email, password, firstname, surname, streetAddress, postcode, town, phonenumber);
+		if (phonenumber.equals("")) {
+			user = new User(email, password, firstname, surname, streetAddress,
+					postcode, town);
+		} else {
+			user = new User(email, password, firstname, surname, streetAddress,
+					postcode, town, phonenumber);
 		}
 
 		ResponseType response = webshop.updateUser(emailID, user);
-		if (response == ResponseType.USER_UPDATED)
-		{
+		if (response == ResponseType.USER_UPDATED) {
 			System.out.println("User was updated in DB!");
-		}
-		else if (response == ResponseType.USER_NOT_FOUND)
-		{
-			System.out.println("User updating failed because of email not found in DB");
-		}
-		else if (response == ResponseType.USER_EMAIL_DUPLICATE)
-		{
-			System.out.println("User updating failed because of new email was already found in DB");
-		}
-		else
-		{
-			System.out.println("Error! Updating of user failed because of server and DB communication failure");
+		} else if (response == ResponseType.USER_NOT_FOUND) {
+			System.out
+					.println("User updating failed because of email not found in DB");
+		} else if (response == ResponseType.USER_EMAIL_DUPLICATE) {
+			System.out
+					.println("User updating failed because of new email was already found in DB");
+		} else {
+			System.out
+					.println("Error! Updating of user failed because of server and DB communication failure");
 		}
 	}
 
-	private static void validateUser()
-	{
+	private static void validateUser() {
 		System.out.println("Username:");
 		String username = sc.nextLine();
 
@@ -436,49 +366,43 @@ public final class CommandLineTool
 
 		ResponseType response = webshop.login(username, password);
 
-		if (response == ResponseType.LOGIN_SUCCESSFUL)
-		{
+		if (response == ResponseType.LOGIN_SUCCESSFUL) {
 			System.out.println(username + " was successfully logged in");
-		}
-		else if (response == ResponseType.LOGIN_FAILED)
-		{
-			System.out.println("Login failed because of username not registered in DB, and/or password incorrect");
-		}
-		else
-		{
-			System.out.println("Login failed because of connection problems between server and DB");
+		} else if (response == ResponseType.LOGIN_FAILED) {
+			System.out
+					.println("Login failed because of username not registered in DB, and/or password incorrect");
+		} else {
+			System.out
+					.println("Login failed because of connection problems between server and DB");
 		}
 	}
 
-	private static void listProductsByCategory()
-	{
+	private static void listProductsByCategory() {
 
 		System.out.println("Category name:");
 		String categoryName = sc.nextLine();
 
-		Response<List<String>> response = webshop.readProductsInCategory(categoryName);
+		Response<List<String>> response = webshop
+				.readProductsInCategory(categoryName);
 
 		List<String> products = response.getObject();
 
-		if (products.size() == 0 && response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL)
-		{
-			System.out.println("No products in category " + categoryName + " was found in DB, or the category was not found in DB");
-		}
-		else if (products.size() > 0 && response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL)
-		{
-			for (String string : products)
-			{
+		if (products.size() == 0
+				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
+			System.out.println("No products in category " + categoryName
+					+ " was found in DB, or the category was not found in DB");
+		} else if (products.size() > 0
+				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
+			for (String string : products) {
 				System.out.println(string);
 			}
-		}
-		else
-		{
-			System.out.println("Serach failed because of connection problems between server and DB");
+		} else {
+			System.out
+					.println("Serach failed because of connection problems between server and DB");
 		}
 	}
 
-	private static void searchProductByName()
-	{
+	private static void searchProductByName() {
 		System.out.println("Product name:");
 		String productName = sc.nextLine();
 
@@ -486,20 +410,18 @@ public final class CommandLineTool
 
 		List<Product> products = response.getObject();
 
-		if (products.size() == 0 && response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL)
-		{
-			System.out.println("No products with name " + productName + " was found in DB");
-		}
-		else if (products.size() > 0 && response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL)
-		{
-			for (Product product : products)
-			{
+		if (products.size() == 0
+				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
+			System.out.println("No products with name " + productName
+					+ " was found in DB");
+		} else if (products.size() > 0
+				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
+			for (Product product : products) {
 				System.out.println(product);
 			}
-		}
-		else
-		{
-			System.out.println("Serach failed because of connection problems between server and DB");
+		} else {
+			System.out
+					.println("Serach failed because of connection problems between server and DB");
 
 		}
 	}
