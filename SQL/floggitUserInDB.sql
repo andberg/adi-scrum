@@ -5,6 +5,7 @@ GRANT SELECT ON floggit.products TO 'floggit_admin'@'localhost';
 GRANT SELECT ON floggit.categories TO 'floggit_admin'@'localhost';
 GRANT SELECT ON floggit.products_in_categories TO 'floggit_admin'@'localhost';
 GRANT SELECT ON floggit.carts TO 'floggit_admin'@'localhost';
+GRANT SELECT ON floggit.staff TO 'floggit_admin'@'localhost';
 
 GRANT DELETE ON floggit.users TO 'floggit_admin'@'localhost';
 GRANT DELETE ON floggit.products TO 'floggit_admin'@'localhost';
