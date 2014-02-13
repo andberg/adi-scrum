@@ -331,7 +331,7 @@ public final class UserRepositoryInDB implements UserRepository
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
 
-			query = "SELET password FROM users WHERE email = ?";
+			query = "SELECT password FROM users WHERE email = ?";
 
 			pstmt = connection.prepareStatement(query);
 
