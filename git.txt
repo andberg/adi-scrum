@@ -1,0 +1,53 @@
+which git, git --version.
+
+.git folder defines the configurations of the repository(username, email, core settings such as color of UI), and the information of heads, branches, indexes and such. delete this folder to no longern make git track this as a git repo.
+
+git config will let you configure the settings of git. Without extra parameters, it will configure the settings of the repository, provided that you ARE currently in a git repository. --global will edit for system users, while --system will edit system-wide. --edit will open the specific config file in your previously set editor(mine being sublime).
+
+git diff tracks differences of working directory and HEAD(which means latest commit), git diff --staged tracks differences between what has been added to staging(git add) and that of HEAD.
+
+Every commit has a parent commit(a reference to the previous commit).The initial commit is the exception, having a reference of null.
+
+git log shows commits, git log --oneline shows commits one per line.
+--graph extends by showing different branches. --since lets you filter which commits to be returned by the git log command. --author lets you specify commits by a certain author. --max-count lets you filter the amount of commits to be shown.
+
+git reset HEAD <filename> resets the file to that of HEAD.
+
+Commits are locked in history, except for the latest commit, which can be changed by doing a git commit --amend.
+
+git reset soft/mixed/hard moves HEAD/HEAD and staging index/HEAD, staging AND working directory.
+
+Retrieve earlier versions of committed files by checking them out. This is done by git checkout <snapshotid> -- <filename>.
+
+git commit -a will NOT add newly created files after previous commit, to the staging index. It will only add to staging the files that existed in the previous commit.
+
+git clean removes unstaged files. -n shows what would be deleted, and -f forces the clean.
+
+.gitignore = if one or more files in the local git repository matches one or more in the .gitignore file, they will not be prompted to be added to staging ---> and therefore will not be committed.
+
+git checkout -b <branchname> creates AND switches the HEAD to the newly created branch. It is the same as doing git branch <branchname> and then git checkout <branchname>.
+
+git checkout -D <branchname> DELETES the branch along with all of its content.
+
+git checkout -m <branchname> RENAMES a branch.
+
+
+--- MERGES ---
+
+Fast-Forward Merge ---> adding something on top, nothing is CHANGED(appending).
+
+True Merge ---> naming of a merge where merge conflicts are to be found.
+
+During conflicts, HEAD is YOUR local commit, while the other is whatever commit has been fetched from the github server, or locally.
+
+git remote lists ALIASES of remote repositories to keep track of. git remote -v lists the URLs of the remote repositories.
+git remote add <alias> <URL> will add a new remote repository.
+
+git clone <URL> retrieves an identical copy of a server repository, and adds a remote alias of origin to the local one, which we are familiar with.
+
+git fetch will download new branches and data from a remote repository, but will not attempt to merge them with your local data.
+
+git pull will do a git fetch, immediately followed by a git merge <remotealias>/<branchname>.
+
+merges NEVER occur on the serverside, such as github. 
+
