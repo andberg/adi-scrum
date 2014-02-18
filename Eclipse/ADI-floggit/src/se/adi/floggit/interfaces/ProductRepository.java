@@ -6,12 +6,11 @@ import se.adi.floggit.api.Response;
 import se.adi.floggit.api.ResponseType;
 import se.adi.floggit.classes.Product;
 
-public interface ProductRepository
-{
+public interface ProductRepository {
 	ResponseType createProduct(Product product);
 
 	Response<List<String>> readProductsInCategory(String categoryName);
-	
+
 	Response<List<Product>> readProduct(String productName);
 
 	Response<List<Product>> readAllProducts();

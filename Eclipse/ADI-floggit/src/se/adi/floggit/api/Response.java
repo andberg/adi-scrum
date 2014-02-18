@@ -1,22 +1,19 @@
 package se.adi.floggit.api;
 
-public class Response<T>
-{
+public final class Response<T> {
 	private ResponseType response;
 	private T object;
-	
+
 	public Response(ResponseType response, T object) {
 		this.response = response;
 		this.object = object;
 	}
 
-	public ResponseType getResponse()
-	{
+	public ResponseType getResponse() {
 		return response;
 	}
 
-	public T getObject()
-	{
+	public T getObject() {
 		return object;
 	}
 }

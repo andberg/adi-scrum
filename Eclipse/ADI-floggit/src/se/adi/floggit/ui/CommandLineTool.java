@@ -154,8 +154,7 @@ public final class CommandLineTool {
 			System.out
 					.println("Error! One or more categories does not exist in DB");
 		} else {
-			System.out
-					.println("Error! Server connection failed");
+			System.out.println("Error! Server connection failed");
 		}
 	}
 
@@ -198,11 +197,9 @@ public final class CommandLineTool {
 		if (response == ResponseType.USER_CREATED) {
 			System.out.println("User was created in DB");
 		} else if (response == ResponseType.USER_EMAIL_DUPLICATE) {
-			System.out
-					.println("Error! Email was already registered in DB");
+			System.out.println("Error! Email was already registered in DB");
 		} else {
-			System.out
-					.println("Error! Server connection failed");
+			System.out.println("Error! Server connection failed");
 		}
 	}
 
@@ -296,8 +293,7 @@ public final class CommandLineTool {
 			System.out
 					.println("Error! One or more categories was not found in DB");
 		} else {
-			System.out
-					.println("Error! Server connection failed");
+			System.out.println("Error! Server connection failed");
 		}
 	}
 
@@ -349,8 +345,7 @@ public final class CommandLineTool {
 			System.out
 					.println("User updating failed because of new email was already found in DB");
 		} else {
-			System.out
-					.println("Error! Server connection failed");
+			System.out.println("Error! Server connection failed");
 		}
 	}
 
@@ -369,8 +364,7 @@ public final class CommandLineTool {
 			System.out
 					.println("Error! Login failed because username was not found in DB, and/or password was incorrect");
 		} else {
-			System.out
-					.println("Error! Server connection failed");
+			System.out.println("Error! Server connection failed");
 		}
 	}
 
@@ -385,15 +379,15 @@ public final class CommandLineTool {
 
 		if (products.size() == 0
 				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
-			System.out.println("No products in category was found in DB, or the category was not found in DB");
+			System.out
+					.println("No products in category was found in DB, or the category was not found in DB");
 		} else if (products.size() > 0
 				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
 			for (String string : products) {
 				System.out.println(string);
 			}
 		} else {
-			System.out
-					.println("Error! Server connection failed");
+			System.out.println("Error! Server connection failed");
 		}
 	}
 
@@ -407,16 +401,15 @@ public final class CommandLineTool {
 
 		if (products.size() == 0
 				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
-			System.out.println("No products with specified name was found in DB");
+			System.out
+					.println("No products with specified name was found in DB");
 		} else if (products.size() > 0
 				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
 			for (Product product : products) {
 				System.out.println(product);
 			}
 		} else {
-			System.out
-					.println("Error! Server connection failed");
-
+			System.out.println("Error! Server connection failed");
 		}
 	}
 }
