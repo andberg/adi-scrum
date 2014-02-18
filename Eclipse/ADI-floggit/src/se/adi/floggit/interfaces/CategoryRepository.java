@@ -5,7 +5,8 @@ import java.util.List;
 import se.adi.floggit.api.Response;
 import se.adi.floggit.api.ResponseType;
 
-public interface CategoryRepository {
+public interface CategoryRepository
+{
 	ResponseType createCategory(String categoryName, String staffFirstname,
 			String staffSurname);
 

@@ -2,7 +2,8 @@ package se.adi.floggit.classes;
 
 import java.util.List;
 
-public final class Product {
+public final class Product
+{
 	private final int id;
 	private final String name;
 	private final String description;
@@ -10,7 +11,8 @@ public final class Product {
 	private final double rrp;
 	private final List<String> categories;
 
-	public Product(int id, String name, double rrp) {
+	public Product(int id, String name, double rrp)
+	{
 		this.id = id;
 		this.name = name;
 		this.description = null;
@@ -20,7 +22,8 @@ public final class Product {
 	}
 
 	public Product(int id, String name, String description, double cost,
-			double rrp, List<String> categories) {
+			double rrp, List<String> categories)
+	{
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -30,7 +33,8 @@ public final class Product {
 	}
 
 	public Product(String name, String description, double cost, double rrp,
-			List<String> categories) {
+			List<String> categories)
+	{
 		this.id = 0;
 		this.name = name;
 		this.description = description;
@@ -40,34 +44,41 @@ public final class Product {
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Product ID: " + getId() + "\nName: " + getName()
 				+ "\nDescription: " + getDescription() + "\nCost: " + getCost()
 				+ "\nRrp: " + getRrp() + "\nCategories: " + getCategories()
 				+ "\n";
 	}
 
-	public int getId() {
+	public int getId()
+	{
 		return id;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public String getDescription() {
+	public String getDescription()
+	{
 		return description;
 	}
 
-	public double getRrp() {
+	public double getRrp()
+	{
 		return rrp;
 	}
 
-	public double getCost() {
+	public double getCost()
+	{
 		return cost;
 	}
 
-	public List<String> getCategories() {
+	public List<String> getCategories()
+	{
 		return categories;
 	}
 }
