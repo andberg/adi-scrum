@@ -11,12 +11,10 @@ import java.util.Map;
 import se.adi.floggit.classes.Product;
 import se.adi.floggit.interfaces.CartRepository;
 
-public final class CartRepositoryInDB implements CartRepository
-{
+public final class CartRepositoryInDB implements CartRepository {
 
 	@Override
-	public Response<Map<Product, Integer>> readCart(String email)
-	{
+	public Response<Map<Product, Integer>> readCart(String email) {
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		Connection connection = null;
@@ -24,14 +22,12 @@ public final class CartRepositoryInDB implements CartRepository
 		Product product = null;
 		Map<Product, Integer> cart = new LinkedHashMap<Product, Integer>();
 
-		try
-		{
+		try {
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
 
-			if (!userInDatabase(email, connection))
-			{
+			if (!userInDatabase(email, connection)) {
 				return new Response<Map<Product, Integer>>(
 						ResponseType.USER_NOT_FOUND, cart);
 			}
@@ -45,62 +41,42 @@ public final class CartRepositoryInDB implements CartRepository
 			pstmt.setString(1, email);
 			rs = pstmt.executeQuery();
 
-			if (!rs.isBeforeFirst())
-			{
+			if (!rs.isBeforeFirst()) {
 				return new Response<Map<Product, Integer>>(
 						ResponseType.USER_CART_EMPTY, cart);
 			}
 
-			while (rs.next())
-			{
+			while (rs.next()) {
 				product = new Product(rs.getInt("id"), rs.getString("name"),
 						rs.getDouble("rrp"));
 				cart.put(product, rs.getInt("quantity"));
 			}
 			return new Response<Map<Product, Integer>>(
 					ResponseType.SERVER_CONNECTION_SUCCESSFUL, cart);
-		}
-		catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e)
-		{
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				if (rs != null)
-				{
+		} finally {
+			try {
+				if (rs != null) {
 					rs.close();
 				}
-			}
-			catch (SQLException e)
-			{
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			try
-			{
-				if (pstmt != null)
-				{
+			try {
+				if (pstmt != null) {
 					pstmt.close();
 				}
-			}
-			catch (SQLException e)
-			{
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			try
-			{
-				if (connection != null)
-				{
+			try {
+				if (connection != null) {
 					connection.close();
 				}
-			}
-			catch (SQLException e)
-			{
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -109,16 +85,14 @@ public final class CartRepositoryInDB implements CartRepository
 	}
 
 	@Override
-	public ResponseType updateCart(String email, int productId, int quantity)
-	{
+	public ResponseType updateCart(String email, int productId, int quantity) {
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
 		int userId = 0;
 
-		try
-		{
+		try {
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
@@ -128,12 +102,9 @@ public final class CartRepositoryInDB implements CartRepository
 			pstmt.setString(1, email);
 			rs = pstmt.executeQuery();
 
-			if (rs.next())
-			{
+			if (rs.next()) {
 				userId = rs.getInt("id");
-			}
-			else
-			{
+			} else {
 				return ResponseType.USER_NOT_FOUND;
 			}
 
@@ -145,8 +116,7 @@ public final class CartRepositoryInDB implements CartRepository
 			pstmt.setInt(1, productId);
 			rs = pstmt.executeQuery();
 
-			if (!rs.isBeforeFirst())
-			{
+			if (!rs.isBeforeFirst()) {
 				return ResponseType.PRODUCT_NOT_FOUND;
 			}
 
@@ -162,13 +132,10 @@ public final class CartRepositoryInDB implements CartRepository
 			pstmt.setInt(2, productId);
 			rs = pstmt.executeQuery();
 
-			if (rs.next())
-			{
+			if (rs.next()) {
 				query = "UPDATE carts SET quantity = ? "
 						+ "WHERE user_id = ? AND product_id = ?";
-			}
-			else
-			{
+			} else {
 				query = "INSERT INTO carts (quantity, user_id, product_id) "
 						+ "VALUES (?, ?, ?)";
 			}
@@ -180,48 +147,30 @@ public final class CartRepositoryInDB implements CartRepository
 			pstmt.executeUpdate();
 
 			return ResponseType.USER_CART_UPDATED;
-		}
-		catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e)
-		{
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				if (rs != null)
-				{
+		} finally {
+			try {
+				if (rs != null) {
 					rs.close();
 				}
-			}
-			catch (SQLException e)
-			{
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			try
-			{
-				if (pstmt != null)
-				{
+			try {
+				if (pstmt != null) {
 					pstmt.close();
 				}
-			}
-			catch (SQLException e)
-			{
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			try
-			{
-				if (connection != null)
-				{
+			try {
+				if (connection != null) {
 					connection.close();
 				}
-			}
-			catch (SQLException e)
-			{
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -229,21 +178,18 @@ public final class CartRepositoryInDB implements CartRepository
 	}
 
 	@Override
-	public ResponseType deleteFromCart(String email, int productId)
-	{
+	public ResponseType deleteFromCart(String email, int productId) {
 		PreparedStatement pstmt = null;
 		Connection connection = null;
 		String query = null;
 		int affectedRows = 0;
 
-		try
-		{
+		try {
 			Class.forName(DBInfo.DRIVER_CLASS);
 			connection = DriverManager.getConnection(DBInfo.URL, DBInfo.USER,
 					DBInfo.PASSWORD);
 
-			if (!userInDatabase(email, connection))
-			{
+			if (!userInDatabase(email, connection)) {
 				return ResponseType.USER_NOT_FOUND;
 			}
 
@@ -255,42 +201,27 @@ public final class CartRepositoryInDB implements CartRepository
 			pstmt.setString(2, email);
 			affectedRows = pstmt.executeUpdate();
 
-			if (affectedRows > 0)
-			{
+			if (affectedRows > 0) {
 				return ResponseType.USER_CART_UPDATED;
 			}
 			return ResponseType.PRODUCT_NOT_FOUND;
-		}
-		catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e)
-		{
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-				{
+		} finally {
+			try {
+				if (pstmt != null) {
 					pstmt.close();
 				}
-			}
-			catch (SQLException e)
-			{
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			try
-			{
-				if (connection != null)
-				{
+			try {
+				if (connection != null) {
 					connection.close();
 				}
-			}
-			catch (SQLException e)
-			{
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -298,16 +229,14 @@ public final class CartRepositoryInDB implements CartRepository
 	}
 
 	private boolean userInDatabase(String email, Connection connection)
-			throws SQLException
-	{
+			throws SQLException {
 		String query = "SELECT id FROM users WHERE email = ?";
 
 		PreparedStatement pstmt = connection.prepareStatement(query);
 		pstmt.setString(1, email);
 		ResultSet rs = pstmt.executeQuery();
 
-		if (rs.isBeforeFirst())
-		{
+		if (rs.isBeforeFirst()) {
 			rs.close();
 			pstmt.close();
 			return true;

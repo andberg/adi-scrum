@@ -1,7 +1,6 @@
 package se.adi.floggit.api;
 
-public enum ResponseType
-{
+public enum ResponseType {
 	USER_CREATED, USER_UPDATED, USER_DELETED,
 
 	USER_EMAIL_DUPLICATE, USER_NOT_FOUND,

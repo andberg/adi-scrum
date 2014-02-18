@@ -1,7 +1,6 @@
 package se.adi.floggit.classes;
 
-public final class User
-{
+public final class User {
 	private final String email;
 	private final String password;
 	private final String firstname;
@@ -13,8 +12,7 @@ public final class User
 
 	public User(String email, String password, String firstname,
 			String surname, String streetAddress, String postcode, String town,
-			String phonenumber)
-	{
+			String phonenumber) {
 		this.email = email;
 		this.password = password;
 		this.firstname = firstname;
@@ -26,8 +24,7 @@ public final class User
 	}
 
 	public User(String email, String password, String firstname,
-			String surname, String streetAddress, String postcode, String town)
-	{
+			String surname, String streetAddress, String postcode, String town) {
 		this.email = email;
 		this.password = password;
 		this.firstname = firstname;
@@ -38,48 +35,39 @@ public final class User
 		this.phonenumber = null;
 	}
 
-	public String getEmail()
-	{
+	public String getEmail() {
 		return email;
 	}
 
-	public String getPassword()
-	{
+	public String getPassword() {
 		return password;
 	}
 
-	public String getFirstname()
-	{
+	public String getFirstname() {
 		return firstname;
 	}
 
-	public String getSurname()
-	{
+	public String getSurname() {
 		return surname;
 	}
 
-	public String getStreetAddress()
-	{
+	public String getStreetAddress() {
 		return streetAddress;
 	}
 
-	public String getPostcode()
-	{
+	public String getPostcode() {
 		return postcode;
 	}
 
-	public String getTown()
-	{
+	public String getTown() {
 		return town;
 	}
 
-	public String getPhonenumber()
-	{
+	public String getPhonenumber() {
 		return phonenumber;
 	}
 
-	public String toString()
-	{
+	public String toString() {
 		String string;
 		string = "Email / Username: " + getEmail() + "\nPassword: "
 				+ getPassword() + "\nName: " + getFirstname() + " "

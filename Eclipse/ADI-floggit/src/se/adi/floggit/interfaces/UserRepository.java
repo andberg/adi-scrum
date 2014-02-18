@@ -6,8 +6,7 @@ import se.adi.floggit.api.Response;
 import se.adi.floggit.api.ResponseType;
 import se.adi.floggit.classes.User;
 
-public interface UserRepository
-{
+public interface UserRepository {
 	ResponseType createUser(User user);
 
 	Response<List<User>> readAllUsers();
