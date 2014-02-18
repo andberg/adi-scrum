@@ -362,7 +362,7 @@ public final class CommandLineTool {
 			System.out.println("User was successfully logged in");
 		} else if (response == ResponseType.LOGIN_FAILED) {
 			System.out
-					.println("Error! Login failed because username was not found in DB, and/or password was incorrect");
+					.println("Error! Email or password was incorrect");
 		} else {
 			System.out.println("Error! Server connection failed");
 		}
