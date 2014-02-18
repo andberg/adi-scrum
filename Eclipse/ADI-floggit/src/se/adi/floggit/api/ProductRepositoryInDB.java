@@ -37,13 +37,13 @@ public final class ProductRepositoryInDB implements ProductRepository {
 			}
 
 			String query = "INSERT INTO products "
-					+ "(name,description,cost,rrp) " + "VALUES (?, ?, ?, ?)";
+					+ "(name,description,cost,RRP) " + "VALUES (?, ?, ?, ?)";
 			pstmt = connection.prepareStatement(query,
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, product.getName());
 			pstmt.setString(2, product.getDescription());
 			pstmt.setDouble(3, product.getCost());
-			pstmt.setDouble(4, product.getRrp());
+			pstmt.setDouble(4, product.getRRP());
 			pstmt.executeUpdate();
 
 			rs = pstmt.getGeneratedKeys();
@@ -187,7 +187,7 @@ public final class ProductRepositoryInDB implements ProductRepository {
 				String name = rs.getString("name");
 				String description = rs.getString("description");
 				double cost = rs.getDouble("cost");
-				double rrp = rs.getDouble("rrp");
+				double RRP = rs.getDouble("RRP");
 				List<String> categories = new ArrayList<String>();
 				stmt = connection.createStatement();
 
@@ -202,7 +202,7 @@ public final class ProductRepositoryInDB implements ProductRepository {
 				while (rsC.next()) {
 					categories.add(rsC.getString("name"));
 				}
-				Product product = new Product(id, name, description, cost, rrp,
+				Product product = new Product(id, name, description, cost, RRP,
 						categories);
 				productList.add(product);
 			}
@@ -269,7 +269,7 @@ public final class ProductRepositoryInDB implements ProductRepository {
 				String name = rsP.getString("name");
 				String description = rsP.getString("description");
 				double cost = rsP.getDouble("cost");
-				double rrp = rsP.getDouble("rrp");
+				double RRP = rsP.getDouble("RRP");
 				List<String> categories = new ArrayList<String>();
 				stmtC = connection.createStatement();
 
@@ -284,7 +284,7 @@ public final class ProductRepositoryInDB implements ProductRepository {
 					categories.add(rsC.getString("name"));
 				}
 
-				Product product = new Product(id, name, description, cost, rrp,
+				Product product = new Product(id, name, description, cost, RRP,
 						categories);
 				productList.add(product);
 			}
@@ -353,14 +353,14 @@ public final class ProductRepositoryInDB implements ProductRepository {
 			pstmt.close();
 
 			query = "UPDATE products SET name = ?, description = ?, cost = ?, "
-					+ "rrp = ? WHERE id = ?";
+					+ "RRP = ? WHERE id = ?";
 
 			pstmt = connection.prepareStatement(query);
 
 			pstmt.setString(1, product.getName());
 			pstmt.setString(2, product.getDescription());
 			pstmt.setDouble(3, product.getCost());
-			pstmt.setDouble(4, product.getRrp());
+			pstmt.setDouble(4, product.getRRP());
 			pstmt.setInt(5, id);
 
 			pstmt.executeUpdate();

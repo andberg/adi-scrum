@@ -32,7 +32,7 @@ public final class CartRepositoryInDB implements CartRepository {
 						ResponseType.USER_NOT_FOUND, cart);
 			}
 
-			query = "SELECT products.id, products.name, products.rrp, quantity "
+			query = "SELECT products.id, products.name, products.RRP, quantity "
 					+ "FROM users INNER JOIN carts ON users.id = carts.user_id "
 					+ "INNER JOIN products ON carts.product_id = products.id "
 					+ "WHERE email = ?";
@@ -48,7 +48,7 @@ public final class CartRepositoryInDB implements CartRepository {
 
 			while (rs.next()) {
 				product = new Product(rs.getInt("id"), rs.getString("name"),
-						rs.getDouble("rrp"));
+						rs.getDouble("RRP"));
 				cart.put(product, rs.getInt("quantity"));
 			}
 			return new Response<Map<Product, Integer>>(

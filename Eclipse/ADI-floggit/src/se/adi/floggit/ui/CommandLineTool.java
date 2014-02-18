@@ -18,7 +18,9 @@ public final class CommandLineTool {
 			+ "5. Update product\n"
 			+ "6. Update user\n"
 			+ "7. Validate user\n"
-			+ "8. List products by category\n" + "9. Search product by name";
+			+ "8. List products by category\n" 
+			+ "9. Search product by name\n"
+			+ "0. Shut down system";
 
 	private static final Webshop webshop = new Webshop();
 	private static final Scanner sc = new Scanner(System.in);
@@ -36,7 +38,7 @@ public final class CommandLineTool {
 				System.out.println(MENU_TEXT);
 				input = Integer.parseInt(sc.nextLine());
 			} catch (NumberFormatException e) {
-				System.out.println("You have to input number");
+				System.out.println("You have to input a number");
 			}
 		}
 
@@ -90,11 +92,11 @@ public final class CommandLineTool {
 		if (response == ResponseType.CATEGORY_CREATED) {
 			System.out.println("Category was created in DB");
 		} else if (response == ResponseType.CATEGORY_ALREADY_IN_DB) {
-			System.out.println("Error! Category was already found in DB");
+			System.out.println("ERROR CREATION FAILED! Category was already found in DB");
 		} else if (response == ResponseType.STAFF_NOT_FOUND) {
-			System.out.println("Staff was not found in DB");
+			System.out.println("ERROR CREATION FAILED! Staff was not found in DB");
 		} else {
-			System.out.println("Error! Server connection failed");
+			System.out.println("ERROR CREATION FAILED! Server connection failed");
 		}
 	}
 
@@ -116,11 +118,11 @@ public final class CommandLineTool {
 			}
 		}
 
-		double rrp;
+		double RRP;
 		while (true) {
 			try {
-				System.out.println("Product rrp:");
-				rrp = Double.parseDouble(sc.nextLine());
+				System.out.println("Product RRP:");
+				RRP = Double.parseDouble(sc.nextLine());
 				break;
 			} catch (NumberFormatException e) {
 				System.out.println("You have to input a number");
@@ -147,14 +149,14 @@ public final class CommandLineTool {
 		}
 
 		Product product = new Product(productName, productDescription, cost,
-				rrp, categories);
+				RRP, categories);
 		if (webshop.createProduct(product) == ResponseType.PRODUCT_CREATED) {
-			System.out.println("Product created.");
+			System.out.println("Product created");
 		} else if (webshop.createProduct(product) == ResponseType.CATEGORY_NOT_FOUND) {
 			System.out
-					.println("Error! One or more categories does not exist in DB");
+					.println("ERROR CREATION FAILED! One or more categories was not found in DB");
 		} else {
-			System.out.println("Error! Server connection failed");
+			System.out.println("ERROR CREATION FAILED! Server connection failed");
 		}
 	}
 
@@ -197,9 +199,9 @@ public final class CommandLineTool {
 		if (response == ResponseType.USER_CREATED) {
 			System.out.println("User was created in DB");
 		} else if (response == ResponseType.USER_EMAIL_DUPLICATE) {
-			System.out.println("Error! Email was already registered in DB");
+			System.out.println("ERROR CREATION FAILED! Email was already registered in DB");
 		} else {
-			System.out.println("Error! Server connection failed");
+			System.out.println("ERROR CREATION FAILED! Server connection failed");
 		}
 	}
 
@@ -218,11 +220,11 @@ public final class CommandLineTool {
 		if (response == ResponseType.CATEGORY_UPDATED) {
 			System.out.println("Category was updated in DB");
 		} else if (response == ResponseType.CATEGORY_NOT_FOUND) {
-			System.out.println("Error! Category was not found in DB");
+			System.out.println("ERROR UPDATING FAILED! Category was not found in DB");
 		} else if (response == ResponseType.STAFF_NOT_FOUND) {
-			System.out.println("Staff was not found in DB");
+			System.out.println("ERROR UPDATING FAILED! Staff was not found in DB");
 		} else {
-			System.out.println("Error! Server connection failed");
+			System.out.println("ERROR UPDATING FAILED! Server connection failed");
 		}
 	}
 
@@ -254,11 +256,11 @@ public final class CommandLineTool {
 				System.out.println("You have to input a number");
 			}
 		}
-		double rrp;
+		double RRP;
 		while (true) {
 			try {
-				System.out.println("New product rrp:");
-				rrp = Double.parseDouble(sc.nextLine());
+				System.out.println("New product RRP:");
+				RRP = Double.parseDouble(sc.nextLine());
 				break;
 			} catch (NumberFormatException e) {
 				System.out.println("You have to input a number");
@@ -271,7 +273,6 @@ public final class CommandLineTool {
 		List<String> categories = new ArrayList<>();
 
 		while (true) {
-
 			String input = sc.nextLine();
 			if (input.equals("")) {
 				if (!categories.isEmpty()) {
@@ -284,16 +285,16 @@ public final class CommandLineTool {
 		}
 
 		Product product = new Product(productName, productDescription, cost,
-				rrp, categories);
+				RRP, categories);
 		if (webshop.updateProduct(productId, product) == ResponseType.PRODUCT_UPDATED) {
 			System.out.println("Product was updated");
 		} else if (webshop.updateProduct(productId, product) == ResponseType.PRODUCT_NOT_FOUND) {
-			System.out.println("Error! Product id was not found in DB");
+			System.out.println("ERROR UPDATING FAILED! Product id was not found in DB");
 		} else if (webshop.updateProduct(productId, product) == ResponseType.CATEGORY_NOT_FOUND) {
 			System.out
-					.println("Error! One or more categories was not found in DB");
+					.println("ERROR UPDATING FAILED! One or more categories was not found in DB");
 		} else {
-			System.out.println("Error! Server connection failed");
+			System.out.println("ERROR UPDATING FAILED! Server connection failed");
 		}
 	}
 
@@ -340,12 +341,12 @@ public final class CommandLineTool {
 			System.out.println("User was updated in DB");
 		} else if (response == ResponseType.USER_NOT_FOUND) {
 			System.out
-					.println("User updating failed because email was not found in DB");
+					.println("ERROR UPDATING FAILED! User updating failed because email was not found in DB");
 		} else if (response == ResponseType.USER_EMAIL_DUPLICATE) {
 			System.out
-					.println("User updating failed because of new email was already found in DB");
+					.println("ERROR UPDATING FAILED! User updating failed because of new email had already been registered in DB");
 		} else {
-			System.out.println("Error! Server connection failed");
+			System.out.println("ERROR UPDATING FAILED! Server connection failed");
 		}
 	}
 
@@ -362,9 +363,9 @@ public final class CommandLineTool {
 			System.out.println("User was successfully logged in");
 		} else if (response == ResponseType.LOGIN_FAILED) {
 			System.out
-					.println("Error! Login failed because username was not found in DB, and/or password was incorrect");
+					.println("ERROR LOGIN FAILED! Email and/or password was incorrect");
 		} else {
-			System.out.println("Error! Server connection failed");
+			System.out.println("ERROR LOGIN FAILED! Server connection failed");
 		}
 	}
 
@@ -380,14 +381,14 @@ public final class CommandLineTool {
 		if (products.size() == 0
 				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
 			System.out
-					.println("No products in category was found in DB, or the category was not found in DB");
+					.println("ERROR LISTING OF PRODUCTS FAILED! No products in category was found in DB, or the category was not found in DB");
 		} else if (products.size() > 0
 				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
 			for (String string : products) {
 				System.out.println(string);
 			}
 		} else {
-			System.out.println("Error! Server connection failed");
+			System.out.println("ERROR LISTING OF PRODUCTS FAILED! Server connection failed");
 		}
 	}
 
@@ -402,14 +403,14 @@ public final class CommandLineTool {
 		if (products.size() == 0
 				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
 			System.out
-					.println("No products with specified name was found in DB");
+					.println("ERROR LISTING OF PRODUCT FAILED! No products with the specified name was found in DB");
 		} else if (products.size() > 0
 				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL) {
 			for (Product product : products) {
 				System.out.println(product);
 			}
 		} else {
-			System.out.println("Error! Server connection failed");
+			System.out.println("ERROR LISTING OF PRODUCT FAILED! Server connection failed");
 		}
 	}
 }
