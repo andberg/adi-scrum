@@ -472,7 +472,7 @@ public final class CommandLineTool
 				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL)
 		{
 			System.out
-					.println("ERROR LISTING OF PRODUCTS FAILED! No products in category was found in DB, or the category was not found in DB");
+					.println("ERROR LISTI NG OF PRODUCTS FAILED! No products in category was found in DB, or the category was not found in DB");
 		}
 		else if (products.size() > 0
 				&& response.getResponse() == ResponseType.SERVER_CONNECTION_SUCCESSFUL)
